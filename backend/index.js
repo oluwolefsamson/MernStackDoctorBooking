@@ -19,7 +19,6 @@ const corsOptions = {
     "http://localhost:5173",
   ],
   credentials: true,
-  secure: process.env.NODE_ENV === "production",
 };
 
 // Middleware

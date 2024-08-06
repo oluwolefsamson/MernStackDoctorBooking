@@ -10,6 +10,7 @@ const Login = () => {
   });
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false); // State for loading
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,11 +23,12 @@ const Login = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
     setError(""); // Reset error state
+    setLoading(true); // Set loading to true
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/v1/auth/login` ||
-          "https://mernstack-doctor-web-app.onrender.com",
+        "http://localhost:8000/api/v1/auth/login" ||
+          "https://mernstack-doctor-web-app.onrender.com/api/v1/auth/login",
         formData
       );
 
@@ -38,8 +40,10 @@ const Login = () => {
         navigate("/doctors");
       }
     } catch (error) {
-      console.log("Invalid credentials. Please try again.");
-      alert("Invalid credentials. Please try again.");
+      console.error("Invalid credentials. Please try again.", error);
+      setError("Invalid credentials. Please try again."); // Set error message
+    } finally {
+      setLoading(false); // Reset loading state
     }
   };
 
@@ -95,8 +99,10 @@ const Login = () => {
             <button
               type="submit"
               className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3"
+              disabled={loading} // Disable button when loading
             >
-              Login
+              {loading ? "Logging in..." : "Login"}{" "}
+              {/* Show different text when loading */}
             </button>
           </div>
 

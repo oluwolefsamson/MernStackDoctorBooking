@@ -6,81 +6,48 @@ import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    photo: "",
+    photo: "", // This will remain empty as we are not uploading files
     gender: "male",
     role: "patient",
   });
   const [showPassword, setShowPassword] = useState(false); // State for showing password
+  const [loading, setLoading] = useState(false); // State for loading
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleFileInputChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewUrl(reader.result);
-    };
-    reader.readAsDataURL(file);
-  };
-
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    let photoUrl = "";
-    if (selectedFile) {
-      photoUrl = await uploadImageToCloudinary(selectedFile);
-      if (!photoUrl) {
-        return alert("Image upload failed. Please try again.");
-      }
-    }
+    setLoading(true); // Set loading to true when the request starts
 
-    const userData = { ...formData, photo: photoUrl };
+    // You can directly set the photo to an empty string or a default value if needed
+    const userData = { ...formData, photo: "" };
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/v1/auth/register` ||
-          "https://mernstack-doctor-web-app.onrender.com",
+        "http://localhost:8000/api/v1/auth/register" ||
+          "https://mernstack-doctor-web-app.onrender.com/api/v1/auth/register", // Use environment variable
         userData
       );
 
       if (response.data.message === "User registered successfully") {
+        alert("User created successfully.");
         navigate("/login");
-        setFormData({
-          name: "",
-          email: "",
-          password: "",
-          photo: "",
-          gender: "male",
-          role: "patient",
-        });
+      } else if (response.data.message === "User already exists") {
+        alert("User already exists. Please try another email.");
       } else {
         alert(response.data.message);
       }
     } catch (error) {
-      console.error("User registration error:", error);
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        if (error.response.data.message === "User already exists") {
-          alert("User already exists. Please try another email.");
-        } else {
-          alert("Registration failed. Please try again.");
-        }
-      } else {
-        alert("Registration failed. Please try again.");
-      }
+      alert("Registration failed. Please try again.");
+    } finally {
+      setLoading(false); // Reset loading to false after the request is complete
     }
   };
 
@@ -189,7 +156,7 @@ const Signup = () => {
               <div className="mb-5 flex items-center gap-3">
                 <figure className="w-[60px] h-[60px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center">
                   <img
-                    src={previewUrl || avatar}
+                    src={avatar}
                     alt="Avatar"
                     className="w-full rounded-full"
                   />
@@ -200,9 +167,9 @@ const Signup = () => {
                     type="file"
                     name="photo"
                     id="customFile"
-                    onChange={handleFileInputChange}
                     accept=".jpg, .png"
                     className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                    // File input handling code is removed
                   />
 
                   <label
@@ -217,9 +184,12 @@ const Signup = () => {
               <div className="mt-7">
                 <button
                   type="submit"
-                  className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3"
+                  disabled={loading} // Disable the button when loading
+                  className={`w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3 ${
+                    loading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
                 >
-                  Sign Up
+                  {loading ? "Signing Up..." : "Sign Up"}
                 </button>
               </div>
 
