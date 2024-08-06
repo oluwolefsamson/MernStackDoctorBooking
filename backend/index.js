@@ -18,7 +18,8 @@ const corsOptions = {
     "https://mern-stack-doctor-web-app.vercel.app",
     "http://localhost:5173",
   ],
-  credentials: true,
+  methods: ["POST", "OPTIONS", "GET", "PUT", "DELETE"],
+  credentials: true, // Enable cookies in requests
 };
 
 // Middleware

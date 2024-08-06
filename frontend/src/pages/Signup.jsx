@@ -45,7 +45,7 @@ const Signup = () => {
         alert(response.data.message);
       }
     } catch (error) {
-      alert("User already exists. Please try another email");
+      alert("error");
     } finally {
       setLoading(false); // Reset loading to false after the request is complete
     }
