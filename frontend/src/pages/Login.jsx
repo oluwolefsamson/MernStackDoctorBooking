@@ -26,7 +26,7 @@ const Login = () => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/v1/auth/login` ||
-          "https://mernstack-doctor-web-app.onrender.com/api/v1/auth/login",
+          "https://mernstack-doctor-web-app.onrender.com",
         formData
       );
 
