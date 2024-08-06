@@ -49,7 +49,7 @@ const Signup = () => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/v1/auth/register` ||
-          "http://localhost:8000/api/v1/auth/register",
+          "https://mernstack-doctor-web-app.onrender.com/api/v1/auth/register",
         userData
       );
 
