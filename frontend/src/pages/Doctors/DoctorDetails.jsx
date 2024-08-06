@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import doctorImg from "../../assets/images/doctor-img02.png";
+import doctorImg01 from "../../assets/images/doctor-img01.png";
+import doctorImg02 from "../../assets/images/doctor-img02.png";
+import doctorImg03 from "../../assets/images/doctor-img03.png";
 import starIcon from "../../assets/images/Star.png";
+import { doctors } from "../../assets/data/doctors";
 import DoctorAbout from "./DoctorAbout";
 import Feedback from "./Feedback";
 import SidePanel from "./SidePanel";
@@ -14,7 +18,7 @@ const DoctorDetails = () => {
           <div className="md:col-span-2">
             <div className="flex items-center gap-5">
               <figure className="max-w-[200px] max-h-[200px]">
-                <img src={doctorImg} alt="" className="w-full" />
+                <img src={doctorImg01} alt="" className="w-full" />
               </figure>
               <div>
                 <span className="bg-[#ccf0f3] text-irisBlueColor py-1 px-6 lg:py-2 lg:px-6 text-[12px] leading-4 lg:text-[16px] lg:leading-7 font-semibold rounded">

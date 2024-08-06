@@ -34,13 +34,11 @@ const Login = () => {
         localStorage.setItem("authToken", response.data.token);
 
         // Redirect to home page or another protected page
-        navigate("/");
-      } else {
-        setError("Invalid credentials. Please try again.");
+        navigate("/doctors");
       }
     } catch (error) {
-      console.error("Error logging in:", error);
-      setError("An error occurred during login. Please try again.");
+      console.log("Invalid credentials. Please try again.");
+      alert("Invalid credentials. Please try again.");
     }
   };
 

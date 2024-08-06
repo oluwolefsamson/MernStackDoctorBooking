@@ -11,39 +11,46 @@ import reviewRoute from "./Routes/review.js";
 dotenv.config();
 
 const app = express();
-
 const port = process.env.PORT || 8000;
 
 const corsOptions = {
-  origin: ["http://localhost:5173"], // Replace with your frontend URL
+  origin: process.env.FRONTEND_URL || "http://localhost:5173", // Use environment variable for frontend URL
 };
 
-app.get("/", (req, res) => {
-  res.send("Api is working");
-});
-
-// database connection
-mongoose.set("strictQuery", false);
-const connectDB = async () => {
-  try {
-    mongoose.connect(process.env.MONGO_URL, {});
-
-    console.log("MongoDB database is connected");
-  } catch (err) {
-    console.log("MongoDB database connection failed");
-  }
-};
-
-//middleware
+// Middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors(corsOptions));
+
+// Routes
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/doctors", doctorRoute);
 app.use("/api/v1/reviews", reviewRoute);
 
+app.get("/", (req, res) => {
+  res.send("API is working");
+});
+
+// Database connection
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URL);
+    console.log("MongoDB database is connected");
+  } catch (err) {
+    console.error("MongoDB database connection failed:", err);
+    process.exit(1); // Exit process with failure
+  }
+};
+
+// Start server
 app.listen(port, () => {
   connectDB();
-  console.log("Server is running on " + port);
+  console.log(`Server is running on http://localhost:${port}`);
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
 });

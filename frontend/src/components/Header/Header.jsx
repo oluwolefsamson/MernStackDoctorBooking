@@ -11,11 +11,6 @@ const navlinks = [
   },
 
   {
-    path: "/doctors",
-    display: "Find a Doctor",
-  },
-
-  {
     path: "/services",
     display: "Services",
   },
