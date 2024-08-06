@@ -36,7 +36,7 @@ const Signup = () => {
         userData
       );
 
-      if (response.data.message === "User registered successfully") {
+      if (response.data.message) {
         alert("User created successfully.");
         navigate("/login");
       } else if (response.data.message === "User already exists") {
@@ -45,7 +45,7 @@ const Signup = () => {
         alert(response.data.message);
       }
     } catch (error) {
-      alert("Registration failed. Please try again.");
+      alert("User already exists. Please try another email");
     } finally {
       setLoading(false); // Reset loading to false after the request is complete
     }

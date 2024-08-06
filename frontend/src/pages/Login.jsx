@@ -36,7 +36,7 @@ const Login = () => {
         // Store the token in localStorage
         localStorage.setItem("authToken", response.data.token);
 
-        // Redirect to home page or another protected page
+        // Redirect to doctors page
         navigate("/doctors");
       }
     } catch (error) {
