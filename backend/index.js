@@ -14,10 +14,12 @@ const app = express();
 const port = process.env.PORT || 8000;
 
 const corsOptions = {
-  origin:
-    "https://mern-stack-doctor-web-app.vercel.app" || "http://localhost:5173", // Use environment variable for frontend URL
+  origin: [
+    "https://mern-stack-doctor-web-app.vercel.app",
+    "http://localhost:5173",
+  ],
   credentials: true,
-  secure: process.env.NODE_ENV === "production", // Use HTTPS in production environment
+  secure: process.env.NODE_ENV === "production",
 };
 
 // Middleware
