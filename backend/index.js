@@ -15,6 +15,8 @@ const port = process.env.PORT || 8000;
 
 const corsOptions = {
   origin: process.env.FRONTEND_URL || "http://localhost:5173", // Use environment variable for frontend URL
+  credentials: true,
+  secure: process.env.NODE_ENV === "production", // Use HTTPS in production environment
 };
 
 // Middleware
