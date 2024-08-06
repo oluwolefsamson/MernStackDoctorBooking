@@ -31,8 +31,7 @@ const Signup = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/v1/auth/register" ||
-          "https://mernstack-doctor-web-app.onrender.com/api/v1/auth/register", // Use environment variable
+        "https://mernstack-doctor-web-app.onrender.com/api/v1/auth/register", // Use environment variable
         userData
       );
 

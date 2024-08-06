@@ -27,8 +27,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/v1/auth/login" ||
-          "https://mernstack-doctor-web-app.onrender.com/api/v1/auth/login",
+        "https://mernstack-doctor-web-app.onrender.com/api/v1/auth/login",
         formData
       );
 
