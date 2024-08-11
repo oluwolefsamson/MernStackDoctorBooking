@@ -35,12 +35,24 @@ const Login = () => {
         // Store the token in localStorage
         localStorage.setItem("authToken", response.data.token);
 
-        // Redirect to doctors page
-        navigate("/doctors");
+        // Redirect to the user profile page
+        navigate("/userpage");
+      } else {
+        // Handle cases where the response doesn't contain a token
+        setError("Login failed. Please check your credentials and try again.");
       }
     } catch (error) {
-      console.error("Invalid credentials. Please try again.", error);
-      setError("Invalid credentials. Please try again."); // Set error message
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        // Display specific error message returned by the server
+        setError(error.response.data.message);
+      } else {
+        // Fallback error message for unexpected errors
+        setError("Something went wrong. Please try again later.");
+      }
     } finally {
       setLoading(false); // Reset loading state
     }
