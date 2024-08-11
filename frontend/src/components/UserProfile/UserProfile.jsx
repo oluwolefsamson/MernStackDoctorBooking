@@ -26,21 +26,27 @@ const UserPage = () => {
     );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-300 flex flex-col justify-center items-center">
-      <div className="bg-white p-10 rounded-lg shadow-xl max-w-lg w-full">
+    <div className="py-9 lg:py-11 flex flex-col justify-center items-center">
+      <div className="bg-white p-6 sm:p-10 rounded-lg shadow-none sm:shadow-xl max-w-lg w-full">
+        {/* 
+          - Added `shadow-none` to remove the shadow on small devices.
+          - Added `sm:shadow-xl` to apply the shadow on larger screens. 
+        */}
         <div className="flex justify-center">
           <img
             src={user.photo || "/default-avatar.png"}
             alt={user.name}
-            className="w-32 h-32 rounded-full border-4 border-blue-500 shadow-md"
+            className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-blue-500 shadow-md"
           />
         </div>
-        <h2 className="text-3xl font-bold text-center mt-4">{user.name}</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mt-4">
+          {user.name}
+        </h2>
         <p className="text-gray-600 text-center text-lg">{user.email}</p>
         <p className="text-gray-600 text-center text-lg">Role: {user.role}</p>
 
-        <div className="mt-8">
-          <h3 className="text-xl font-semibold text-gray-800 border-b-2 border-blue-500 pb-2">
+        <div className="mt-6 sm:mt-8">
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-800 border-b-2 border-blue-500 pb-2">
             Personal Information
           </h3>
           <p className="text-gray-700 mt-4">
@@ -53,12 +59,11 @@ const UserPage = () => {
           </p>
         </div>
 
-        <div className="mt-8">
-          <h3 className="text-xl font-semibold text-gray-800 border-b-2 border-blue-500 pb-2">
+        <div className="mt-6 sm:mt-8">
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-800 border-b-2 border-blue-500 pb-2">
             Upcoming Appointments
           </h3>
           <ul className="text-gray-700 mt-4">
-            {/* Assuming appointments are an array in the user object */}
             {user.appointments && user.appointments.length > 0 ? (
               user.appointments.map((appointment, index) => (
                 <li key={index} className="mt-2">
@@ -73,7 +78,7 @@ const UserPage = () => {
           </ul>
         </div>
 
-        <div className="flex justify-between mt-8">
+        <div className="flex justify-between mt-6 sm:mt-8">
           <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition">
             Edit Profile
           </button>
