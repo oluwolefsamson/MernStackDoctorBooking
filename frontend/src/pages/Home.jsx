@@ -20,6 +20,7 @@ import DoctorList from "../components/Doctors/DoctorList";
 import FaqList from "../components/Faq/FaqList";
 import Testimonial from "../components/Testimonial/Testimonial";
 import Footer from "../Footer/Footer";
+import HomeDoctorList from "../components/Doctors/HomeDoctorList";
 
 const Home = () => {
   return (
@@ -274,7 +275,8 @@ const Home = () => {
             </p>
           </div>
 
-          <DoctorList />
+          {/* <DoctorList /> */}
+          <HomeDoctorList />
         </div>
       </section>
       {/* Our great doctors end*/}
