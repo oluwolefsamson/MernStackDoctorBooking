@@ -12,6 +12,10 @@ export const doctors = [
     photo: doctorImg01,
     totalPatients: 1500,
     hospital: "Mount Adora Hospital, Sylhet.",
+    aboutshort:
+      "Dr. Alfaz Ahmed is a distinguished surgeon celebrated for his precision and expertise in complex surgical procedures.",
+    about:
+      "Dr. Alfaz Ahmed is a distinguished surgeon celebrated for his precision and expertise in complex surgical procedures. With a career spanning over two decades, he has earned a stellar reputation for his skillful hands and innovative techniques in the operating room. Dr. Alfaz Ahmed commitment to excellence and patient safety is evident in his meticulous approach to preoperative planning and postoperative care. His compassionate and reassuring manner helps patients feel confident and well-cared for throughout their surgical journey. Recognized by his peers and patients alike, Dr. Rahman continues to advance the field of surgery with his dedication to continuous learning and improvement.",
   },
   {
     id: "02",
@@ -22,6 +26,10 @@ export const doctors = [
     photo: doctorImg02,
     totalPatients: 1500,
     hospital: "Mount Adora Hospital, Sylhet.",
+    aboutshort:
+      "Dr. Saleh Mahmud is a distinguished surgeon celebrated for his precision and expertise in complex surgical procedures.",
+    about:
+      "Dr. Saleh Mahmud is a distinguished surgeon celebrated for his precision and expertise in complex surgical procedures. With a career spanning over two decades, he has earned a stellar reputation for his skillful hands and innovative techniques in the operating room. Dr. Saleh Mahmud commitment to excellence and patient safety is evident in his meticulous approach to preoperative planning and postoperative care. His compassionate and reassuring manner helps patients feel confident and well-cared for throughout their surgical journey. Recognized by his peers and patients alike, Dr. Rahman continues to advance the field of surgery with his dedication to continuous learning and improvement.",
   },
   {
     id: "03",
@@ -32,5 +40,9 @@ export const doctors = [
     photo: doctorImg03,
     totalPatients: 1500,
     hospital: "Mount Adora Hospital, Sylhet.",
+    aboutshort:
+      "Dr. Farid Uddin is a distinguished surgeon celebrated for his precision and expertise in complex surgical procedures.",
+    about:
+      "Dr. Farid Uddin is a distinguished surgeon celebrated for his precision and expertise in complex surgical procedures. With a career spanning over two decades, he has earned a stellar reputation for his skillful hands and innovative techniques in the operating room. Dr. Farid Uddin commitment to excellence and patient safety is evident in his meticulous approach to preoperative planning and postoperative care. His compassionate and reassuring manner helps patients feel confident and well-cared for throughout their surgical journey. Recognized by his peers and patients alike, Dr. Rahman continues to advance the field of surgery with his dedication to continuous learning and improvement.",
   },
 ];

@@ -1,29 +1,34 @@
 import React from "react";
 import { formateDate } from "../../Utils/formateDate.js";
+import { useParams } from "react-router-dom";
+import { doctors } from "../../assets/data/doctors"; // This should be replaced with an API call if data is fetched dynamically
+import { useState, useEffect } from "react";
 
 const DoctorAbout = () => {
+  const { id } = useParams(); // Extract the doctor ID from the URL
+  const [doctor, setDoctor] = useState(null);
+  const [tab, setTab] = useState("about");
+
+  useEffect(() => {
+    // Fetch doctor details based on the ID
+    // Replace the following with your data fetching logic
+    const fetchedDoctor = doctors.find((doc) => doc.id === id);
+    setDoctor(fetchedDoctor);
+  }, [id]);
+
+  if (!doctor) {
+    return <p>Loading...</p>; // Display loading message while fetching data
+  }
   return (
     <div>
       <div>
         <h3 className="text-[20px] leading-[30px] text-headingColor font-semibold flex items-center gap-2">
           About of
           <span className="text-irisBlueColor font-bold text-[24px] leading-9">
-            Muhibur Rahman
+            {doctor.name}
           </span>
         </h3>
-        <p className="text__para">
-          Dr. Muhibur Rahman is a distinguished surgeon celebrated for his
-          precision and expertise in complex surgical procedures. With a career
-          spanning over two decades, he has earned a stellar reputation for his
-          skillful hands and innovative techniques in the operating room. Dr.
-          Rahman's commitment to excellence and patient safety is evident in his
-          meticulous approach to preoperative planning and postoperative care.
-          His compassionate and reassuring manner helps patients feel confident
-          and well-cared for throughout their surgical journey. Recognized by
-          his peers and patients alike, Dr. Rahman continues to advance the
-          field of surgery with his dedication to continuous learning and
-          improvement.
-        </p>
+        <p className="text__para">{doctor.about}</p>
       </div>
 
       <div className="mt-12">
