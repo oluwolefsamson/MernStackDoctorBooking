@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const UserPage = () => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -18,6 +19,11 @@ const UserPage = () => {
     fetchUserProfile();
   }, []);
 
+  const handleLogout = () => {
+    // Perform any necessary logout logic here, like clearing tokens
+    navigate("/");
+  };
+
   if (!user)
     return (
       <div className="flex justify-center items-center h-screen">
@@ -26,12 +32,16 @@ const UserPage = () => {
     );
 
   return (
-    <div className="py-9 lg:py-11 flex flex-col justify-center items-center">
-      <div className="bg-white p-6 sm:p-10 rounded-lg shadow-none sm:shadow-xl max-w-lg w-full">
-        {/* 
-          - Added `shadow-none` to remove the shadow on small devices.
-          - Added `sm:shadow-xl` to apply the shadow on larger screens. 
-        */}
+    <div className="relative py-9 lg:py-11 flex flex-col justify-center items-center">
+      {/* Logout Button */}
+      <button
+        onClick={handleLogout}
+        className="absolute top-4 right-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition"
+      >
+        Logout
+      </button>
+
+      <div className="bg-white p-6 sm:p-10 mt-11 rounded-lg shadow-none sm:shadow-xl max-w-lg w-full">
         <div className="flex justify-center">
           <img
             src={user.photo || "/default-avatar.png"}
