@@ -21,6 +21,7 @@ const UserPage = () => {
 
   const handleLogout = () => {
     // Perform any necessary logout logic here, like clearing tokens
+    alert("Are you sure you want to log out");
     navigate("/");
   };
 
