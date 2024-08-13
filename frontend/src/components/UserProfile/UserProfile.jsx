@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
 const UserPage = () => {
   const [user, setUser] = useState(null);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,7 +22,6 @@ const UserPage = () => {
 
   const handleLogout = () => {
     // Perform any necessary logout logic here, like clearing tokens
-    alert("Are you sure you want to log out");
     navigate("/");
   };
 
@@ -36,11 +36,34 @@ const UserPage = () => {
     <div className="relative py-9 lg:py-11 flex flex-col justify-center items-center">
       {/* Logout Button */}
       <button
-        onClick={handleLogout}
-        className="absolute top-4 right-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition"
+        onClick={() => setShowLogoutModal(true)}
+        className="absolute top-4 right-4 bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition"
       >
         Logout
       </button>
+
+      {showLogoutModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-lg font-bold mb-4">Confirm Logout</h2>
+            <p className="mb-6">Are you sure you want to log out?</p>
+            <div className="flex justify-end">
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                className="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg mr-2"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleLogout}
+                className="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="bg-white p-6 sm:p-10 mt-11 rounded-lg shadow-none sm:shadow-xl max-w-lg w-full">
         <div className="flex justify-center">
@@ -57,10 +80,23 @@ const UserPage = () => {
         <p className="text-gray-600 text-center text-lg">Role: {user.role}</p>
 
         <div className="mt-6 sm:mt-8">
-          <h3 className="text-lg sm:text-xl font-semibold text-gray-800 border-b-2 border-blue-500 pb-2">
+          <h3 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-yellow-500 to-blue-500 bg-clip-text text-transparent border-b-2 border-blue-500 pb-2">
             Personal Information
           </h3>
+
           <p className="text-gray-700 mt-4">
+            <span className="font-medium">Name:</span>{" "}
+            {user.name || "Not provided"}
+          </p>
+          <p className="text-gray-700 mt-2">
+            <span className="font-medium">Email:</span>{" "}
+            {user.email || "Not provided"}
+          </p>
+          <p className="text-gray-700 mt-2">
+            <span className="font-medium">Gender:</span>{" "}
+            {user.gender || "Not provided"}
+          </p>
+          <p className="text-gray-700 mt-2">
             <span className="font-medium">Phone:</span>{" "}
             {user.phone || "Not provided"}
           </p>
@@ -71,7 +107,7 @@ const UserPage = () => {
         </div>
 
         <div className="mt-6 sm:mt-8">
-          <h3 className="text-lg sm:text-xl font-semibold text-gray-800 border-b-2 border-blue-500 pb-2">
+          <h3 className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-yellow-500 to-blue-500 bg-clip-text text-transparent border-b-2 border-blue-500 pb-2">
             Upcoming Appointments
           </h3>
           <ul className="text-gray-700 mt-4">
