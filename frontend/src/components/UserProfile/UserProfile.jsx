@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import profile from "../../assets/images/profile.png";
 
 const UserPage = () => {
   const [user, setUser] = useState(null);
@@ -10,8 +11,17 @@ const UserPage = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get("/api/user/profile");
-        setUser(response.data);
+        const token = localStorage.getItem("authToken");
+        const response = await axios.get(
+          `http://localhost:8000/api/v1/users/66b0cbde3a59b7227f1247c6`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUser(response.data.data);
+        console.log("User data fetched successfully:", response.data);
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
@@ -21,7 +31,7 @@ const UserPage = () => {
   }, []);
 
   const handleLogout = () => {
-    // Perform any necessary logout logic here, like clearing tokens
+    localStorage.removeItem("authToken");
     navigate("/");
   };
 
@@ -68,7 +78,7 @@ const UserPage = () => {
       <div className="bg-white p-6 sm:p-10 mt-11 rounded-lg shadow-none sm:shadow-xl max-w-lg w-full">
         <div className="flex justify-center">
           <img
-            src={user.photo || "/default-avatar.png"}
+            src={profile}
             alt={user.name}
             className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-blue-500 shadow-md"
           />
