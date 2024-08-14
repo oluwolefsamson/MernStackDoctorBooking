@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode"; // Adjusted import
 import { Link, useNavigate } from "react-router-dom";
 import profile from "../../assets/images/profile.png";
 
@@ -12,16 +13,26 @@ const UserPage = () => {
     const fetchUserProfile = async () => {
       try {
         const token = localStorage.getItem("authToken");
-        const response = await axios.get(
-          `https://mernstack-doctor-web-app.onrender.com/api/v1/users/66b0cbde3a59b7227f1247c6`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setUser(response.data.data);
-        console.log("User data fetched successfully:", response.data);
+
+        if (token) {
+          // Decode the token to get the user ID
+          const decodedToken = jwtDecode(token); // Adjusted usage
+          const userId = decodedToken.id; // Ensure 'id' exists in the token
+
+          // Fetch user profile from the backend
+          const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setUser(response.data.data);
+          console.log("User data fetched successfully:", response.data);
+        } else {
+          console.warn("No auth token found in localStorage.");
+        }
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
@@ -38,7 +49,8 @@ const UserPage = () => {
   if (!user)
     return (
       <div className="flex justify-center items-center h-screen">
-        Loading...
+        <p>Loading...</p>
+        {/* Optionally add a spinner here */}
       </div>
     );
 
