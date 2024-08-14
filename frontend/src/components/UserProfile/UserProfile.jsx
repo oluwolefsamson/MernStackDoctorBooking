@@ -21,7 +21,7 @@ const UserPage = () => {
 
           // Fetch user profile from the backend
           const response = await axios.get(
-            `${import.meta.env.VITE_API_URL}/api/v1/users/${userId}`,
+            `https://mernstack-doctor-web-app.onrender.com/api/v1/users/${userId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
