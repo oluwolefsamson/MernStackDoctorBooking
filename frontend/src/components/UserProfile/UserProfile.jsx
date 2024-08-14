@@ -13,7 +13,7 @@ const UserPage = () => {
       try {
         const token = localStorage.getItem("authToken");
         const response = await axios.get(
-          `http://localhost:8000/api/v1/users/66b0cbde3a59b7227f1247c6`,
+          `https://mernstack-doctor-web-app.onrender.com/api/v1/users/66b0cbde3a59b7227f1247c6`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
