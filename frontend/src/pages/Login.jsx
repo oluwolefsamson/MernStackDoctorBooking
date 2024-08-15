@@ -36,7 +36,7 @@ const Login = () => {
         localStorage.setItem("authToken", response.data.token);
 
         // Redirect to the user profile page
-        navigate("/userpage");
+        navigate("/userpage", { replace: true });
       } else {
         // Handle cases where the response doesn't contain a token
         setError("Login failed. Please check your credentials and try again.");
