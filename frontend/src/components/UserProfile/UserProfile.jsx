@@ -3,6 +3,7 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode"; // Adjusted import
 import { Link, useNavigate } from "react-router-dom";
 import profile from "../../assets/images/profile.png";
+import { RingLoader } from "react-spinners";
 
 const UserPage = () => {
   const [user, setUser] = useState(null);
@@ -29,7 +30,7 @@ const UserPage = () => {
             }
           );
           setUser(response.data.data);
-          console.log("User data fetched successfully:", response.data);
+          // console.log("User data fetched successfully:", response.data);
         } else {
           console.warn("No auth token found in localStorage.");
         }
@@ -49,7 +50,8 @@ const UserPage = () => {
   if (!user)
     return (
       <div className="flex justify-center items-center h-screen">
-        <p>Loading...</p>
+        <RingLoader color="blue" />
+        {/* <p>Loading...</p> */}
         {/* Optionally add a spinner here */}
       </div>
     );

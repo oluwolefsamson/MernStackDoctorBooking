@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { BounceLoader } from "react-spinners";
 import axios from "axios";
 
 const Login = () => {
@@ -78,6 +79,7 @@ const Login = () => {
               onChange={handleInputChange}
               className="w-full py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
               required
+              autoComplete="current-email"
             />
           </div>
 
@@ -90,6 +92,7 @@ const Login = () => {
               onChange={handleInputChange}
               className="w-full py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
               required
+              autoComplete="current-password"
             />
           </div>
 
@@ -112,7 +115,7 @@ const Login = () => {
               className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3"
               disabled={loading} // Disable button when loading
             >
-              {loading ? "Logging in..." : "Login"}{" "}
+              {loading ? <BounceLoader size={25} color="white" /> : "Login"}{" "}
               {/* Show different text when loading */}
             </button>
           </div>

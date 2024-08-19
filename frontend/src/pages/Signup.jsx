@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SignupImg from "../../src/assets/images/signup.gif";
 import avatar from "../../src/assets/images/doctor-img01.png";
 import { Link, useNavigate } from "react-router-dom";
+import { DotLoader } from "react-spinners";
 import axios from "axios";
 
 const Signup = () => {
@@ -188,7 +189,7 @@ const Signup = () => {
                     loading ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                 >
-                  {loading ? "Signing Up..." : "Sign Up"}
+                  {loading ? <DotLoader size={25} color="white" /> : "Sign Up"}
                 </button>
               </div>
 
