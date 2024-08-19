@@ -11,29 +11,65 @@ const Signup = () => {
     name: "",
     email: "",
     password: "",
-    photo: "", // This will remain empty as we are not uploading files
+    photo: "", // This will store the Cloudinary image URL
     gender: "male",
     role: "patient",
   });
-  const [showPassword, setShowPassword] = useState(false); // State for showing password
-  const [loading, setLoading] = useState(false); // State for loading
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append(
+      "upload_preset",
+      import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+    );
+
+    setImageLoading(true);
+
+    try {
+      // console.log("Uploading file:", file);
+      // console.log("FormData entries:", [...formData.entries()]);
+
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${
+          import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+        }/image/upload`,
+        formData
+      );
+      // console.log("Upload successful:", response.data);
+
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        photo: response.data.secure_url,
+      }));
+    } catch (error) {
+      console.error(
+        "Image upload failed:"
+        // error.response ? error.response.data : error.message
+      );
+    } finally {
+      setImageLoading(false);
+    }
+  };
+
   const submitHandler = async (event) => {
     event.preventDefault();
-
-    setLoading(true); // Set loading to true when the request starts
-
-    // You can directly set the photo to an empty string or a default value if needed
-    const userData = { ...formData, photo: "" };
+    setLoading(true);
 
     try {
       const response = await axios.post(
-        `https://mernstack-doctor-web-app.onrender.com/api/v1/auth/register`, // Use environment variable
-        userData
+        `https://mernstack-doctor-web-app.onrender.com/api/v1/auth/register`,
+        formData
       );
 
       if (response.data.message) {
@@ -47,7 +83,7 @@ const Signup = () => {
     } catch (error) {
       alert("error");
     } finally {
-      setLoading(false); // Reset loading to false after the request is complete
+      setLoading(false);
     }
   };
 
@@ -69,8 +105,8 @@ const Signup = () => {
               Create an <span className="text-primaryColor">account</span>
             </h3>
 
-            <form onSubmit={submitHandler} className="">
-              <div className="mb-5 ">
+            <form onSubmit={submitHandler}>
+              <div className="mb-5">
                 <input
                   type="text"
                   placeholder="Enter Your Full Name"
@@ -98,7 +134,7 @@ const Signup = () => {
 
               <div className="mb-5">
                 <input
-                  type={showPassword ? "text" : "password"} // Toggle between text and password
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter Your Password"
                   name="password"
                   value={formData.password}
@@ -120,6 +156,34 @@ const Signup = () => {
                     className="text-headingColor text-[15px] leading-7"
                   >
                     Show Password
+                  </label>
+                </div>
+              </div>
+
+              <div className="mb-5 flex items-center gap-3">
+                <figure className="w-[60px] h-[60px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center">
+                  <img
+                    src={formData.photo || avatar}
+                    alt="Avatar"
+                    className="w-full rounded-full"
+                  />
+                </figure>
+
+                <div className="relative w-[130px] h-[50px]">
+                  <input
+                    type="file"
+                    name="photo"
+                    id="customFile"
+                    accept=".jpg, .png"
+                    onChange={handleImageUpload}
+                    className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                  />
+
+                  <label
+                    htmlFor="customFile"
+                    className="absolute top-0 left-0 w-full h-full flex items-center px-[0.75rem] py-[0.375rem] text-[15px] leading-6 overflow-hidden bg-[#0066ff46] text-headingColor font-semibold rounded-lg truncate cursor-pointer"
+                  >
+                    {imageLoading ? "Uploading..." : "Upload Photo"}
                   </label>
                 </div>
               </div>
@@ -153,38 +217,10 @@ const Signup = () => {
                 </label>
               </div>
 
-              <div className="mb-5 flex items-center gap-3">
-                <figure className="w-[60px] h-[60px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center">
-                  <img
-                    src={avatar}
-                    alt="Avatar"
-                    className="w-full rounded-full"
-                  />
-                </figure>
-
-                <div className="relative w-[130px] h-[50px]">
-                  <input
-                    type="file"
-                    name="photo"
-                    id="customFile"
-                    accept=".jpg, .png"
-                    className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-                    // File input handling code is removed
-                  />
-
-                  <label
-                    htmlFor="customFile"
-                    className="absolute top-0 left-0 w-full h-full flex items-center px-[0.75rem] py-[0.375rem] text-[15px] leading-6 overflow-hidden bg-[#0066ff46] text-headingColor font-semibold rounded-lg truncate cursor-pointer"
-                  >
-                    Upload Photo
-                  </label>
-                </div>
-              </div>
-
               <div className="mt-7">
                 <button
                   type="submit"
-                  disabled={loading} // Disable the button when loading
+                  disabled={loading || imageLoading}
                   className={`w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3 ${
                     loading ? "opacity-50 cursor-not-allowed" : ""
                   }`}

@@ -51,8 +51,6 @@ const UserPage = () => {
     return (
       <div className="flex justify-center items-center h-screen">
         <RingLoader color="blue" />
-        {/* <p>Loading...</p> */}
-        {/* Optionally add a spinner here */}
       </div>
     );
 
@@ -92,7 +90,7 @@ const UserPage = () => {
       <div className="bg-white p-6 sm:p-10 mt-11 rounded-lg shadow-none sm:shadow-xl max-w-lg w-full">
         <div className="flex justify-center">
           <img
-            src={profile}
+            src={user.photo || profile}
             alt={user.name}
             className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-blue-500 shadow-md"
           />
