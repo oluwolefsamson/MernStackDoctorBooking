@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BounceLoader } from "react-spinners";
 import axios from "axios";
+import earth from "../assets/images/earth.jpg";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -60,8 +61,15 @@ const Login = () => {
   };
 
   return (
-    <section className="px-5 lg:px-0 ">
-      <div className="w-full px-6 max-w-[570px]   mx-auto rounded-lg shadow-md md:p-10">
+    <section
+      className="flex items-center justify-center px-5 lg:px-0 min-h-screen"
+      style={{
+        backgroundImage: `url(${earth})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="w-full py-6 px-6 max-w-[570px] bg-yellow-50 mx-auto rounded-lg shadow-2xl md:p-10">
         <h3 className="text-headingColor text-[22px] leading-9 font-bold mb-10">
           Hello! <span className="text-primaryColor">Welcome</span> Back 🍕
         </h3>
@@ -77,7 +85,7 @@ const Login = () => {
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              className="w-full py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
+              className="w-full px-2 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
               required
               autoComplete="current-email"
             />
@@ -90,7 +98,7 @@ const Login = () => {
               name="password"
               value={formData.password}
               onChange={handleInputChange}
-              className="w-full py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
+              className="w-full px-2 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
               required
               autoComplete="current-password"
             />
