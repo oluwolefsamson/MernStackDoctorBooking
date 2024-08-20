@@ -15,13 +15,7 @@ export const register = async (req, res) => {
   const { email, password, name, role, photo, gender } = req.body;
 
   try {
-    let user = null;
-
-    if (role === "patient") {
-      user = await User.findOne({ email });
-    } else if (role === "doctor") {
-      user = await Doctor.findOne({ email });
-    }
+    let user = await User.findOne({ email });
 
     // Check if user exists
     if (user) {
@@ -32,25 +26,15 @@ export const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
 
-    if (role === "patient") {
-      user = new User({
-        name,
-        email,
-        password: hashPassword,
-        photo,
-        gender,
-        role,
-      });
-    } else if (role === "doctor") {
-      user = new Doctor({
-        name,
-        email,
-        password: hashPassword,
-        photo,
-        gender,
-        role,
-      });
-    }
+    // Create a new user
+    user = new User({
+      name,
+      email,
+      password: hashPassword,
+      photo,
+      gender,
+      role,
+    });
 
     await user.save();
 
@@ -58,7 +42,7 @@ export const register = async (req, res) => {
       .status(201)
       .json({ success: true, message: "User successfully created" });
   } catch (err) {
-    console.error("Error registering user:", err); // Improved error logging
+    console.error("Error registering user:", err);
     res.status(500).json({
       success: false,
       message: "Internal server error, try again later",

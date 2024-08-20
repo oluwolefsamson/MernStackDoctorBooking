@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode"; // Adjusted import
+import { jwtDecode } from "jwt-decode"; // Corrected import
 import { Link, useNavigate } from "react-router-dom";
 import profile from "../../assets/images/profile.png";
 import { RingLoader } from "react-spinners";
@@ -16,11 +16,9 @@ const UserPage = () => {
         const token = localStorage.getItem("authToken");
 
         if (token) {
-          // Decode the token to get the user ID
-          const decodedToken = jwtDecode(token); // Adjusted usage
+          const decodedToken = jwtDecode(token);
           const userId = decodedToken.id; // Ensure 'id' exists in the token
 
-          // Fetch user profile from the backend
           const response = await axios.get(
             `https://mernstack-doctor-web-app.onrender.com/api/v1/users/${userId}`,
             {
@@ -30,17 +28,18 @@ const UserPage = () => {
             }
           );
           setUser(response.data.data);
-          // console.log("User data fetched successfully:", response.data);
         } else {
           console.warn("No auth token found in localStorage.");
+          navigate("/login");
         }
       } catch (error) {
         console.error("Error fetching user profile:", error);
+        navigate("/login");
       }
     };
 
     fetchUserProfile();
-  }, []);
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");

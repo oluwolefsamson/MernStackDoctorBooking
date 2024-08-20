@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import SignupImg from "../../src/assets/images/signup.gif";
 import avatar from "../../src/assets/images/doctor-img01.png";
+import profile from "../../src/assets/images/profile.png";
 import { Link, useNavigate } from "react-router-dom";
-import { DotLoader } from "react-spinners";
+import { DotLoader, HashLoader } from "react-spinners";
 import axios from "axios";
 
 const Signup = () => {
@@ -37,26 +38,19 @@ const Signup = () => {
     setImageLoading(true);
 
     try {
-      // console.log("Uploading file:", file);
-      // console.log("FormData entries:", [...formData.entries()]);
-
       const response = await axios.post(
         `https://api.cloudinary.com/v1_1/${
           import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
         }/image/upload`,
         formData
       );
-      // console.log("Upload successful:", response.data);
 
       setFormData((prevFormData) => ({
         ...prevFormData,
         photo: response.data.secure_url,
       }));
     } catch (error) {
-      console.error(
-        "Image upload failed:"
-        // error.response ? error.response.data : error.message
-      );
+      console.error("Image upload failed:", error);
     } finally {
       setImageLoading(false);
     }
@@ -65,7 +59,6 @@ const Signup = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
     setLoading(true);
-
     try {
       const response = await axios.post(
         `https://mernstack-doctor-web-app.onrender.com/api/v1/auth/register`,
@@ -163,7 +156,7 @@ const Signup = () => {
               <div className="mb-5 flex items-center gap-3">
                 <figure className="w-[60px] h-[60px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center">
                   <img
-                    src={formData.photo || avatar}
+                    src={formData.photo || profile}
                     alt="Avatar"
                     className="w-full rounded-full"
                   />
@@ -183,7 +176,15 @@ const Signup = () => {
                     htmlFor="customFile"
                     className="absolute top-0 left-0 w-full h-full flex items-center px-[0.75rem] py-[0.375rem] text-[15px] leading-6 overflow-hidden bg-[#0066ff46] text-headingColor font-semibold rounded-lg truncate cursor-pointer"
                   >
-                    {imageLoading ? "Uploading..." : "Upload Photo"}
+                    {imageLoading ? (
+                      <HashLoader
+                        size={20}
+                        color="white"
+                        style={{ marginLeft: "20px" }}
+                      />
+                    ) : (
+                      "Upload Photo"
+                    )}
                   </label>
                 </div>
               </div>
@@ -229,13 +230,13 @@ const Signup = () => {
                 </button>
               </div>
 
-              <p className="mt-5 text-textColor text-center">
-                Already have an account?
+              <p className="mt-4 text-center text-[15px] leading-6 text-headingColor">
+                Already have an account?{" "}
                 <Link
                   to="/login"
-                  className="text-primaryColor font-medium ml-1"
+                  className="text-primaryColor font-semibold cursor-pointer"
                 >
-                  Login
+                  Login here
                 </Link>
               </p>
             </form>

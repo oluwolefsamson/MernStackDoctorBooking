@@ -69,7 +69,7 @@ const Login = () => {
         backgroundPosition: "center",
       }}
     >
-      <div className="w-full py-6 px-6 max-w-[570px] bg-yellow-50 mx-auto rounded-lg shadow-2xl md:p-10">
+      <div className="w-full py-6 px-6 max-w-[570px] bg-white mx-auto rounded-lg shadow-2xl md:p-10">
         <h3 className="text-headingColor text-[22px] leading-9 font-bold mb-10">
           Hello! <span className="text-primaryColor">Welcome</span> Back 🍕
         </h3>
