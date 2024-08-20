@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { BounceLoader } from "react-spinners";
+import { DotLoader } from "react-spinners";
 import axios from "axios";
 import earth from "../assets/images/earth.jpg";
 
@@ -123,7 +123,7 @@ const Login = () => {
               className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3"
               disabled={loading} // Disable button when loading
             >
-              {loading ? <BounceLoader size={25} color="white" /> : "Login"}{" "}
+              {loading ? <DotLoader size={25} color="white" /> : "Login"}{" "}
               {/* Show different text when loading */}
             </button>
           </div>
