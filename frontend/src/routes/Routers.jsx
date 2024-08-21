@@ -8,6 +8,7 @@ import Contact from "../pages/Contact";
 import Doctors from "../pages/Doctors/Doctors";
 import DoctorDetails from "../pages/Doctors/DoctorDetails";
 import UserPage from "../components/UserProfile/UserProfile";
+import DoctorPage from "../components/DoctorProfile/DoctorProfile";
 
 const Routers = () => {
   return (
@@ -21,6 +22,7 @@ const Routers = () => {
       <Route path="/contact" element={<Contact />} />
       <Route path="/services" element={<Services />} />
       <Route path="/userpage" element={<UserPage />} />
+      <Route path="/doctorpage" element={<DoctorPage />} />
     </Routes>
   );
 };

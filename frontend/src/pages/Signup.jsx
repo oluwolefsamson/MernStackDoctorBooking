@@ -19,6 +19,7 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -51,30 +52,54 @@ const Signup = () => {
       }));
     } catch (error) {
       console.error("Image upload failed:", error);
+      setError("Failed to upload image. Please try again.");
     } finally {
       setImageLoading(false);
     }
   };
 
+  const isValidPassword = (password) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   const submitHandler = async (event) => {
     event.preventDefault();
     setLoading(true);
+    setError(""); // Clear any previous errors
+
+    if (!isValidPassword(formData.password)) {
+      setLoading(false);
+      setError(
+        "Password must be at least 8 characters long and include uppercase, lowercase, and a number."
+      );
+      return;
+    }
+
     try {
       const response = await axios.post(
         `https://mernstack-doctor-web-app.onrender.com/api/v1/auth/register`,
         formData
       );
 
-      if (response.data.message) {
+      if (response.status === 201) {
         alert("User created successfully.");
         navigate("/login");
-      } else if (response.data.message === "User already exists") {
-        alert("User already exists. Please try another email.");
-      } else {
-        alert(response.data.message);
       }
     } catch (error) {
-      alert("error");
+      if (error.response) {
+        if (error.response.status === 409) {
+          navigate("/login");
+        } else if (error.response.status === 400) {
+          alert("User already exists. Please log in.");
+          setError(error.response.data.message); // Display the specific error message
+        } else {
+          setError("An error occurred. Please try again later.");
+        }
+      } else {
+        setError("An error occurred. Please try again later.");
+      }
     } finally {
       setLoading(false);
     }
@@ -219,28 +244,24 @@ const Signup = () => {
                 </label>
               </div>
 
-              <div className="mt-7">
-                <button
-                  type="submit"
-                  disabled={loading || imageLoading}
-                  className={`w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3 ${
-                    loading ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                >
-                  {loading ? <DotLoader size={25} color="white" /> : "Sign Up"}
-                </button>
-              </div>
+              {error && (
+                <div className="mb-5 text-red-600 font-semibold">{error}</div>
+              )}
 
-              <p className="mt-4 text-center text-[15px] leading-6 text-headingColor">
-                Already have an account?{" "}
-                <Link
-                  to="/login"
-                  className="text-primaryColor font-semibold cursor-pointer"
-                >
-                  Login here
-                </Link>
-              </p>
+              <button
+                type="submit"
+                className="w-full px-4 py-2 bg-primaryColor text-white text-[15px] leading-7 font-semibold rounded-lg"
+              >
+                {loading ? <DotLoader size={25} color="white" /> : "Sign Up"}
+              </button>
             </form>
+
+            <p className="mt-5 text-headingColor text-[15px] leading-7">
+              Already have an account?{" "}
+              <Link to="/login" className="text-primaryColor font-semibold">
+                Login
+              </Link>
+            </p>
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ const Layout = () => {
     "/register",
     "/doctors",
     "/userpage",
+    "/doctorpage",
     "/doctors/01",
     "/doctors/02",
     "/doctors/03",

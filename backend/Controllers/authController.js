@@ -15,10 +15,14 @@ export const register = async (req, res) => {
   const { email, password, name, role, photo, gender } = req.body;
 
   try {
+    // Check if the email already exists in the User collection
     let user = await User.findOne({ email });
 
-    // Check if user exists
-    if (user) {
+    // Check if the email already exists in the Doctor collection
+    let doctor = await Doctor.findOne({ email });
+
+    // If the email exists in either collection, return an error response
+    if (user || doctor) {
       return res.status(400).json({ message: "User already exists" });
     }
 
@@ -51,17 +55,24 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body; // Include role in request payload
 
   try {
-    // Combined lookup
-    const user =
-      (await User.findOne({ email })) || (await Doctor.findOne({ email }));
+    // Attempt to find the user based on email
+    let user;
+    if (role === "doctor") {
+      user = await Doctor.findOne({ email });
+    } else if (role === "patient") {
+      user = await User.findOne({ email });
+    } else {
+      return res.status(400).json({ message: "Invalid role" });
+    }
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // Compare provided password with stored hashed password
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
@@ -70,6 +81,7 @@ export const login = async (req, res) => {
         .json({ status: false, message: "Invalid credentials" });
     }
 
+    // Generate JWT token for authenticated user
     const token = generateToken(user);
     const { password: pwd, ...userData } = user._doc;
 

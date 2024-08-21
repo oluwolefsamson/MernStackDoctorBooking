@@ -9,6 +9,7 @@ const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    role: "patient", // Default role
   });
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -24,8 +25,8 @@ const Login = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    setError(""); // Reset error state
-    setLoading(true); // Set loading to true
+    setError("");
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -34,13 +35,20 @@ const Login = () => {
       );
 
       if (response.data.token) {
+        const userRole = response.data.role;
+
         // Store the token in localStorage
         localStorage.setItem("authToken", response.data.token);
 
-        // Redirect to the user profile page
-        navigate("/userpage", { replace: true });
+        // Redirect based on role
+        if (userRole === "doctor") {
+          navigate("/doctorpage", { replace: true });
+        } else if (userRole === "patient") {
+          navigate("/userpage", { replace: true });
+        } else {
+          setError("Role is not recognized.");
+        }
       } else {
-        // Handle cases where the response doesn't contain a token
         setError("Login failed. Please check your credentials and try again.");
       }
     } catch (error) {
@@ -49,14 +57,12 @@ const Login = () => {
         error.response.data &&
         error.response.data.message
       ) {
-        // Display specific error message returned by the server
         setError(error.response.data.message);
       } else {
-        // Fallback error message for unexpected errors
         setError("Something went wrong. Please try again later.");
       }
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
