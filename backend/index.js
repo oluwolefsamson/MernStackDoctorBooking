@@ -14,7 +14,10 @@ const app = express();
 const port = process.env.PORT || 8000;
 
 const corsOptions = {
-  origin: "*", // Allow all origins
+  origin: [
+    "https://mern-stack-doctor-booking.vercel.app",
+    "http://localhost:5173",
+  ],
   methods: ["POST", "OPTIONS", "GET", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true, // Enable cookies in requests
