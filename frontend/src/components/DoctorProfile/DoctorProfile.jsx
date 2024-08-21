@@ -20,7 +20,7 @@ const DoctorPage = () => {
           const doctorId = decodedToken.id; // Ensure 'id' exists in the token
 
           const response = await axios.get(
-            `https://mernstack-doctor-web-app.onrender.com/api/v1/doctors/${doctorId}`,
+            `https://mernstackdoctorbooking.onrender.com/api/v1/doctors/${doctorId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
