@@ -23,9 +23,9 @@ const corsOptions = {
 };
 
 // Middleware
+app.use(cors(corsOptions)); // Apply CORS middleware before routes
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors(corsOptions));
 
 // Routes
 app.use("/api/v1/auth", authRoute);
