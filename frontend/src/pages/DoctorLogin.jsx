@@ -30,7 +30,7 @@ const DoctorLogin = () => {
 
     try {
       const response = await axios.post(
-        `https://https://mernstackdoctorbooking.onrender.com/api/v1/auth/login`,
+        `https://mernstackdoctorbooking.onrender.com/api/v1/auth/login`,
         formData
       );
 
