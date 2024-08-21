@@ -15,7 +15,7 @@ const port = process.env.PORT || 8000;
 
 const corsOptions = {
   origin: [
-    "https://mern-stack-doctor-web-app.vercel.app",
+    "https://mern-stack-doctor-booking.vercel.app",
     "http://localhost:5173",
   ],
   methods: ["POST", "OPTIONS", "GET", "PUT", "DELETE"],

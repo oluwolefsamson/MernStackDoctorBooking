@@ -11,10 +11,15 @@ const UserSchema = new mongoose.Schema(
       enum: ["patient", "admin"],
       default: "patient",
     },
-    gender: { type: String, enum: ["male", "female", "other"] },
+    gender: {
+      type: String,
+      enum: ["male", "female", "other"],
+      default: "other", // Set a default value if it's not required
+    },
+    phone: { type: String }, // Optional field for phone numbers
     appointments: [{ type: mongoose.Types.ObjectId, ref: "Appointment" }],
   },
-  { timestamps: true }
+  { timestamps: true } // Automatically manages createdAt and updatedAt fields
 );
 
 export default mongoose.model("User", UserSchema);

@@ -9,6 +9,9 @@ import Doctors from "../pages/Doctors/Doctors";
 import DoctorDetails from "../pages/Doctors/DoctorDetails";
 import UserPage from "../components/UserProfile/UserProfile";
 import DoctorPage from "../components/DoctorProfile/DoctorProfile";
+import DoctorLogin from "../pages/DoctorLogin";
+import DoctorSignup from "../pages/DoctorSignup";
+import ChoosePage from "../pages/choose";
 
 const Routers = () => {
   return (
@@ -23,6 +26,9 @@ const Routers = () => {
       <Route path="/services" element={<Services />} />
       <Route path="/userpage" element={<UserPage />} />
       <Route path="/doctorpage" element={<DoctorPage />} />
+      <Route path="/doctorlogin" element={<DoctorLogin />} />
+      <Route path="/doctorsignup" element={<DoctorSignup />} />
+      <Route path="/choose" element={<ChoosePage />} />
     </Routes>
   );
 };

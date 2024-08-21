@@ -4,12 +4,12 @@ import { DotLoader } from "react-spinners";
 import axios from "axios";
 import earth from "../assets/images/earth.jpg";
 
-const Login = () => {
+const DoctorLogin = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    role: "patient", // Default role
+    role: "doctor", // Default role for doctor login
   });
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -39,14 +39,14 @@ const Login = () => {
       if (response.data.token) {
         const userRole = response.data.role;
 
-        if (userRole === "patient") {
+        if (userRole === "doctor") {
           // Store the token in localStorage
           localStorage.setItem("authToken", response.data.token);
 
-          // Redirect to user page
-          navigate("/userpage", { replace: true });
+          // Redirect to doctor page
+          navigate("/doctorpage", { replace: true });
         } else {
-          setError("Only patients are allowed to log in.");
+          setError("Only doctors are allowed to log in.");
         }
       } else {
         setError("Login failed. Please check your credentials and try again.");
@@ -78,7 +78,8 @@ const Login = () => {
     >
       <div className="w-full py-6 px-6 max-w-[570px] bg-white mx-auto rounded-lg shadow-2xl md:p-10">
         <h3 className="text-headingColor text-[22px] leading-9 font-bold mb-10">
-          Hello! <span className="text-primaryColor">Welcome</span> Back 🍕
+          Hello Doctor! <span className="text-primaryColor">Welcome</span> Back
+          🍕
         </h3>
 
         <form className="py-4 md:py-0" onSubmit={submitHandler}>
@@ -137,7 +138,10 @@ const Login = () => {
 
           <p className="mt-5 text-textColor text-center">
             Don&apos;t have an account?
-            <Link to="/register" className="text-primaryColor font-medium ml-1">
+            <Link
+              to="/doctorsignup"
+              className="text-primaryColor font-medium ml-1"
+            >
               Register
             </Link>
           </p>
@@ -147,4 +151,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default DoctorLogin;

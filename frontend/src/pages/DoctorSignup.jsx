@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import SignupImg from "../../src/assets/images/signup.gif";
+import avatar from "../../src/assets/images/doctor-img01.png";
 import profile from "../../src/assets/images/profile.png";
 import { Link, useNavigate } from "react-router-dom";
 import { DotLoader, HashLoader } from "react-spinners";
 import axios from "axios";
 
-const Signup = () => {
+const DoctorSignup = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     photo: "", // This will store the Cloudinary image URL
+    specialization: "",
     gender: "male",
-    role: "patient", // Default role set to 'patient'
+    role: "doctor", // Default role for doctors
   });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -88,15 +90,15 @@ const Signup = () => {
       );
 
       if (response.status === 201) {
-        alert("User created successfully.");
-        navigate("/login");
+        alert("Doctor account created successfully.");
+        navigate("/doctorlogin");
       }
     } catch (error) {
       if (error.response) {
         if (error.response.status === 409) {
-          navigate("/login");
+          navigate("/doctorlogin");
         } else if (error.response.status === 400) {
-          alert("User already exists. Please log in.");
+          alert("Doctor already exists. Please log in.");
           setError(error.response.data.message); // Display the specific error message
         } else {
           setError("An error occurred. Please try again later.");
@@ -124,7 +126,7 @@ const Signup = () => {
           </div>
           <div className="rounded-l-lg lg:pl-16 py-10">
             <h3 className="text-headingColor text-[22px] leading-9 font-bold mb-10">
-              Create an <span className="text-primaryColor">account</span>
+              Create a <span className="text-primaryColor">Doctor</span> Account
             </h3>
 
             <form onSubmit={submitHandler}>
@@ -219,38 +221,25 @@ const Signup = () => {
                 </div>
               </div>
 
-              <div className="mb-5 flex items-center justify-between">
-                <label className="text-headingColor font-bold text-[16px] leading-7">
-                  Gender:
-                  <select
-                    name="gender"
-                    value={formData.gender}
-                    onChange={handleInputChange}
-                    className="text-textColor font-semibold text-[15px] leading-7 px-4 py-3 focus:outline-none"
-                  >
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                  </select>
-                </label>
-              </div>
-
               {error && (
                 <div className="mb-5 text-red-600 font-semibold">{error}</div>
               )}
 
               <button
                 type="submit"
-                className="w-full px-4 py-2 bg-primaryColor text-white text-[15px] leading-7 font-semibold rounded-lg"
+                className="w-full py-3 bg-primaryColor text-white text-[18px] leading-6 font-semibold rounded-lg transition-colors hover:bg-primaryColorHover"
               >
-                {loading ? <DotLoader size={25} color="white" /> : "Sign Up"}
+                {loading ? <DotLoader size={20} color="white" /> : "Sign Up"}
               </button>
             </form>
 
-            <p className="mt-5 text-headingColor text-[15px] leading-7">
+            <p className="text-headingColor text-[15px] leading-6 mt-5">
               Already have an account?{" "}
-              <Link to="/login" className="text-primaryColor font-semibold">
-                Login
+              <Link
+                to="/doctorlogin"
+                className="text-primaryColor hover:underline font-semibold"
+              >
+                Log In
               </Link>
             </p>
           </div>
@@ -260,4 +249,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default DoctorSignup;

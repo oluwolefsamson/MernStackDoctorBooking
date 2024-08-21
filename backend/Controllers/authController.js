@@ -12,41 +12,93 @@ const generateToken = (user) => {
 };
 
 export const register = async (req, res) => {
-  const { email, password, name, role, photo, gender } = req.body;
+  const {
+    email,
+    password,
+    name,
+    phone,
+    photo,
+    ticketPrice,
+    specialization,
+    qualifications,
+    experiences,
+    bio,
+    about,
+    timeSlots,
+    role,
+  } = req.body;
 
   try {
-    // Check if the email already exists in the User collection
-    let user = await User.findOne({ email });
-
-    // Check if the email already exists in the Doctor collection
-    let doctor = await Doctor.findOne({ email });
-
-    // If the email exists in either collection, return an error response
-    if (user || doctor) {
-      return res.status(400).json({ message: "User already exists" });
+    if (!email || !password || !role) {
+      return res.status(400).json({
+        success: false,
+        message: "Email, password, and role are required",
+      });
     }
 
-    // Hash password
+    let existingUser = await User.findOne({ email });
+    let existingDoctor = await Doctor.findOne({ email });
+
+    if (existingUser || existingDoctor) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User already exists" });
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
 
-    // Create a new user
-    user = new User({
-      name,
-      email,
-      password: hashPassword,
-      photo,
-      gender,
-      role,
-    });
+    if (role === "doctor") {
+      const doctor = new Doctor({
+        email,
+        password: hashPassword,
+        name, // Optional
+        phone, // Optional
+        photo, // Optional
+        ticketPrice, // Optional
+        specialization, // Optional
+        qualifications, // Optional
+        experiences, // Optional
+        bio, // Optional
+        about, // Optional
+        timeSlots, // Optional
+        role,
+      });
 
-    await user.save();
+      await doctor.save();
+      return res
+        .status(201)
+        .json({ success: true, message: "Doctor successfully registered" });
+    } else if (role === "patient") {
+      const user = new User({
+        name, // Optional
+        email,
+        password: hashPassword,
+        photo, // Optional
+        role,
+      });
 
-    res
-      .status(201)
-      .json({ success: true, message: "User successfully created" });
+      await user.save();
+      return res
+        .status(201)
+        .json({ success: true, message: "User successfully registered" });
+    } else {
+      return res.status(400).json({ success: false, message: "Invalid role" });
+    }
   } catch (err) {
     console.error("Error registering user:", err);
+
+    if (err.name === "ValidationError") {
+      return res
+        .status(400)
+        .json({ success: false, message: "Validation error: " + err.message });
+    } else if (err.code && err.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: "Duplicate key error: " + err.message,
+      });
+    }
+
     res.status(500).json({
       success: false,
       message: "Internal server error, try again later",
@@ -55,38 +107,37 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { email, password, role } = req.body; // Include role in request payload
+  const { email, password, role } = req.body;
 
   try {
-    // Attempt to find the user based on email
     let user;
     if (role === "doctor") {
       user = await Doctor.findOne({ email });
     } else if (role === "patient") {
       user = await User.findOne({ email });
     } else {
-      return res.status(400).json({ message: "Invalid role" });
+      return res.status(400).json({ success: false, message: "Invalid role" });
     }
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
-    // Compare provided password with stored hashed password
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
       return res
         .status(400)
-        .json({ status: false, message: "Invalid credentials" });
+        .json({ success: false, message: "Invalid credentials" });
     }
 
-    // Generate JWT token for authenticated user
     const token = generateToken(user);
     const { password: pwd, ...userData } = user._doc;
 
     res.status(200).json({
-      status: true,
+      success: true,
       message: "Successfully logged in",
       token,
       data: userData,
@@ -94,6 +145,6 @@ export const login = async (req, res) => {
     });
   } catch (err) {
     console.error("Error logging in user:", err);
-    res.status(500).json({ status: false, message: "Login failed" });
+    res.status(500).json({ success: false, message: "Login failed" });
   }
 };
