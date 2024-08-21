@@ -31,13 +31,7 @@ const Login = () => {
     try {
       const response = await axios.post(
         `https://mernstackdoctorbooking.onrender.com/api/v1/auth/login`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json", // Add any other headers you might need
-            // 'Authorization': 'Bearer YOUR_TOKEN' // If you have a token to include
-          },
-        }
+        formData
       );
 
       if (response.data.token) {
