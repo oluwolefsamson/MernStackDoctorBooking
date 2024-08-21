@@ -9,11 +9,11 @@ const DoctorLogin = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    role: "doctor", // Default role for doctor login
+    role: "doctor", // Default role
   });
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false); // State for loading
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -34,16 +34,11 @@ const DoctorLogin = () => {
         formData
       );
 
-      console.log(response.data); // Check what data is returned
-
       if (response.data.token) {
         const userRole = response.data.role;
 
         if (userRole === "doctor") {
-          // Store the token in localStorage
           localStorage.setItem("authToken", response.data.token);
-
-          // Redirect to doctor page
           navigate("/doctorpage", { replace: true });
         } else {
           setError("Only doctors are allowed to log in.");
@@ -52,16 +47,11 @@ const DoctorLogin = () => {
         setError("Login failed. Please check your credentials and try again.");
       }
     } catch (error) {
-      console.error("Login error:", error); // Log the error
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        setError(error.response.data.message);
-      } else {
-        setError("Something went wrong. Please try again later.");
-      }
+      console.error("Login error:", error);
+      setError(
+        error.response?.data?.message ||
+          "Something went wrong. Please try again later."
+      );
     } finally {
       setLoading(false);
     }
@@ -95,7 +85,7 @@ const DoctorLogin = () => {
               onChange={handleInputChange}
               className="w-full px-2 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
               required
-              autoComplete="current-email"
+              autoComplete="email"
             />
           </div>
 
@@ -129,10 +119,9 @@ const DoctorLogin = () => {
             <button
               type="submit"
               className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3"
-              disabled={loading} // Disable button when loading
+              disabled={loading}
             >
-              {loading ? <DotLoader size={25} color="white" /> : "Login"}{" "}
-              {/* Show different text when loading */}
+              {loading ? <DotLoader size={25} color="white" /> : "Login"}
             </button>
           </div>
 
