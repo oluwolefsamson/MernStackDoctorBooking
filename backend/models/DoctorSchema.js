@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 const DoctorSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  name: { type: String }, // Not required
-  phone: { type: Number }, // Not required
-  photo: { type: String }, // Not required
-  ticketPrice: { type: Number }, // Not required
+  name: { type: String }, // Optional
+  phone: { type: Number }, // Optional
+  photo: { type: String }, // Optional
+  ticketPrice: { type: Number }, // Optional
   role: {
     type: String,
     enum: ["doctor"],
@@ -14,20 +14,18 @@ const DoctorSchema = new mongoose.Schema({
   },
 
   // Fields for doctors only
-  specialization: { type: String }, // Not required
+  specialization: { type: String }, // Optional
   qualifications: {
     type: Array,
-    default: [], // Provide default empty array if needed
+    default: [],
   },
-
   experiences: {
     type: Array,
-    default: [], // Provide default empty array if needed
+    default: [],
   },
-
-  bio: { type: String, maxLength: 50 }, // Not required
-  about: { type: String }, // Not required
-  timeSlots: { type: Array, default: [] }, // Provide default empty array if needed
+  bio: { type: String, maxLength: 50 }, // Optional
+  about: { type: String }, // Optional
+  timeSlots: { type: Array, default: [] },
   reviews: [{ type: mongoose.Types.ObjectId, ref: "Review" }],
   averageRating: {
     type: Number,
@@ -43,6 +41,15 @@ const DoctorSchema = new mongoose.Schema({
     default: "pending",
   },
   appointments: [{ type: mongoose.Types.ObjectId, ref: "Appointment" }],
+
+  // New field for education
+  education: [
+    {
+      institution: { type: String, required: true },
+      startYear: { type: Number },
+      endYear: { type: Number },
+    },
+  ],
 });
 
 export default mongoose.model("Doctor", DoctorSchema);

@@ -124,7 +124,8 @@ const Signup = () => {
           </div>
           <div className="rounded-l-lg lg:pl-16 py-10">
             <h3 className="text-headingColor text-[22px] leading-9 font-bold mb-10">
-              Create an <span className="text-primaryColor">account</span>
+              Create an{" "}
+              <span className="text-primaryColor">account as a Patient</span>
             </h3>
 
             <form onSubmit={submitHandler}>

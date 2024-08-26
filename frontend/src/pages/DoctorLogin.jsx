@@ -35,14 +35,30 @@ const DoctorLogin = () => {
       );
 
       if (response.data.token) {
-        const userRole = response.data.role;
+        const {
+          token,
+          userId,
+          specialization,
+          qualifications,
+          experiences,
+          bio,
+          about,
+        } = response.data;
 
-        if (userRole === "doctor") {
-          localStorage.setItem("authToken", response.data.token);
-          navigate("/doctorpage", { replace: true });
-        } else {
-          setError("Only doctors are allowed to log in.");
-        }
+        // Save relevant user information to local storage
+        localStorage.setItem("authToken", token);
+        localStorage.setItem("doctorId", userId);
+        localStorage.setItem("doctorSpecialization", specialization);
+        localStorage.setItem(
+          "doctorQualifications",
+          JSON.stringify(qualifications)
+        );
+        localStorage.setItem("doctorExperiences", JSON.stringify(experiences));
+        localStorage.setItem("doctorBio", bio || "");
+        localStorage.setItem("doctorAbout", about || "");
+
+        // Navigate to the doctor's dashboard or home page
+        navigate(`/doctor`, { replace: true });
       } else {
         setError("Login failed. Please check your credentials and try again.");
       }

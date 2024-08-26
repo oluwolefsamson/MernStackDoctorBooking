@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 const Layout = () => {
   const location = useLocation();
   const showHeaderFooter = ![
+    "/doctor",
     "/login",
     "/register",
     "/doctors",
@@ -15,9 +16,7 @@ const Layout = () => {
     "/doctorsignup",
     "/choose",
     "/doctorpage",
-    "/doctors/01",
-    "/doctors/02",
-    "/doctors/03",
+    "/DoctorLogin",
   ].includes(location.pathname);
 
   return (

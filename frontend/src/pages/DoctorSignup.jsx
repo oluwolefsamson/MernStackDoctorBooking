@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import SignupImg from "../../src/assets/images/signup.gif";
-import avatar from "../../src/assets/images/doctor-img01.png";
+import doctorSign from "../../src/assets/images/doctorSign.png";
 import profile from "../../src/assets/images/profile.png";
 import { Link, useNavigate } from "react-router-dom";
 import { DotLoader, HashLoader } from "react-spinners";
@@ -12,11 +11,31 @@ const DoctorSignup = () => {
     name: "",
     email: "",
     password: "",
-    photo: "", // This will store the Cloudinary image URL
+    photo: "",
     specialization: "",
+    qualifications: "",
+    experiences: "",
+    timeSlots: "",
+    reviews: "",
     gender: "male",
-    role: "doctor", // Default role for doctors
+    role: "doctor",
+    education: [
+      {
+        institution: "",
+        startYear: "",
+        endYear: "",
+      },
+    ],
   });
+
+  const [specializations] = useState([
+    "Cardiologist",
+    "Dermatologist",
+    "Neurologist",
+  ]); // Example options
+  const [qualifications] = useState(["MBBS", "MD", "DNB"]); // Example options
+  const [experiences] = useState(["1 year", "3 years", "5 years"]); // Example options
+
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
@@ -24,6 +43,34 @@ const DoctorSignup = () => {
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleEducationChange = (index, e) => {
+    const { name, value } = e.target;
+    const newEducation = [...formData.education];
+    newEducation[index] = { ...newEducation[index], [name]: value };
+    setFormData({ ...formData, education: newEducation });
+  };
+
+  const handleAddEducation = () => {
+    setFormData({
+      ...formData,
+      education: [
+        ...formData.education,
+        {
+          institution: "",
+          degree: "",
+          fieldOfStudy: "",
+          startYear: "",
+          endYear: "",
+        },
+      ],
+    });
+  };
+
+  const handleRemoveEducation = (index) => {
+    const newEducation = formData.education.filter((_, i) => i !== index);
+    setFormData({ ...formData, education: newEducation });
   };
 
   const handleImageUpload = async (e) => {
@@ -68,7 +115,7 @@ const DoctorSignup = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
     setLoading(true);
-    setError(""); // Clear any previous errors
+    setError("");
 
     if (!isValidPassword(formData.password)) {
       setLoading(false);
@@ -84,7 +131,7 @@ const DoctorSignup = () => {
         formData,
         {
           headers: {
-            "Content-Type": "application/json", // Ensure this header is set
+            "Content-Type": "application/json",
           },
         }
       );
@@ -99,7 +146,7 @@ const DoctorSignup = () => {
           navigate("/doctorlogin");
         } else if (error.response.status === 400) {
           alert("Doctor already exists. Please log in.");
-          setError(error.response.data.message); // Display the specific error message
+          setError(error.response.data.message);
         } else {
           setError("An error occurred. Please try again later.");
         }
@@ -118,7 +165,7 @@ const DoctorSignup = () => {
           <div className="hidden lg:block bg-primaryColor rounded-l-lg">
             <figure className="rounded-l-lg">
               <img
-                src={SignupImg}
+                src={doctorSign}
                 alt="Signup"
                 className="w-full rounded-l-lg"
               />
@@ -184,6 +231,66 @@ const DoctorSignup = () => {
                 </div>
               </div>
 
+              <div className="mb-5">
+                <label className="block text-headingColor text-[16px] leading-7 mb-2">
+                  Specialization
+                </label>
+                <select
+                  name="specialization"
+                  value={formData.specialization}
+                  onChange={handleInputChange}
+                  className="w-full px-2 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
+                  required
+                >
+                  <option value="">Select Specialization</option>
+                  {specializations.map((spec, index) => (
+                    <option key={index} value={spec}>
+                      {spec}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="mb-5">
+                <label className="block text-headingColor text-[16px] leading-7 mb-2">
+                  Qualifications
+                </label>
+                <select
+                  name="qualifications"
+                  value={formData.qualifications}
+                  onChange={handleInputChange}
+                  className="w-full px-2 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
+                  required
+                >
+                  <option value="">Select Qualifications</option>
+                  {qualifications.map((qual, index) => (
+                    <option key={index} value={qual}>
+                      {qual}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="mb-5">
+                <label className="block text-headingColor text-[16px] leading-7 mb-2">
+                  Experience
+                </label>
+                <select
+                  name="experiences"
+                  value={formData.experiences}
+                  onChange={handleInputChange}
+                  className="w-full px-2 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
+                  required
+                >
+                  <option value="">Select Experience</option>
+                  {experiences.map((exp, index) => (
+                    <option key={index} value={exp}>
+                      {exp}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               <div className="mb-5 flex items-center gap-3">
                 <figure className="w-[60px] h-[60px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center">
                   <img
@@ -221,27 +328,29 @@ const DoctorSignup = () => {
                 </div>
               </div>
 
-              {error && (
-                <div className="mb-5 text-red-600 font-semibold">{error}</div>
-              )}
+              <div className="mb-5">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-3 bg-[#0066ff] text-white rounded-lg hover:bg-[#0050d4] disabled:opacity-50"
+                >
+                  {loading ? (
+                    <DotLoader color="#ffffff" size={20} />
+                  ) : (
+                    "Sign Up"
+                  )}
+                </button>
+              </div>
 
-              <button
-                type="submit"
-                className="w-full py-3 bg-primaryColor text-white text-[18px] leading-6 font-semibold rounded-lg transition-colors hover:bg-primaryColorHover"
-              >
-                {loading ? <DotLoader size={20} color="white" /> : "Sign Up"}
-              </button>
+              <div className="text-center">
+                <p className="text-headingColor text-[16px] leading-7">
+                  Already have an account?{" "}
+                  <Link to="/doctorlogin" className="text-primaryColor">
+                    Login
+                  </Link>
+                </p>
+              </div>
             </form>
-
-            <p className="text-headingColor text-[15px] leading-6 mt-5">
-              Already have an account?{" "}
-              <Link
-                to="/doctorlogin"
-                className="text-primaryColor hover:underline font-semibold"
-              >
-                Log In
-              </Link>
-            </p>
           </div>
         </div>
       </div>
