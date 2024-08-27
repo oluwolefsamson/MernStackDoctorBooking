@@ -7,22 +7,22 @@ const DoctorAbout = ({ doctor }) => {
       {" "}
       <div>
         <h3 className="text-[20px] leading-[30px] text-headingColor font-semibold flex items-center  gap-2">
-          About of Dr.
+          About Dr.
           <span className="text-irisBlueColor font-bold text-[20px] leading-9">
             {doctor.name}
           </span>
         </h3>
         <p className="text__para">
-          Dr. {doctor.name} is a distinguished surgeon celebrated for his
-          precision and expertise in {doctor.specialization}. With a career
-          spanning over {doctor.experiences} of experiences. He has earned a
-          stellar reputation for his skillful hands and innovative techniques in
-          the operating room. Dr. {doctor.name} commitment to excellence and
-          patient safety is evident in his meticulous approach to preoperative
-          planning and postoperative care. His compassionate and reassuring
-          manner helps patients feel confident and well-cared for throughout
-          their journey. Recognized by his peers and patients alike, Dr.{" "}
-          {doctor.name} continues to advance the field of{" "}
+          Dr. {doctor.name} is a distinguished {doctor.specialization}{" "}
+          celebrated for his precision and expertise in {doctor.specialization}.
+          With a career spanning over {doctor.experiences} of experiences. He
+          has earned a stellar reputation for his skillful hands and innovative
+          techniques in the operating room. Dr. {doctor.name} commitment to
+          excellence and patient safety is evident in his meticulous approach to
+          preoperative planning and postoperative care. His compassionate and
+          reassuring manner helps patients feel confident and well-cared for
+          throughout their journey. Recognized by his peers and patients alike,
+          Dr. {doctor.name} continues to advance the field of{" "}
           {doctor.specialization} with his dedication to continuous learning and
           improvement.
         </p>

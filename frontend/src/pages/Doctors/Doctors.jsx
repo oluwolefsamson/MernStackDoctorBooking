@@ -5,7 +5,8 @@ import axios from "axios";
 
 const Doctors = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredDoctors, setFilteredDoctors] = useState([]);
+  const [doctors, setDoctors] = useState([]); // Store all doctors
+  const [filteredDoctors, setFilteredDoctors] = useState([]); // Store filtered doctors
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -14,9 +15,10 @@ const Doctors = () => {
     const fetchDoctors = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/v1/doctors"
+          `https://mernstackdoctorbooking.onrender.com/api/v1/doctors/`
         );
-        setFilteredDoctors(response.data.data); // Make sure to access the correct path
+        setDoctors(response.data.data); // Store all doctors
+        setFilteredDoctors(response.data.data); // Initially, all doctors are shown
       } catch (err) {
         setError("Failed to fetch doctors");
       } finally {
@@ -31,11 +33,16 @@ const Doctors = () => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
 
-    // Filter doctors based on search query
-    const filtered = filteredDoctors.filter((doctor) =>
-      doctor.name.toLowerCase().includes(query)
-    );
-    setFilteredDoctors(filtered);
+    if (query === "") {
+      // If search query is empty, show all doctors
+      setFilteredDoctors(doctors);
+    } else {
+      // Filter doctors based on search query (specialization)
+      const filtered = doctors.filter((doctor) =>
+        doctor.specialization.toLowerCase().includes(query)
+      );
+      setFilteredDoctors(filtered);
+    }
   };
 
   return (
@@ -49,7 +56,7 @@ const Doctors = () => {
               value={searchQuery}
               onChange={handleSearch}
               className="py-4 pl-4 pr-2 bg-transparent w-full focus:outline-none cursor-pointer placeholder:text-textColor"
-              placeholder="Search Doctor"
+              placeholder="Search Doctor by Specialization"
             />
             <button className="btn mt-0 rounded-[0px] rounded-r-md">
               Search

@@ -34,20 +34,25 @@ const DoctorLogin = () => {
         formData
       );
 
+      console.log("Login Response:", response.data);
+
       if (response.data.token) {
         const {
           token,
-          userId,
-          specialization,
-          qualifications,
-          experiences,
-          bio,
-          about,
+          data: {
+            _id: doctorId, // Assuming the doctor ID is `_id` in the `data` field
+            specialization,
+            qualifications,
+            experiences,
+            bio,
+            about,
+          },
+          role,
         } = response.data;
 
         // Save relevant user information to local storage
         localStorage.setItem("authToken", token);
-        localStorage.setItem("doctorId", userId);
+        localStorage.setItem("doctorId", doctorId);
         localStorage.setItem("doctorSpecialization", specialization);
         localStorage.setItem(
           "doctorQualifications",
@@ -57,8 +62,15 @@ const DoctorLogin = () => {
         localStorage.setItem("doctorBio", bio || "");
         localStorage.setItem("doctorAbout", about || "");
 
-        // Navigate to the doctor's dashboard or home page
-        navigate(`/doctor`, { replace: true });
+        // Ensure doctorId is not undefined
+        if (doctorId) {
+          // Navigate to the doctor's profile page
+          navigate(`/doctor/${doctorId}`, { replace: true });
+        } else {
+          setError(
+            "Login successful but doctor ID is missing. Please try again."
+          );
+        }
       } else {
         setError("Login failed. Please check your credentials and try again.");
       }

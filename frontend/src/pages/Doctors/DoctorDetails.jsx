@@ -45,34 +45,18 @@ const DoctorDetails = () => {
   useEffect(() => {
     const fetchDoctorProfile = async () => {
       try {
-        const token = localStorage.getItem("authToken");
-
-        if (token) {
-          const decodedToken = jwtDecode(token);
-          const tokenDoctorId = decodedToken.id;
-
-          if (!tokenDoctorId) {
-            console.warn("No doctor ID found in the token.");
-            navigate("/DoctorLogin");
-            return;
+        const response = await axios.get(
+          `https://mernstackdoctorbooking.onrender.com/api/v1/doctors/${doctorId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
           }
-
-          const response = await axios.get(
-            `https://mernstackdoctorbooking.onrender.com/api/v1/doctors/${tokenDoctorId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          setDoctor(response.data.data);
-        } else {
-          console.warn("No auth token found in localStorage.");
-          navigate("/DoctorLogin");
-        }
+        );
+        setDoctor(response.data.data);
       } catch (error) {
         console.error("Error fetching doctor profile:", error);
-        navigate("/DoctorLogin");
+        navigate("/choose");
       }
     };
 

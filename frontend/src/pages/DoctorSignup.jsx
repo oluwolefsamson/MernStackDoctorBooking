@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import doctorSign from "../../src/assets/images/doctorSign.png";
+import doctorSignup from "../../src/assets/images/doctorSignup.png";
 import profile from "../../src/assets/images/profile.png";
 import { Link, useNavigate } from "react-router-dom";
 import { DotLoader, HashLoader } from "react-spinners";
@@ -137,7 +137,7 @@ const DoctorSignup = () => {
           <div className="hidden lg:flex bg-primaryColor rounded-l-lg justify-center items-center">
             <figure className="rounded-l-lg">
               <img
-                src={doctorSign}
+                src={doctorSignup}
                 alt="Signup"
                 className="w-full rounded-l-lg"
               />

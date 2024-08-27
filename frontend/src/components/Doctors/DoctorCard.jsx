@@ -5,7 +5,7 @@ import { BsArrowRight } from "react-icons/bs";
 
 const DoctorCard = ({ doctor }) => {
   const {
-    id, // Assuming you have doctor ID in your data
+    _id: doctorId, // Assuming the doctor ID is `_id` in the `data` field
     name,
     specialization,
     avgRating,
@@ -30,7 +30,7 @@ const DoctorCard = ({ doctor }) => {
 
         <div className="flex items-center gap-[6px]">
           <span className="flex items-center gap-[6px] text-[14px] leading-6 lg:text-[16px] lg:left-7 font-semibold text-headingColor">
-            <img src={starIcon} alt="" />
+            <img src={starIcon} alt="Star" />
             {avgRating}
           </span>
           <span className="text-[14px] leading-6 lg:text-[16px] lg:leading-7 font-[400] text-textColor">
@@ -50,7 +50,7 @@ const DoctorCard = ({ doctor }) => {
         </div>
 
         <Link
-          to="" // Navigate to the specific doctor's detail page
+          to={`/doctor/${doctorId}`} // Navigate to the specific doctor's detail page using the doctor ID
           className="w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] flex items-center justify-center group hover:bg-primaryColor hover:border-none"
         >
           <BsArrowRight className="group-hover:text-white w-6 h-5" />

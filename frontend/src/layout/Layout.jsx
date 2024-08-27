@@ -1,31 +1,35 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Routers from "../routes/Routers";
 import Footer from "../Footer/Footer";
-import { useLocation } from "react-router-dom";
 
 const Layout = () => {
   const location = useLocation();
-  const showHeaderFooter = ![
+
+  // Check if the current path matches any route where Header and Footer should be hidden
+  const shouldHideHeaderFooter = [
     "/doctor",
     "/login",
     "/register",
     "/doctors",
     "/userpage",
-    "/doctorlogin",
+    "/DoctorLogin",
     "/doctorsignup",
     "/choose",
     "/doctorpage",
-    "/DoctorLogin",
-  ].includes(location.pathname);
+  ].some((path) => location.pathname.startsWith(path));
+
+  console.log("Should hide Header/Footer:", shouldHideHeaderFooter);
+  console.log("Current path:", location.pathname);
 
   return (
     <>
-      {showHeaderFooter && <Header />}
+      {!shouldHideHeaderFooter && <Header />}
       <main>
         <Routers />
       </main>
-      {showHeaderFooter && <Footer />}
+      {!shouldHideHeaderFooter && <Footer />}
     </>
   );
 };
