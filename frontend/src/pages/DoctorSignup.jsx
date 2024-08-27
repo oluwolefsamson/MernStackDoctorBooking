@@ -45,34 +45,6 @@ const DoctorSignup = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleEducationChange = (index, e) => {
-    const { name, value } = e.target;
-    const newEducation = [...formData.education];
-    newEducation[index] = { ...newEducation[index], [name]: value };
-    setFormData({ ...formData, education: newEducation });
-  };
-
-  const handleAddEducation = () => {
-    setFormData({
-      ...formData,
-      education: [
-        ...formData.education,
-        {
-          institution: "",
-          degree: "",
-          fieldOfStudy: "",
-          startYear: "",
-          endYear: "",
-        },
-      ],
-    });
-  };
-
-  const handleRemoveEducation = (index) => {
-    const newEducation = formData.education.filter((_, i) => i !== index);
-    setFormData({ ...formData, education: newEducation });
-  };
-
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -162,7 +134,7 @@ const DoctorSignup = () => {
     <section className="px-5 xl:px-0">
       <div className="max-w-[1170px] px-6 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2">
-          <div className="hidden lg:block bg-primaryColor rounded-l-lg">
+          <div className="hidden lg:flex bg-primaryColor rounded-l-lg justify-center items-center">
             <figure className="rounded-l-lg">
               <img
                 src={doctorSign}
@@ -171,6 +143,7 @@ const DoctorSignup = () => {
               />
             </figure>
           </div>
+
           <div className="rounded-l-lg lg:pl-16 py-10">
             <h3 className="text-headingColor text-[22px] leading-9 font-bold mb-10">
               Create a <span className="text-primaryColor">Doctor</span> Account
@@ -238,6 +211,7 @@ const DoctorSignup = () => {
                 <select
                   name="specialization"
                   value={formData.specialization}
+                  placeholder="Specialization"
                   onChange={handleInputChange}
                   className="w-full px-2 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
                   required

@@ -6,9 +6,9 @@ const DoctorAbout = ({ doctor }) => {
     <div>
       {" "}
       <div>
-        <h3 className="text-[20px] leading-[30px] text-headingColor font-semibold flex items-center gap-2">
+        <h3 className="text-[20px] leading-[30px] text-headingColor font-semibold flex items-center  gap-2">
           About of Dr.
-          <span className="text-irisBlueColor font-bold text-[24px] leading-9">
+          <span className="text-irisBlueColor font-bold text-[20px] leading-9">
             {doctor.name}
           </span>
         </h3>
@@ -39,7 +39,7 @@ const DoctorAbout = ({ doctor }) => {
                 {formateDate("10-03-2015")} - {formateDate("10-03-2017")}
               </span>
               <p className="text-[16px] leading-6 font-medium text-textColor">
-                PHD in Surgeon
+                PHD in Medicine
               </p>
             </div>
             <p className="text-[14px] leading-5 font-medium text-textColor">

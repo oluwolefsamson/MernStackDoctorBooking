@@ -134,8 +134,8 @@ const DoctorDetails = () => {
                 </div>
                 <p className="text-para text-[14px] leading-6 md:text-[15px] max-w-[390px]">
                   Dr. {doctor.name} is a distinguished {doctor.specialization}{" "}
-                  celebrated for his precision and expertise in complex surgical
-                  procedures.
+                  celebrated for his precision and expertise in complex{" "}
+                  {doctor.specialization} procedures.
                 </p>
               </div>
             </div>
