@@ -12,6 +12,7 @@ import UserPage from "../components/UserProfile/UserProfile";
 import DoctorLogin from "../pages/DoctorLogin";
 import DoctorSignup from "../pages/DoctorSignup";
 import ChoosePage from "../pages/choose";
+import EditDoctorProfile from "../components/EditDoctorProfile/EditDoctorProfile";
 
 const Routers = () => {
   return (
@@ -31,6 +32,7 @@ const Routers = () => {
       <Route path="/doctorsignup" element={<DoctorSignup />} />
       <Route path="/choose" element={<ChoosePage />} />
       <Route path="/doctor/:doctorId" element={<DoctorDetails />} />{" "}
+      <Route path="/doctors/:doctorId/edit" element={<EditDoctorProfile />} />
       {/* Added route for doctor profile */}
     </Routes>
   );

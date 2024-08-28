@@ -12,6 +12,7 @@ const DoctorSignup = () => {
     email: "",
     password: "",
     photo: "",
+    ticketPrice: "",
     specialization: "",
     qualifications: "",
     experiences: "",
@@ -265,6 +266,18 @@ const DoctorSignup = () => {
                 </select>
               </div>
 
+              <div className="mb-5">
+                <input
+                  type="text"
+                  placeholder="Enter Ticket Price (₦)"
+                  name="ticketPrice"
+                  value={formData.ticketPrice}
+                  onChange={handleInputChange}
+                  className="w-full px-2 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
+                  required
+                />
+              </div>
+
               <div className="mb-5 flex items-center gap-3">
                 <figure className="w-[60px] h-[60px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center">
                   <img
@@ -302,28 +315,29 @@ const DoctorSignup = () => {
                 </div>
               </div>
 
-              <div className="mb-5">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full py-3 bg-[#0066ff] text-white rounded-lg hover:bg-[#0050d4] disabled:opacity-50"
-                >
-                  {loading ? (
-                    <DotLoader color="#ffffff" size={20} />
-                  ) : (
-                    "Sign Up"
-                  )}
-                </button>
-              </div>
+              <button
+                type="submit"
+                className="w-full py-3 bg-primaryColor text-white text-[16px] leading-7 rounded-md"
+                disabled={loading}
+              >
+                {loading ? <DotLoader color="#ffffff" size={30} /> : "Register"}
+              </button>
 
-              <div className="text-center">
-                <p className="text-headingColor text-[16px] leading-7">
-                  Already have an account?{" "}
-                  <Link to="/doctorlogin" className="text-primaryColor">
-                    Login
-                  </Link>
-                </p>
-              </div>
+              {error && (
+                <div className="mt-4 text-red-500 text-[14px] leading-6">
+                  {error}
+                </div>
+              )}
+
+              <p className="mt-6 text-center text-headingColor text-[15px] leading-7">
+                Already have an account?{" "}
+                <Link
+                  to="/doctorlogin"
+                  className="text-primaryColor font-semibold"
+                >
+                  Login Here
+                </Link>
+              </p>
             </form>
           </div>
         </div>
