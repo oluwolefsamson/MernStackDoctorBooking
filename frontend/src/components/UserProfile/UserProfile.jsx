@@ -54,7 +54,7 @@ const UserPage = () => {
     );
 
   return (
-    <div className="relative lg:bg-black py-9 lg:py-11 flex flex-col justify-center items-center">
+    <div className="relative py-9 lg:py-11 flex flex-col justify-center items-center">
       {/* Logout Button */}
       <button
         onClick={() => setShowLogoutModal(true)}

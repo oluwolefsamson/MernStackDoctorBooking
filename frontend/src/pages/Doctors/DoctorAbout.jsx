@@ -39,11 +39,11 @@ const DoctorAbout = ({ doctor }) => {
                 {formateDate("10-03-2015")} - {formateDate("10-03-2017")}
               </span>
               <p className="text-[16px] leading-6 font-medium text-textColor">
-                PHD in Medicine
+                PHD in {doctor.specialization || "Not Provided"}
               </p>
             </div>
             <p className="text-[14px] leading-5 font-medium text-textColor">
-              General Hospital Tokyo
+              {doctor.hospital || "Not Provided"}
             </p>
           </li>
         </ul>
@@ -55,11 +55,11 @@ const DoctorAbout = ({ doctor }) => {
                 {formateDate("7-04-2010")} - {formateDate("7-04-2014")}
               </span>
               <p className="text-[15px] leading-6 font-medium text-textColor">
-                PHD in Surgeon
+                PHD in {doctor.specialization || "Not Provided"}
               </p>
             </div>
             <p className="text-[14px] leading-5 font-medium text-textColor">
-              General Hospital Tokyo
+              {doctor.hospital || "Not Provided"}
             </p>
           </li>
         </ul>
@@ -72,26 +72,28 @@ const DoctorAbout = ({ doctor }) => {
         <ul className="grid sm:grid-cols-2 gap-[30px] pt-4 md:p-5">
           <li className="p-4 rounded bg-[#fff9ea]">
             <span className="text-yellowColor text-[15px] leading-6 font-semibold">
-              {formateDate("07-04-2010")} - {formateDate("08-13-2014")}
+              {formateDate("07-04-2010") || "Not Provided"} -{" "}
+              {formateDate("08-13-2014") || "Not Provided"}
             </span>
             <p className="text-[15px] leading-6 font-medium text-textColor">
-              Sr. Surgeon
+              Sr. {doctor.specialization || "Not Provided"}
             </p>
 
             <p className="text-[14px] leading-5 font-medium text-textColor">
-              New General Hospital, Tokyo.
+              {doctor.hospital || "Not Provided"}
             </p>
           </li>
           <li className="p-4 rounded bg-[#fff9ea]">
             <span className="text-yellowColor text-[15px] leading-6 font-semibold">
-              {formateDate("07-04-2010")} - {formateDate("08-13-2014")}
+              {formateDate("07-04-2010") || "Not Provided"} -{" "}
+              {formateDate("08-13-2014") || "Not Provided"}
             </span>
             <p className="text-[15px] leading-6 font-medium text-textColor">
-              Sr. Surgeon
+              Sr. {doctor.specialization || "Not Provided"}
             </p>
 
             <p className="text-[14px] leading-5 font-medium text-textColor">
-              New General Hospital, Tokyo.
+              {doctor.hospital || "Not Provided"}
             </p>
           </li>
         </ul>

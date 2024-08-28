@@ -4,7 +4,6 @@ const DoctorSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   name: { type: String, required: true }, // Optional
-  phone: { type: Number }, // Optional
   photo: { type: String }, // Optional
   ticketPrice: { type: Number }, // Optional
   role: {
@@ -13,7 +12,6 @@ const DoctorSchema = new mongoose.Schema({
     default: "doctor",
   },
 
-  // Fields for doctors only
   specialization: { type: String }, // Optional
   qualifications: {
     type: Array,
@@ -41,15 +39,6 @@ const DoctorSchema = new mongoose.Schema({
     default: "pending",
   },
   appointments: [{ type: mongoose.Types.ObjectId, ref: "Appointment" }],
-
-  // New field for education
-  education: [
-    {
-      institution: { type: String, required: true },
-      startYear: { type: Number },
-      endYear: { type: Number },
-    },
-  ],
 });
 
 export default mongoose.model("Doctor", DoctorSchema);

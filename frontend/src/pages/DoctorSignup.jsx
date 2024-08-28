@@ -18,24 +18,17 @@ const DoctorSignup = () => {
     experiences: "",
     timeSlots: "",
     reviews: "",
-    gender: "male",
+    gender: "",
     role: "doctor",
-    education: [
-      {
-        institution: "",
-        startYear: "",
-        endYear: "",
-      },
-    ],
   });
 
   const [specializations] = useState([
     "Cardiologist",
     "Dermatologist",
     "Neurologist",
-  ]); // Example options
-  const [qualifications] = useState(["MBBS", "MD", "DNB"]); // Example options
-  const [experiences] = useState(["1 year", "3 years", "5 years"]); // Example options
+  ]);
+  const [qualifications] = useState(["MBBS", "MD", "DNB"]);
+  const [experiences] = useState(["1 year", "3 years", "5 years"]);
 
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -44,6 +37,34 @@ const DoctorSignup = () => {
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleEducationChange = (index, e) => {
+    const updatedEducation = formData.education.map((edu, eduIndex) => {
+      if (index === eduIndex) {
+        return { ...edu, [e.target.name]: e.target.value };
+      }
+      return edu;
+    });
+
+    setFormData({ ...formData, education: updatedEducation });
+  };
+
+  const addEducationField = () => {
+    setFormData({
+      ...formData,
+      education: [
+        ...formData.education,
+        { institution: "", course: "", year: "" },
+      ],
+    });
+  };
+
+  const removeEducationField = (index) => {
+    const updatedEducation = formData.education.filter(
+      (_, eduIndex) => index !== eduIndex
+    );
+    setFormData({ ...formData, education: updatedEducation });
   };
 
   const handleImageUpload = async (e) => {
@@ -237,7 +258,7 @@ const DoctorSignup = () => {
                   className="w-full px-2 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
                   required
                 >
-                  <option value="">Select Qualifications</option>
+                  <option value="">Select Qualification</option>
                   {qualifications.map((qual, index) => (
                     <option key={index} value={qual}>
                       {qual}
@@ -248,7 +269,7 @@ const DoctorSignup = () => {
 
               <div className="mb-5">
                 <label className="block text-headingColor text-[16px] leading-7 mb-2">
-                  Experience
+                  Experiences
                 </label>
                 <select
                   name="experiences"
@@ -269,13 +290,33 @@ const DoctorSignup = () => {
               <div className="mb-5">
                 <input
                   type="text"
-                  placeholder="Enter Ticket Price (₦)"
+                  placeholder="Enter Your Ticket Price"
                   name="ticketPrice"
                   value={formData.ticketPrice}
                   onChange={handleInputChange}
                   className="w-full px-2 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
                   required
                 />
+              </div>
+
+              <div className="mb-5">
+                <label className="block text-headingColor text-[16px] leading-7 mb-2">
+                  Gender
+                </label>
+                <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleInputChange}
+                  className="w-full px-2 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
+                  required
+                >
+                  <option value="" disabled>
+                    Select Gender
+                  </option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
               </div>
 
               <div className="mb-5 flex items-center gap-3">
@@ -315,27 +356,26 @@ const DoctorSignup = () => {
                 </div>
               </div>
 
-              <button
-                type="submit"
-                className="w-full py-3 bg-primaryColor text-white text-[16px] leading-7 rounded-md"
-                disabled={loading}
-              >
-                {loading ? <DotLoader color="#ffffff" size={30} /> : "Register"}
-              </button>
-
               {error && (
-                <div className="mt-4 text-red-500 text-[14px] leading-6">
-                  {error}
-                </div>
+                <div className="mb-4 text-red-500 text-sm">{error}</div>
               )}
 
-              <p className="mt-6 text-center text-headingColor text-[15px] leading-7">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-primaryColor py-3 rounded text-white text-[16px] leading-7 font-semibold cursor-pointer hover:bg-primaryHover transition duration-300"
+              >
+                {loading ? (
+                  <DotLoader size={24} color="#ffffff" />
+                ) : (
+                  "Create Account"
+                )}
+              </button>
+
+              <p className="mt-4 text-headingColor text-sm text-center">
                 Already have an account?{" "}
-                <Link
-                  to="/doctorlogin"
-                  className="text-primaryColor font-semibold"
-                >
-                  Login Here
+                <Link to="/doctorlogin" className="text-primaryColor">
+                  Log in here
                 </Link>
               </p>
             </form>

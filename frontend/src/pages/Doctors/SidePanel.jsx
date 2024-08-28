@@ -18,19 +18,19 @@ const SidePanel = ({ doctor }) => {
         <ul className="mt-3">
           <li className="flex items-center justify-between mb-2">
             <p className="text-[15px] leading-6 text-textColor font-semibold">
-              Sunday
+              Monday
             </p>
             <p className="text-[15px] leading-6 text-textColor font-semibold">
-              4:00 PM - 9:30 PM
+              9:00 PM - 4:00 PM
             </p>
           </li>
 
           <li className="flex items-center justify-between mb-2">
             <p className="text-[15px] leading-6 text-textColor font-semibold">
-              Monday
+              Tuesday
             </p>
             <p className="text-[15px] leading-6 text-textColor font-semibold">
-              4:00 PM - 9:30 PM
+              9:00 PM - 4:00 PM
             </p>
           </li>
 
@@ -39,7 +39,25 @@ const SidePanel = ({ doctor }) => {
               Wednesday
             </p>
             <p className="text-[15px] leading-6 text-textColor font-semibold">
-              4:00 PM - 9:30 PM
+              9:00 AM - 4:00 PM
+            </p>
+          </li>
+
+          <li className="flex items-center justify-between mb-2">
+            <p className="text-[15px] leading-6 text-textColor font-semibold">
+              Thursday
+            </p>
+            <p className="text-[15px] leading-6 text-textColor font-semibold">
+              9:00 AM - 4:00 PM
+            </p>
+          </li>
+
+          <li className="flex items-center justify-between mb-2">
+            <p className="text-[15px] leading-6 text-textColor font-semibold">
+              Friday
+            </p>
+            <p className="text-[15px] leading-6 text-textColor font-semibold">
+              9:00 AM - 2:00 PM
             </p>
           </li>
         </ul>
