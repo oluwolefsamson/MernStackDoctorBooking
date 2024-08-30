@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const EditDoctorProfile = () => {
   const { doctorId } = useParams();
@@ -13,13 +14,27 @@ const EditDoctorProfile = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      setError("Unauthorized");
+      setLoading(false);
+      return;
+    }
+
+    const decodedToken = jwtDecode(token);
+    if (decodedToken.id !== doctorId) {
+      setError("You are not authorized to edit this profile");
+      setLoading(false);
+      return;
+    }
+
     const fetchDoctorDetails = async () => {
       try {
         const response = await axios.get(
           `https://mernstackdoctorbooking.onrender.com/api/v1/doctors/${doctorId}`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -57,6 +72,7 @@ const EditDoctorProfile = () => {
           },
         }
       );
+      // Navigate to the doctor's profile page after successful update
       navigate(`/doctor/${doctorId}`);
     } catch (error) {
       setError("Failed to update doctor details");

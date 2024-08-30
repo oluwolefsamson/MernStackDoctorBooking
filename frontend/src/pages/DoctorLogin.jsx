@@ -65,7 +65,7 @@ const DoctorLogin = () => {
         // Ensure doctorId is not undefined
         if (doctorId) {
           // Navigate to the doctor's profile page
-          navigate(`/doctor/${doctorId}`, { replace: true });
+          navigate(`/doctorpage/${doctorId}`, { replace: true });
         } else {
           setError(
             "Login successful but doctor ID is missing. Please try again."

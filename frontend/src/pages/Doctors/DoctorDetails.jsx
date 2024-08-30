@@ -7,32 +7,8 @@ import Feedback from "./Feedback";
 import SidePanel from "./SidePanel";
 import Profile from "../../assets/images/profile.png";
 import { RingLoader } from "react-spinners";
+import Modal from "../../components/LogoutModal/LogoutModal"; // Import the Modal component
 import { jwtDecode } from "jwt-decode";
-
-// Modal Component
-const LogoutModal = ({ isOpen, onClose, onLogout }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
-      <div className="bg-white p-4 rounded shadow-lg">
-        <h3 className="text-lg font-semibold">Confirm Logout</h3>
-        <p className="mt-2">Are you sure you want to log out?</p>
-        <div className="mt-4 flex justify-end gap-4">
-          <button
-            onClick={onLogout}
-            className="bg-red-500 text-white py-2 px-4 rounded"
-          >
-            Logout
-          </button>
-          <button onClick={onClose} className="bg-gray-300 py-2 px-4 rounded">
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 // Main DoctorDetails Component
 const DoctorDetails = () => {
@@ -40,7 +16,6 @@ const DoctorDetails = () => {
   const [doctor, setDoctor] = useState(null);
   const [tab, setTab] = useState("about");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isOwner, setIsOwner] = useState(false); // State to track if the logged-in user is the owner
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -57,10 +32,8 @@ const DoctorDetails = () => {
 
         const decodedToken = jwtDecode(localStorage.getItem("authToken"));
         console.log(decodedToken); // Log the decoded token to check its structure
-        const loggedInUserId = decodedToken.id;
 
         setDoctor(response.data.data);
-        setIsOwner(response.data.data._id === loggedInUserId); // Check if logged-in user is the owner of the profile
       } catch (error) {
         console.error("Error fetching doctor profile:", error);
         navigate("/choose");
@@ -72,11 +45,8 @@ const DoctorDetails = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
-    navigate("/DoctorLogin");
+    navigate("/");
   };
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
 
   if (!doctor) {
     return (
@@ -91,22 +61,12 @@ const DoctorDetails = () => {
       <div className="max-w-[1170px] px-5 mx-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold">Doctor Details</h2>
-          <div className="flex gap-4">
-            {isOwner && ( // Conditionally render the Edit button if the user is the owner
-              <button
-                onClick={() => navigate(`/doctors/${doctorId}/edit`)}
-                className="bg-blue-500 text-white py-2 px-4 rounded"
-              >
-                Edit
-              </button>
-            )}
-            <button
-              onClick={openModal} // Open modal on button click
-              className="bg-red-500 text-white py-2 px-4 rounded"
-            >
-              Logout
-            </button>
-          </div>
+          <button
+            onClick={() => setIsModalOpen(true)} // Open modal on button click
+            className="bg-red-500 text-white py-2 px-4 rounded"
+          >
+            Logout
+          </button>
         </div>
         <div className="grid md:grid-cols-3 gap-[50px]">
           <div className="md:col-span-2">
@@ -173,11 +133,11 @@ const DoctorDetails = () => {
           </div>
         </div>
       </div>
-
-      <LogoutModal
+      {/* Modal Component */}
+      <Modal
         isOpen={isModalOpen}
-        onClose={closeModal}
-        onLogout={handleLogout}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleLogout}
       />
     </section>
   );

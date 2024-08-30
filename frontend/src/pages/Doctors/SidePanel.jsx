@@ -1,6 +1,30 @@
 import React from "react";
+import axios from "axios"; // Make sure axios is installed and imported
 
 const SidePanel = ({ doctor }) => {
+  const handleBooking = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/book",
+        {
+          doctorId: doctor._id,
+          ticketPrice: doctor.ticketPrice,
+          appointmentDate: new Date(), // Replace this with the actual date/time selected by the user
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming you're storing the token in localStorage
+          },
+        }
+      );
+
+      alert("Booking successful");
+    } catch (error) {
+      console.error("Booking failed:", error);
+      alert("Booking failed");
+    }
+  };
+
   return (
     <div className="shadow-panelShadow p-3 lg:p-5 rounded-md">
       <div className="flex items-center justify-between">
@@ -63,7 +87,9 @@ const SidePanel = ({ doctor }) => {
         </ul>
       </div>
 
-      <button className="btn px-2 w-full rounded-md">Book Appointment</button>
+      <button className="btn px-2 w-full rounded-md" onClick={handleBooking}>
+        Book Appointment
+      </button>
     </div>
   );
 };

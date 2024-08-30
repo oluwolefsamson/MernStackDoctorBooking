@@ -11,10 +11,14 @@
   },
   "dependencies": {
     "axios": "^1.7.2",
+    "class-variance-authority": "^0.7.0",
     "cloudinary": "^2.4.0",
     "cloudinary-core": "^2.13.1",
     "cloudinary-react": "^1.8.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.3.31",
     "jwt-decode": "^4.0.0",
+    "lucide-react": "^0.436.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-google-login": "^5.2.2",
@@ -23,7 +27,10 @@
     "react-spinners": "^0.14.1",
     "react-toastify": "^10.0.5",
     "swipe": "^1.7.7",
-    "swiper": "^11.1.4"
+    "swiper": "^11.1.4",
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss-animate": "^1.0.7",
+    "vite-plugin-alias": "^0.1.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
