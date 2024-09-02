@@ -9,6 +9,7 @@ import EditDoctorProfile from "../../components/EditDoctorProfile/EditDoctorProf
 const DoctorPage = () => {
   const { doctorId } = useParams();
   const [doctor, setDoctor] = useState(null);
+  const [appointments, setAppointments] = useState([]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,6 +22,7 @@ const DoctorPage = () => {
           `https://mernstackdoctorbooking.onrender.com/api/v1/doctors/${doctorId}`
         );
         setDoctor(response.data.data);
+        setAppointments(response.data.data.appointments); // Adjust if needed
         setLoading(false);
       } catch (error) {
         console.error("Error fetching doctor profile:", error);
@@ -99,87 +101,60 @@ const DoctorPage = () => {
               <div className="flex items-center justify-center gap-2 mt-1">
                 <span className="flex items-center gap-1 text-gray-700">
                   <img src={starIcon} alt="Rating" className="w-6 h-6" />
-                  {doctor.avgRating || "N/A"}
+                  {doctor.averageRating || "N/A"}
                 </span>
                 <span className="text-gray-500">
                   ({doctor.totalRating || "N/A"})
                 </span>
               </div>
               <p className="text-gray-600 mt-3">
-                Dr. {doctor.name} is a distinguished {doctor.specialization}
-                celebrated for his precision and expertise in{" "}
-                {doctor.specialization}. With a career spanning over{" "}
-                {doctor.experience} years, he has earned a stellar reputation
-                for his skillful hands and innovative techniques in the
-                operating room. Dr. {doctor.name}'s commitment to excellence and
-                patient safety is evident in his meticulous approach to
-                preoperative planning and postoperative care. His compassionate
-                and reassuring manner helps patients feel confident and
-                well-cared for throughout their journey. Recognized by his peers
-                and patients alike, Dr. {doctor.name} continues to advance the
-                field of {doctor.specialization} with his dedication to
-                continuous learning and improvement.
+                Dr. {doctor.name} is a highly skilled doctor with expertise in{" "}
+                {doctor.specialization || "Not Provided"}.
               </p>
-
-              {/* Additional Content */}
-              <div className="mt-11 mb-11 flex flex-wrap gap-6">
-                <div className="flex-1">
-                  <h4 className="text-xl font-semibold text-blue-600">
-                    Qualifications
-                  </h4>
-                  <ul className="list-disc list-inside text-gray-600 mt-2 pl-4">
-                    {doctor.qualifications?.map((qualification, index) => (
-                      <li key={index}>{qualification}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="flex-1">
-                  <h4 className="text-xl font-semibold text-blue-600">
-                    Experience
-                  </h4>
-                  <p className="text-gray-600 mt-2">
-                    {doctor.experiences || "Not Available"}
-                  </p>
-                </div>
-
-                <div className="flex-1">
-                  <h4 className="text-xl font-semibold text-blue-600">
-                    Patient Reviews
-                  </h4>
-                  <div className="space-y-4 mt-2">
-                    {doctor.reviews?.length ? (
-                      doctor.reviews.map((review, index) => (
-                        <div
-                          key={index}
-                          className="border rounded-lg p-4 bg-gray-50"
-                        >
-                          <p className="font-semibold text-gray-800">
-                            {review.author}
-                          </p>
-                          <p className="text-gray-600 mt-1">{review.comment}</p>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-gray-600">No reviews available.</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 flex gap-4 justify-center flex-wrap">
+              <p className="text-gray-600 mt-3">
+                {doctor.about || "Not Provided"}
+              </p>
+              <div className="mt-6 flex justify-center gap-4">
                 <button
                   onClick={handleEditProfile}
-                  className="bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-700 transition duration-200"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
                 >
                   Edit Profile
                 </button>
                 <button
                   onClick={handleDeleteProfile}
-                  className="bg-red-600 text-white py-2 px-4 rounded-lg shadow hover:bg-red-700 transition duration-200"
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
                 >
                   Delete Profile
                 </button>
+              </div>
+              <div className="mt-8">
+                <h4 className="text-xl font-semibold mb-4">Appointments</h4>
+                <ul className="space-y-4">
+                  {appointments.length > 0 ? (
+                    appointments.map((appointment) => (
+                      <li
+                        key={appointment._id}
+                        className="p-4 border border-gray-200 rounded-lg shadow-sm"
+                      >
+                        <p>
+                          <strong>Date:</strong>{" "}
+                          {new Date(
+                            appointment.appointmentDate
+                          ).toLocaleDateString()}
+                        </p>
+                        <p>
+                          <strong>Price:</strong> ${appointment.ticketPrice}
+                        </p>
+                        <p>
+                          <strong>Status:</strong> {appointment.status}
+                        </p>
+                      </li>
+                    ))
+                  ) : (
+                    <p>No appointments found.</p>
+                  )}
+                </ul>
               </div>
             </div>
           </div>

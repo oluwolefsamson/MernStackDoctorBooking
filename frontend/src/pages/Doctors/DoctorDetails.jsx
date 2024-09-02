@@ -87,10 +87,10 @@ const DoctorDetails = () => {
                 </h3>
                 <div className="flex items-center gap-[6px]">
                   <span className="flex items-center gap-[6px] text-[14px] leading-5 lg:text-[16px] lg:leading-7 font-semibold text-headingColor">
-                    <img src={starIcon} alt="" /> {doctor.avgRating || "N/A"}
+                    <img src={starIcon} alt="" /> {doctor.avgRating || 4.5}
                   </span>
                   <span className="text-[14px] leading-5 lg:text-[16px] lg:leading-7 font-[400] text-textColor">
-                    ({doctor.totalRating || "N/A"})
+                    ({doctor.totalRating || 576})
                   </span>
                 </div>
                 <p className="text-para text-[14px] leading-6 md:text-[15px] max-w-[390px]">

@@ -72,6 +72,7 @@ const EditDoctorProfile = () => {
           },
         }
       );
+      alert("Profile updated successfully");
       // Navigate to the doctor's profile page after successful update
       navigate(`/doctor/${doctorId}`);
     } catch (error) {

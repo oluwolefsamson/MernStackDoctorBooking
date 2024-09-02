@@ -31,7 +31,6 @@ const Routers = () => {
       <Route path="/doctorsignup" element={<DoctorSignup />} />
       <Route path="/choose" element={<ChoosePage />} />
       <Route path="/doctor/:doctorId" element={<DoctorDetails />} />
-      <Route path="/doctor/edit/:doctorId" element={<EditDoctorPage />} />
       <Route path="/doctorpage/:doctorId" element={<DoctorPage />} />{" "}
       {/* Ensure this is the exact path */}
     </Routes>

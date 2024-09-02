@@ -21,7 +21,7 @@ const DoctorCard = ({ doctor }) => {
       <div>
         <img
           src={photo || Profile}
-          className="w-full object-cover rounded"
+          className="w-full object-cover rounded "
           alt={name}
         />
       </div>
@@ -36,10 +36,10 @@ const DoctorCard = ({ doctor }) => {
         <div className="flex items-center gap-[6px]">
           <span className="flex items-center gap-[6px] text-[14px] leading-6 lg:text-[16px] lg:left-7 font-semibold text-headingColor">
             <img src={starIcon} alt="Star" />
-            {doctor.avgRating || "Not Provided"}
+            {doctor.avgRating || 4.5}
           </span>
           <span className="text-[14px] leading-6 lg:text-[16px] lg:leading-7 font-[400] text-textColor">
-            ({doctor.totalRating || 0})
+            ({doctor.totalRating || 576})
           </span>
         </div>
       </div>
@@ -47,10 +47,10 @@ const DoctorCard = ({ doctor }) => {
       <div className="mt-[18px] lg:mt-5 flex items-center justify-between">
         <div>
           <h3 className="text-[16px] leading-7 lg:text-[18px] lg:leading-[30px] font-semibold text-headingColor">
-            + {totalPatients || 0} Patients
+            + {totalPatients || 150} Patients
           </h3>
           <p className="text-[14px] leading-6 font-[400] text-textColor">
-            At {hospital || "General Hospital"}
+            At {hospital || "At General Hospital"}
           </p>
         </div>
 
