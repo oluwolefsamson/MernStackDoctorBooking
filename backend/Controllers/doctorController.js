@@ -109,3 +109,24 @@ export const getAllDoctor = async (req, res) => {
     });
   }
 };
+
+// Update doctor time slots
+export const updateTimeSlots = async (req, res) => {
+  const { doctorId } = req.params;
+  const { timeSlots } = req.body;
+
+  try {
+    const doctor = await Doctor.findByIdAndUpdate(
+      doctorId,
+      { timeSlots },
+      { new: true }
+    );
+    if (!doctor) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+    res.json(doctor);
+  } catch (error) {
+    console.error("Error updating time slots:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

@@ -18,6 +18,7 @@ const Layout = () => {
     "/doctorsignup",
     "/choose",
     "/doctorpage",
+    "/bookingform",
   ].some((path) => location.pathname.startsWith(path));
 
   console.log("Should hide Header/Footer:", shouldHideHeaderFooter);

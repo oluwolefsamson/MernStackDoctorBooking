@@ -134,7 +134,7 @@ const DoctorPage = () => {
                   {appointments.length > 0 ? (
                     appointments.map((appointment) => (
                       <li
-                        key={appointment._id}
+                        key={appointment._id} // Ensure _id is unique for each item
                         className="p-4 border border-gray-200 rounded-lg shadow-sm"
                       >
                         <p>
