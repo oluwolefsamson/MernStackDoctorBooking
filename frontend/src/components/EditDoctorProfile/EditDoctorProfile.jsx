@@ -74,7 +74,8 @@ const EditDoctorProfile = () => {
       );
       alert("Profile updated successfully");
       // Navigate to the doctor's profile page after successful update
-      navigate(`/doctor/${doctorId}`);
+      // navigate(`/doctor/${doctorId}`);
+      window.location.reload();
     } catch (error) {
       setError("Failed to update doctor details");
     }
