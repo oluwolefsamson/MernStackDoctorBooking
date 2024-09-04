@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import authRoute from "./routes/auth.js";
-import userRoute from "./routes/user.js";
-import doctorRoute from "./routes/doctor.js";
-import reviewRoute from "./routes/review.js";
+import authRoute from "./Routes/auth.js";
+import userRoute from "./Routes/user.js";
+import doctorRoute from "./Routes/doctor.js";
+import reviewRoute from "./Routes/review.js";
 import appointmentRoute from "./Routes/appointment.js";
 dotenv.config();
 
