@@ -31,7 +31,7 @@ const DoctorPage = () => {
 
         // Fetch appointments for the doctor
         const appointmentsResponse = await axios.get(
-          `http://localhost:8000/api/v1/appointments/doctor/${doctorId}`
+          `https://mernstackdoctorbooking.onrender.com/api/v1/appointments/doctor/${doctorId}`
         );
         setAppointments(appointmentsResponse.data.appointments || []); // Ensure appointments are set correctly
         setLoading(false);
@@ -63,11 +63,14 @@ const DoctorPage = () => {
     );
     if (confirmed) {
       try {
-        await axios.delete(`http://localhost:8000/api/v1/doctors/${doctorId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        });
+        await axios.delete(
+          `https://mernstackdoctorbooking.onrender.com/api/v1/doctors/${doctorId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+          }
+        );
         alert("Profile deleted successfully");
         navigate("/");
       } catch (error) {
