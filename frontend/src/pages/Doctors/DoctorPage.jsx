@@ -8,27 +8,36 @@ import EditDoctorProfile from "../../components/EditDoctorProfile/EditDoctorProf
 import Modal from "../../components/LogoutModal/LogoutModal"; // Import the Modal component
 
 const DoctorPage = () => {
+  // Extract doctorId from URL parameters
   const { doctorId } = useParams();
+  // State hooks
   const [doctor, setDoctor] = useState(null);
   const [appointments, setAppointments] = useState([]);
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate(); // Hook for navigation
 
+  // Fetch doctor profile and appointments data when component mounts or doctorId changes
   useEffect(() => {
     const fetchDoctorProfile = async () => {
       try {
-        const response = await axios.get(
+        // Fetch the doctor's profile
+        const doctorResponse = await axios.get(
           `https://mernstackdoctorbooking.onrender.com/api/v1/doctors/${doctorId}`
         );
-        setDoctor(response.data.data);
-        setAppointments(response.data.data.appointments); // Adjust if needed
+        setDoctor(doctorResponse.data.data);
+
+        // Fetch appointments for the doctor
+        const appointmentsResponse = await axios.get(
+          `http://localhost:8000/api/v1/appointments/doctor/${doctorId}`
+        );
+        setAppointments(appointmentsResponse.data.appointments || []); // Ensure appointments are set correctly
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching doctor profile:", error);
-        setError("Error fetching doctor profile");
+        console.error("Error fetching doctor profile or appointments:", error);
+        setError("Error fetching data");
         setLoading(false);
       }
     };
@@ -36,29 +45,29 @@ const DoctorPage = () => {
     fetchDoctorProfile();
   }, [doctorId]);
 
+  // Handle logout
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     navigate("/doctorLogin");
   };
 
+  // Toggle edit profile mode
   const handleEditProfile = () => {
     setIsEditing(true);
   };
 
+  // Handle profile deletion
   const handleDeleteProfile = async () => {
     const confirmed = window.confirm(
       "Are you sure you want to delete your profile? This action cannot be undone."
     );
     if (confirmed) {
       try {
-        await axios.delete(
-          `https://mernstackdoctorbooking.onrender.com/api/v1/doctors/${doctorId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-            },
-          }
-        );
+        await axios.delete(`http://localhost:8000/api/v1/doctors/${doctorId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        });
         alert("Profile deleted successfully");
         navigate("/");
       } catch (error) {
@@ -68,6 +77,7 @@ const DoctorPage = () => {
     }
   };
 
+  // Show loading spinner while data is being fetched
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -76,6 +86,7 @@ const DoctorPage = () => {
     );
   }
 
+  // Show error message if there is an error
   if (error) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -87,13 +98,14 @@ const DoctorPage = () => {
   return (
     <section className="bg-gray-100 min-h-screen flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-full sm:max-w-3xl lg:max-w-4xl w-full">
-        {" "}
+        {/* Button to open logout modal */}
         <button
           onClick={() => setIsModalOpen(true)} // Open modal on button click
           className="bg-red-500 text-white py-2 px-4 rounded"
         >
           Logout
         </button>
+        {/* Conditional rendering for edit mode */}
         {isEditing ? (
           <EditDoctorProfile doctor={doctor} />
         ) : (
@@ -101,32 +113,32 @@ const DoctorPage = () => {
             <figure className="mb-6">
               <img
                 src={doctor.photo || Profile}
-                alt={doctor.name || "Not Provided"}
+                alt={doctor?.name || "Not Provided"}
                 className="w-32 h-32 sm:w-48 sm:h-48 object-cover rounded-full shadow-md"
               />
             </figure>
             <div className="w-full">
               <span className="bg-blue-100 text-blue-600 py-1 px-4 text-xs font-semibold rounded-full">
-                {doctor.specialization || "Not Provided"}
+                {doctor?.specialization || "Not Provided"}
               </span>
               <h3 className="text-2xl sm:text-3xl font-bold text-blue-700 mt-3">
-                Dr. {doctor.name || "Not Provided"}
+                Dr. {doctor?.name || "Not Provided"}
               </h3>
               <div className="flex items-center justify-center gap-2 mt-1">
                 <span className="flex items-center gap-1 text-gray-700">
                   <img src={starIcon} alt="Rating" className="w-6 h-6" />
-                  {doctor.averageRating || "N/A"}
+                  {doctor?.averageRating || "N/A"}
                 </span>
                 <span className="text-gray-500">
-                  ({doctor.totalRating || "N/A"})
+                  ({doctor?.totalRating || "N/A"})
                 </span>
               </div>
               <p className="text-gray-600 mt-3">
-                Dr. {doctor.name} is a highly skilled doctor with expertise in{" "}
-                {doctor.specialization || "Not Provided"}.
+                Dr. {doctor?.name} is a highly skilled doctor with expertise in{" "}
+                {doctor?.specialization || "Not Provided"}.
               </p>
               <span className="text-[16px] leading-7 lg:text-[22px] lg:leading-8 text-headingColor font-bold">
-                Ticket Price: ₦{doctor.ticketPrice}
+                Ticket Price: ₦{doctor?.ticketPrice}
               </span>
               <div className="mt-6 flex justify-center gap-4">
                 <button
@@ -158,11 +170,11 @@ const DoctorPage = () => {
                             : new Date(appointment.date).toLocaleDateString()}
                         </p>
                         <p>
-                          <strong>Reason:</strong>
-                          {appointments.reason || "Not Provided"}
+                          <strong>Reason: </strong>
+                          {appointment.reason || "Not Provided"}
                         </p>
                         <p>
-                          <strong>Status:</strong>
+                          <strong>Status: </strong>
                           {appointment.status || "Not Provided"}
                         </p>
                       </li>
@@ -176,7 +188,7 @@ const DoctorPage = () => {
           </div>
         )}
       </div>
-      {/* Modal Component */}
+      {/* Modal Component for logout confirmation */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
