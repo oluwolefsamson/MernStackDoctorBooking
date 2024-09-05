@@ -75,8 +75,8 @@ const AppointmentForm = ({ doctor }) => {
 
   return (
     <div className="p-4 bg-white shadow-md rounded-lg max-w-sm mx-auto">
-      <h2 className="text-xl font-semibold text-center mb-4 text-blue-600">
-        Book an Appointment with {doctor?.name || "Dr. Samson"}
+      <h2 className="text-xl font-semibold text-center mb-4  text-blue-600">
+        Book an Appointment with Dr. {doctor.name || "Dr. Samson"}
       </h2>
 
       <div className="mb-3">

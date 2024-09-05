@@ -10,6 +10,12 @@ const createAppointment = async (
   reason
 ) => {
   try {
+    // Ensure the doctor exists
+    const doctorExists = await Doctor.findById(doctorId);
+    if (!doctorExists) {
+      throw new Error("Doctor not found");
+    }
+
     const appointment = new Appointment({
       patient: patientId,
       doctor: doctorId,
@@ -20,6 +26,7 @@ const createAppointment = async (
 
     const savedAppointment = await appointment.save();
 
+    // Add appointment reference to the doctor's appointments array
     await Doctor.findByIdAndUpdate(doctorId, {
       $push: { appointments: savedAppointment._id },
     });
@@ -34,8 +41,16 @@ const createAppointment = async (
 export const bookAppointment = async (req, res) => {
   try {
     const { doctorId, date, timeSlot, reason } = req.body;
+
+    if (!doctorId || !date || !timeSlot) {
+      return res
+        .status(400)
+        .json({ message: "Doctor ID, date, and time slot are required" });
+    }
+
     const patientId = req.userId; // Assuming you have the logged-in patient's ID
 
+    // Create appointment
     const appointment = await createAppointment(
       patientId,
       doctorId,
@@ -49,7 +64,8 @@ export const bookAppointment = async (req, res) => {
       appointment,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Error booking appointment:", error); // Log the error
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -59,6 +75,11 @@ export const getDoctorWithAppointments = async (doctorId) => {
     const doctor = await Doctor.findById(doctorId)
       .populate("appointments")
       .exec();
+
+    if (!doctor) {
+      throw new Error("Doctor not found");
+    }
+
     return doctor;
   } catch (error) {
     throw error;

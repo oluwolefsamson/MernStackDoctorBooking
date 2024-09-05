@@ -5,7 +5,7 @@ const Modal = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75">
+    <div className="fixed inset-0 flex items-center justify-center z-50  bg-gray-800 bg-opacity-75">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
         <h3 className="text-lg font-semibold mb-4">Logout Confirmation</h3>
         <p className="mb-4">Are you sure you want to logout?</p>

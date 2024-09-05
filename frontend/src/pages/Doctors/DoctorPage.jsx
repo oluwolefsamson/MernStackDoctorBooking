@@ -5,6 +5,7 @@ import starIcon from "../../assets/images/Star.png";
 import Profile from "../../assets/images/profile.png";
 import { RingLoader } from "react-spinners";
 import EditDoctorProfile from "../../components/EditDoctorProfile/EditDoctorProfile";
+import Modal from "../../components/LogoutModal/LogoutModal"; // Import the Modal component
 
 const DoctorPage = () => {
   const { doctorId } = useParams();
@@ -14,6 +15,7 @@ const DoctorPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchDoctorProfile = async () => {
@@ -33,6 +35,11 @@ const DoctorPage = () => {
 
     fetchDoctorProfile();
   }, [doctorId]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    navigate("/doctorLogin");
+  };
 
   const handleEditProfile = () => {
     setIsEditing(true);
@@ -80,6 +87,13 @@ const DoctorPage = () => {
   return (
     <section className="bg-gray-100 min-h-screen flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-full sm:max-w-3xl lg:max-w-4xl w-full">
+        {" "}
+        <button
+          onClick={() => setIsModalOpen(true)} // Open modal on button click
+          className="bg-red-500 text-white py-2 px-4 rounded"
+        >
+          Logout
+        </button>
         {isEditing ? (
           <EditDoctorProfile doctor={doctor} />
         ) : (
@@ -111,9 +125,9 @@ const DoctorPage = () => {
                 Dr. {doctor.name} is a highly skilled doctor with expertise in{" "}
                 {doctor.specialization || "Not Provided"}.
               </p>
-              <p className="text-gray-600 mt-3">
-                {doctor.about || "Not Provided"}
-              </p>
+              <span className="text-[16px] leading-7 lg:text-[22px] lg:leading-8 text-headingColor font-bold">
+                Ticket Price: ₦{doctor.ticketPrice}
+              </span>
               <div className="mt-6 flex justify-center gap-4">
                 <button
                   onClick={handleEditProfile}
@@ -139,15 +153,17 @@ const DoctorPage = () => {
                       >
                         <p>
                           <strong>Date:</strong>{" "}
-                          {new Date(
-                            appointment.appointmentDate
-                          ).toLocaleDateString()}
+                          {isNaN(new Date(appointment.date))
+                            ? "Invalid Date"
+                            : new Date(appointment.date).toLocaleDateString()}
                         </p>
                         <p>
-                          <strong>Price:</strong> ${appointment.ticketPrice}
+                          <strong>Reason:</strong>
+                          {appointments.reason || "Not Provided"}
                         </p>
                         <p>
-                          <strong>Status:</strong> {appointment.status}
+                          <strong>Status:</strong>
+                          {appointment.status || "Not Provided"}
                         </p>
                       </li>
                     ))
@@ -160,6 +176,12 @@ const DoctorPage = () => {
           </div>
         )}
       </div>
+      {/* Modal Component */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleLogout}
+      />
     </section>
   );
 };

@@ -73,8 +73,6 @@ const EditDoctorProfile = () => {
         }
       );
       alert("Profile updated successfully");
-      // Navigate to the doctor's profile page after successful update
-      // navigate(`/doctor/${doctorId}`);
       window.location.reload();
     } catch (error) {
       setError("Failed to update doctor details");
@@ -127,7 +125,6 @@ const EditDoctorProfile = () => {
             </button>
             <button
               type="button"
-              onClick={() => navigate(`/doctor/${doctorId}`)}
               className="bg-gray-500 text-white py-2 px-4 rounded"
             >
               Cancel
