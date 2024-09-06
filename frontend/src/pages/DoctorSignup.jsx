@@ -18,7 +18,7 @@ const DoctorSignup = () => {
     experiences: "",
     timeSlots: "",
     reviews: "",
-    gender: "",
+    gender: "male",
     role: "doctor",
   });
 

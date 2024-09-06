@@ -5,6 +5,8 @@ const DoctorSchema = new mongoose.Schema({
   password: { type: String, required: true },
   name: { type: String, required: true },
   photo: { type: String },
+  phone: { type: Number },
+
   ticketPrice: { type: Number },
   role: {
     type: String,
@@ -15,6 +17,10 @@ const DoctorSchema = new mongoose.Schema({
   qualifications: { type: Array, default: [] },
   experiences: { type: Array, default: [] },
   bio: { type: String, maxLength: 50 },
+  gender: {
+    type: String,
+    enum: ["male", "female", "other"],
+  },
   about: { type: String },
   timeSlots: { type: Array, default: [] },
   reviews: [{ type: mongoose.Types.ObjectId, ref: "Review" }],

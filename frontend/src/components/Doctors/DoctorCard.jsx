@@ -21,7 +21,11 @@ const DoctorCard = ({ doctor }) => {
       <div>
         <img
           src={photo || Profile}
-          className="w-full object-cover rounded "
+          className="w-full object-cover rounded bg-blue-500"
+          style={{
+            minHeight: "400px",
+            maxHeight: "400px",
+          }}
           alt={name}
         />
       </div>

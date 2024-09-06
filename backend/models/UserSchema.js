@@ -8,15 +8,16 @@ const UserSchema = new mongoose.Schema(
     photo: { type: String, default: "" },
     role: {
       type: String,
-      enum: ["patient", "admin"],
+      enum: ["patient"],
       default: "patient",
     },
+    address: { type: String },
+    phone: { type: String },
     gender: {
       type: String,
       enum: ["male", "female", "other"],
-      default: "other", // Set a default value if it's not required
     },
-    phone: { type: String }, // Optional field for phone numbers
+
     appointments: [{ type: mongoose.Types.ObjectId, ref: "Appointment" }],
   },
   { timestamps: true } // Automatically manages createdAt and updatedAt fields

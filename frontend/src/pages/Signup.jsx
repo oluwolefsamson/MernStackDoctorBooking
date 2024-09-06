@@ -12,8 +12,10 @@ const Signup = () => {
     email: "",
     password: "",
     photo: "", // This will store the Cloudinary image URL
-    gender: "male",
+    gender: "",
     role: "patient", // Default role set to 'patient'
+    address: "",
+    phone: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -44,7 +46,6 @@ const Signup = () => {
         }/image/upload`,
         formData
       );
-
       setFormData((prevFormData) => ({
         ...prevFormData,
         photo: response.data.secure_url,
@@ -82,7 +83,7 @@ const Signup = () => {
         formData,
         {
           headers: {
-            "Content-Type": "application/json", // Ensure this header is set
+            "Content-Type": "application/json",
           },
         }
       );
@@ -96,8 +97,7 @@ const Signup = () => {
         if (error.response.status === 409) {
           navigate("/login");
         } else if (error.response.status === 400) {
-          alert("User already exists. Please log in.");
-          setError(error.response.data.message); // Display the specific error message
+          setError("User already exists. Please log in.");
         } else {
           setError("An error occurred. Please try again later.");
         }
@@ -157,6 +157,19 @@ const Signup = () => {
 
               <div className="mb-5">
                 <input
+                  type="text"
+                  placeholder="Enter Your Phone Number"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className="w-full px-2 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
+                  required
+                  autoComplete="phone"
+                />
+              </div>
+
+              <div className="mb-5">
+                <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter Your Password"
                   name="password"
@@ -200,7 +213,6 @@ const Signup = () => {
                     accept=".jpg, .png"
                     onChange={handleImageUpload}
                     className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-                    required
                   />
 
                   <label
@@ -242,18 +254,19 @@ const Signup = () => {
 
               <button
                 type="submit"
-                className="w-full px-4 py-2 bg-primaryColor text-white text-[15px] leading-7 font-semibold rounded-lg"
+                className="w-full px-4 py-2 bg-primaryColor text-white rounded-lg hover:bg-primaryColorDark transition"
+                disabled={loading}
               >
-                {loading ? <DotLoader size={25} color="white" /> : "Sign Up"}
+                {loading ? <DotLoader size={20} color="white" /> : "Sign Up"}
               </button>
-            </form>
 
-            <p className="mt-5 text-headingColor text-[15px] leading-7">
-              Already have an account?{" "}
-              <Link to="/login" className="text-primaryColor font-semibold">
-                Login
-              </Link>
-            </p>
+              <p className="mt-5 text-headingColor text-[15px]">
+                Already have an account?{" "}
+                <Link to="/login" className="text-primaryColor">
+                  Login
+                </Link>
+              </p>
+            </form>
           </div>
         </div>
       </div>

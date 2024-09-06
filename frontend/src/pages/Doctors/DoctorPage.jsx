@@ -113,10 +113,10 @@ const DoctorPage = () => {
           <EditDoctorProfile doctor={doctor} />
         ) : (
           <div className="flex flex-col items-center text-center gap-6">
-            <figure className="mb-6">
+            <figure className="">
               <img
                 src={doctor.photo || Profile}
-                alt={doctor?.name || "Not Provided"}
+                alt={doctor.name || "Not Provided"}
                 className="w-32 h-32 sm:w-48 sm:h-48 object-cover rounded-full shadow-md"
               />
             </figure>
@@ -130,17 +130,21 @@ const DoctorPage = () => {
               <div className="flex items-center justify-center gap-2 mt-1">
                 <span className="flex items-center gap-1 text-gray-700">
                   <img src={starIcon} alt="Rating" className="w-6 h-6" />
-                  {doctor?.averageRating || "N/A"}
+                  {doctor?.averageRating || "5.4"}
                 </span>
                 <span className="text-gray-500">
-                  ({doctor?.totalRating || "N/A"})
+                  ({doctor?.totalRating || "576"})
                 </span>
               </div>
-              <p className="text-gray-600 mt-3">
-                Dr. {doctor?.name} is a highly skilled doctor with expertise in{" "}
-                {doctor?.specialization || "Not Provided"}.
+              <p className="text-gray-600 mt-3 mb-3">
+                Dr. {doctor.name} is a distinguished {doctor.specialization},
+                celebrated for their precision and expertise in performing
+                complex {doctor.specialization} procedures. Their commitment to
+                delivering exceptional patient care, combined with their deep
+                knowledge and experience, has earned them widespread recognition
+                in the medical community.
               </p>
-              <span className="text-[16px] leading-7 lg:text-[22px] lg:leading-8 text-headingColor font-bold">
+              <span className="text-[16px]  leading-7 lg:text-[22px] lg:leading-8 text-headingColor font-bold">
                 Ticket Price: ₦{doctor?.ticketPrice}
               </span>
               <div className="mt-6 flex justify-center gap-4">
