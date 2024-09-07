@@ -14,7 +14,7 @@ const AppointmentsList = ({ appointments: initialAppointments }) => {
       setLoading(true); // Show loading while request is being processed
 
       const response = await axios.patch(
-        `https://mernstackdoctorbooking.onrender.com/api/v1/appointments/${appointmentId}/status`,
+        `http://localhost:8000/api/v1/appointments/${appointmentId}/status`,
         { status },
         { headers: { "Content-Type": "application/json" } }
       );
