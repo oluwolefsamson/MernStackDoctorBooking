@@ -18,7 +18,7 @@ const corsOptions = {
     "https://mern-stack-doctor-booking.vercel.app",
     "http://localhost:5173",
   ],
-  methods: ["POST", "OPTIONS", "GET", "PUT", "DELETE"],
+  methods: ["POST", "OPTIONS", "GET", "PUT", "DELETE", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
 };

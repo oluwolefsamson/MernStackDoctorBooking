@@ -2,6 +2,7 @@ import express from "express";
 import {
   bookAppointment,
   getDoctorWithAppointments,
+  updateAppointmentStatus,
 } from "../Controllers/appointmentController.js";
 import { authenticate, restrict } from "../auth/verifyToken.js";
 
@@ -9,6 +10,9 @@ const router = express.Router();
 
 // Route to book an appointment
 router.post("/book", authenticate, bookAppointment);
+
+// // Route to change appointment status
+router.patch("/:appointmentId/status", updateAppointmentStatus);
 
 // Route to get a doctor with their appointments
 router.get("/doctor/:id", async (req, res) => {

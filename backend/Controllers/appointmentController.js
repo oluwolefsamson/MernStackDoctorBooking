@@ -33,6 +33,7 @@ const createAppointment = async (
 
     return savedAppointment;
   } catch (error) {
+    console.error("Error creating appointment:", error.message);
     throw error;
   }
 };
@@ -64,7 +65,7 @@ export const bookAppointment = async (req, res) => {
       appointment,
     });
   } catch (error) {
-    console.error("Error booking appointment:", error); // Log the error
+    console.error("Error booking appointment:", error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -82,6 +83,40 @@ export const getDoctorWithAppointments = async (doctorId) => {
 
     return doctor;
   } catch (error) {
+    console.error("Error fetching doctor with appointments:", error.message);
     throw error;
+  }
+};
+
+// Function to update appointment status
+export const updateAppointmentStatus = async (req, res) => {
+  try {
+    const { appointmentId } = req.params;
+    const { status } = req.body;
+
+    // Validate status
+    const validStatuses = ["pending", "confirmed", "cancelled"];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ message: "Invalid appointment status" });
+    }
+
+    // Update appointment
+    const appointment = await Appointment.findByIdAndUpdate(
+      appointmentId,
+      { status },
+      { new: true } // Return updated document
+    );
+
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment status not found" });
+    }
+
+    res.status(200).json({
+      message: `Appointment ${status} successfully`,
+      appointment,
+    });
+  } catch (error) {
+    console.error("Error updating appointment status:", error.message);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
