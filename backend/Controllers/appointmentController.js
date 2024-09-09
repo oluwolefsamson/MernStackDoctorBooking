@@ -3,6 +3,7 @@ import Doctor from "../models/DoctorSchema.js";
 
 // Function to create an appointment
 const createAppointment = async (
+  name,
   patientId,
   doctorId,
   date,
@@ -17,6 +18,7 @@ const createAppointment = async (
     }
 
     const appointment = new Appointment({
+      name,
       patient: patientId,
       doctor: doctorId,
       date,
@@ -41,7 +43,7 @@ const createAppointment = async (
 // Controller function to handle appointment booking
 export const bookAppointment = async (req, res) => {
   try {
-    const { doctorId, date, timeSlot, reason } = req.body;
+    const { name, doctorId, date, timeSlot, reason } = req.body;
 
     if (!doctorId || !date || !timeSlot) {
       return res
@@ -53,6 +55,7 @@ export const bookAppointment = async (req, res) => {
 
     // Create appointment
     const appointment = await createAppointment(
+      name,
       patientId,
       doctorId,
       date,

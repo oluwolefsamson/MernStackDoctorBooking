@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { DotLoader } from "react-spinners";
 import { jwtDecode } from "jwt-decode"; // Use default import for jwt-decode
 
 const AppointmentForm = ({ doctor }) => {
@@ -10,6 +11,8 @@ const AppointmentForm = ({ doctor }) => {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [reason, setReason] = useState("");
+  const [name, setName] = useState(""); // New state for name
+  const [loading, setLoading] = useState(false); // New state for loading
 
   const token = localStorage.getItem("authToken");
   let userRole = null;
@@ -33,21 +36,27 @@ const AppointmentForm = ({ doctor }) => {
         throw new Error("Doctor information is missing.");
       }
 
+      if (!name) {
+        throw new Error("Please enter your name.");
+      }
+
       // Use a static date for testing
       const staticDate = new Date("2024-09-15T09:00:00Z").toISOString(); // Example static date in ISO format
 
       // Prepare the data to be sent
       const appointmentData = {
+        name, // Include the patient's name
         doctorId: doctor._id,
         date: staticDate, // Use static date here
         timeSlot: selectedSlot,
         reason,
       };
 
+      setLoading(true); // Set loading to true when starting the request
       console.log("Sending request with data:", appointmentData); // Debugging line
 
       const response = await axios.post(
-        `https://mernstackdoctorbooking.onrender.com/api/v1/appointments/book`,
+        "https://mernstackdoctorbooking.onrender.com/api/v1/appointments/book",
         appointmentData,
         {
           headers: {
@@ -60,7 +69,6 @@ const AppointmentForm = ({ doctor }) => {
       setSuccessMessage("Booking successful!");
       alert("Booking successful!");
       setError(null);
-
       // Refresh the page
       window.location.reload();
     } catch (error) {
@@ -70,15 +78,30 @@ const AppointmentForm = ({ doctor }) => {
       ); // Detailed error logging
       setError("Booking failed. Please try again later.");
       setSuccessMessage("");
+    } finally {
+      setLoading(false); // Set loading to false after the request is completed
     }
   };
 
   return (
     <div className="p-4 bg-white shadow-md rounded-lg max-w-sm mx-auto">
-      <h2 className="text-xl font-semibold text-center mb-4  text-blue-600">
+      <h2 className="text-xl font-semibold text-center mb-4 text-blue-600">
         Book an Appointment with Dr. {doctor.name || "Dr. Samson"}
       </h2>
 
+      {/* Name input */}
+      <div className="mb-3">
+        <input
+          type="text"
+          placeholder="Enter Your Full Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full px-3 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
+          autoComplete="name"
+        />
+      </div>
+
+      {/* Appointment Date */}
       <div className="mb-3">
         <label className="block text-gray-700 font-medium mb-1">
           Select Appointment Date
@@ -87,14 +110,12 @@ const AppointmentForm = ({ doctor }) => {
           selected={appointmentDate}
           onChange={(date) => setAppointmentDate(date)}
           className="w-full px-3 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50"
-          dateFormat=" yyyy-MMMM-d"
+          dateFormat="yyyy-MMMM-d"
         />
       </div>
 
+      {/* Reason for Appointment */}
       <div className="mb-3">
-        <label className="block text-gray-700 font-medium mb-1">
-          Reason for Appointment
-        </label>
         <textarea
           value={reason}
           onChange={(e) => setReason(e.target.value)}
@@ -104,6 +125,7 @@ const AppointmentForm = ({ doctor }) => {
         />
       </div>
 
+      {/* Available Time Slots */}
       <div className="mb-3">
         <label className="block text-gray-700 font-medium mb-1">
           Available Time Slots
@@ -132,21 +154,31 @@ const AppointmentForm = ({ doctor }) => {
         </div>
       </div>
 
+      {/* Error and Success Messages */}
       {error && <p className="text-red-500 mb-3 text-center">{error}</p>}
       {successMessage && (
         <p className="text-green-500 mb-3 text-center">{successMessage}</p>
       )}
 
+      {/* Submit Button */}
       <button
         onClick={handleBooking}
         className={`w-full py-2 font-medium text-white rounded-md transition-colors ${
-          userRole === "doctor" || !selectedSlot || !reason
+          userRole === "doctor" || !selectedSlot || !reason || !name || loading
             ? "bg-gray-400 cursor-not-allowed"
             : "bg-blue-600 hover:bg-blue-700"
         }`}
-        disabled={userRole === "doctor" || !selectedSlot || !reason}
+        disabled={
+          userRole === "doctor" || !selectedSlot || !reason || !name || loading
+        } // Disable button when loading
       >
-        {userRole === "doctor" ? "Booking Disabled" : "Book Appointment"}
+        {loading ? (
+          <DotLoader size={25} color="white" />
+        ) : userRole === "doctor" ? (
+          "Booking Disabled"
+        ) : (
+          "Book Appointment"
+        )}
       </button>
     </div>
   );

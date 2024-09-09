@@ -82,18 +82,30 @@ const AppointmentsList = ({ appointments: initialAppointments }) => {
                 onClick={() => handleOpenModal(appointment)} // Open the modal when clicked
                 className="w-full text-left"
               >
+                {" "}
                 <p>
-                  <strong>Date:</strong>{" "}
+                  <strong className="text-blue-500 font-black">Name: </strong>{" "}
+                  {appointment.name || "Not Provided"}
+                </p>
+                <p>
+                  <strong className="text-blue-500 font-black">Date:</strong>{" "}
                   {isNaN(new Date(appointment.date))
                     ? "Invalid Date"
                     : new Date(appointment.date).toLocaleDateString()}
+                </p>{" "}
+                <p>
+                  <strong className="text-blue-500 font-black">
+                    TimeSlot:{" "}
+                  </strong>{" "}
+                  {appointment.timeSlot || "No time slot available"}
                 </p>
                 <p>
-                  <strong>Reason: </strong>{" "}
+                  <strong className="text-blue-500 font-black">Reason: </strong>{" "}
                   {appointment.reason || "Not Provided"}
                 </p>
                 <p>
-                  <strong>Status: </strong> {appointment.status || "Pending"}
+                  <strong className="text-blue-500 font-black">Status: </strong>{" "}
+                  {appointment.status || "Pending"}
                 </p>
               </button>
             </li>

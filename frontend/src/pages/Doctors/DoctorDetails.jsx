@@ -60,7 +60,7 @@ const DoctorDetails = () => {
     <section>
       <div className="max-w-[1170px] px-5 mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">Doctor Details</h2>
+          <h2 className="text-2xl font-bold">Doctor {doctor.name} Details</h2>
           <button
             onClick={() => setIsModalOpen(true)} // Open modal on button click
             className="bg-red-500 text-white py-2 px-4 rounded"
@@ -75,7 +75,7 @@ const DoctorDetails = () => {
                 <img
                   src={doctor.photo || Profile}
                   alt={doctor.name || "Not Provided"}
-                  className="w-full"
+                  className="w-full bg-blue-300"
                 />
               </figure>
               <div>

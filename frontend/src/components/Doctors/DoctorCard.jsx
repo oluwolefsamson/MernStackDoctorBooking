@@ -23,8 +23,7 @@ const DoctorCard = ({ doctor }) => {
           src={photo || Profile}
           className="w-full object-cover rounded bg-blue-500"
           style={{
-            minHeight: "400px",
-            Height: "200px",
+            height: "360px",
           }}
           alt={name}
         />
@@ -54,7 +53,7 @@ const DoctorCard = ({ doctor }) => {
             + {totalPatients || 150} Patients
           </h3>
           <p className="text-[14px] leading-6 font-[400] text-textColor">
-            At {hospital || "At General Hospital"}
+            At {hospital || " General Hospital"}
           </p>
         </div>
 
