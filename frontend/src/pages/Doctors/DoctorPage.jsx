@@ -114,7 +114,7 @@ const DoctorPage = () => {
                 {doctor?.specialization || "Not Provided"}
               </span>
               <h3 className="text-2xl sm:text-3xl font-bold text-blue-700 mt-3">
-                Dr. {doctor?.name || "Not Provided"}
+                Dr. {doctor.name || "Not Provided"}
               </h3>
               <div className="flex items-center justify-center gap-2 mt-1">
                 <span className="flex items-center gap-1 text-gray-700">

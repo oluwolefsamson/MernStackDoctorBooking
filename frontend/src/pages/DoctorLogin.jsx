@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { DotLoader } from "react-spinners";
 import axios from "axios";
-import earth from "../assets/images/earth.jpg";
+import loginImg from "../assets/images/login.jpg";
 
 const DoctorLogin = () => {
   const navigate = useNavigate();
@@ -89,7 +89,7 @@ const DoctorLogin = () => {
     <section
       className="flex items-center justify-center px-5 lg:px-0 min-h-screen"
       style={{
-        backgroundImage: `url(${earth})`,
+        backgroundImage: `url(${loginImg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

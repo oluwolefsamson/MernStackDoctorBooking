@@ -79,7 +79,7 @@ const DoctorDetails = () => {
                 />
               </figure>
               <div>
-                <span className="bg-[#ccf0f3] text-irisBlueColor py-1 px-6 lg:py-2 lg:px-6 text-[12px] leading-4 lg:text-[16px] lg:leading-7 font-semibold rounded">
+                <span className="bg-[#ccf0f3] text-irisBlueColor py-1 px-6 mt-11 lg:py-2 lg:px-6 text-[12px] leading-4 lg:text-[16px] lg:leading-7 font-semibold rounded">
                   {doctor.specialization || "Not Provided"}
                 </span>
                 <h3 className="text-headingColor text-[22px] leading-9 mt-3 font-bold">

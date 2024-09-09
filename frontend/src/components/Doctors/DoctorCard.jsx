@@ -24,7 +24,7 @@ const DoctorCard = ({ doctor }) => {
           className="w-full object-cover rounded bg-blue-500"
           style={{
             minHeight: "400px",
-            maxHeight: "400px",
+            Height: "200px",
           }}
           alt={name}
         />
