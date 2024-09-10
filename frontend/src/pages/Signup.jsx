@@ -14,7 +14,7 @@ const Signup = () => {
     photo: "", // This will store the Cloudinary image URL
     gender: "",
     role: "patient", // Default role set to 'patient'
-    address: "",
+    address: "", // Add this line
     phone: "",
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -66,7 +66,10 @@ const Signup = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    console.log("Submitting form data:", formData); // Log form data
+    console.log(formData); // Add this line to see the complete data
+
+    setLoading(true);
+    setError(""); // Clear any previous errors
 
     if (!isValidPassword(formData.password)) {
       setLoading(false);
@@ -76,13 +79,15 @@ const Signup = () => {
       return;
     }
 
-    setLoading(true);
-    setError(""); // Clear previous errors
-
     try {
       const response = await axios.post(
         `https://mernstackdoctorbooking.onrender.com/api/v1/auth/register`,
-        formData // Automatically sets Content-Type to multipart/form-data
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
 
       if (response.status === 201) {
@@ -138,7 +143,6 @@ const Signup = () => {
                   autoComplete="name"
                 />
               </div>
-
               <div className="mb-5">
                 <input
                   type="email"
@@ -151,10 +155,9 @@ const Signup = () => {
                   autoComplete="email"
                 />
               </div>
-
               <div className="mb-5">
                 <input
-                  type="tel"
+                  type="phone"
                   placeholder="Enter Your Phone Number"
                   name="phone"
                   value={formData.phone}
@@ -164,7 +167,18 @@ const Signup = () => {
                   autoComplete="phone"
                 />
               </div>
-
+              <div className="mb-5">
+                <input
+                  type="text"
+                  placeholder="Enter Your Address"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  className="w-full px-2 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
+                  required
+                  autoComplete="address"
+                />
+              </div>
               <div className="mb-5">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -192,7 +206,6 @@ const Signup = () => {
                   </label>
                 </div>
               </div>
-
               <div className="mb-5 flex items-center gap-3">
                 <figure className="w-[60px] h-[60px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center">
                   <img
@@ -227,8 +240,7 @@ const Signup = () => {
                     )}
                   </label>
                 </div>
-              </div>
-
+              </div>{" "}
               <div className="mb-5 flex items-center justify-between">
                 <label className="text-headingColor font-bold text-[16px] leading-7">
                   Gender:
@@ -238,32 +250,40 @@ const Signup = () => {
                     onChange={handleInputChange}
                     className="text-textColor font-semibold text-[15px] leading-7 px-4 py-3 focus:outline-none"
                   >
+                    {" "}
+                    <option value="">Select Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
                   </select>
                 </label>
               </div>
-
               {error && (
-                <div className="mb-5 text-red-600 font-semibold">{error}</div>
+                <div className="mb-5 text-red-600 text-[16px]">{error}</div>
               )}
+              <div className="mb-5">
+                <button
+                  type="submit"
+                  className="w-full py-3 bg-primaryColor text-white text-[16px] leading-7 rounded-lg"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <HashLoader size={20} color="#ffffff" />
+                  ) : (
+                    "Create Account"
+                  )}
+                </button>
+              </div>
+            </form>
 
-              <button
-                type="submit"
-                className="w-full px-4 py-2 bg-primaryColor text-white rounded-lg hover:bg-primaryColorDark transition"
-                disabled={loading}
-              >
-                {loading ? <DotLoader size={20} color="white" /> : "Sign Up"}
-              </button>
-
-              <p className="mt-5 text-headingColor text-[15px]">
+            <div className="mt-8">
+              <p className="text-[15px] leading-7 text-headingColor">
                 Already have an account?{" "}
                 <Link to="/login" className="text-primaryColor">
-                  Login
+                  Login here
                 </Link>
               </p>
-            </form>
+            </div>
           </div>
         </div>
       </div>

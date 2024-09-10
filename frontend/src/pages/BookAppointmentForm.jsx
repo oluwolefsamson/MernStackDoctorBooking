@@ -40,14 +40,22 @@ const AppointmentForm = ({ doctor }) => {
         throw new Error("Please enter your name.");
       }
 
-      // Use a static date for testing
-      const staticDate = new Date("2024-09-15T09:00:00Z").toISOString(); // Example static date in ISO format
+      if (!appointmentDate) {
+        throw new Error("Please select an appointment date.");
+      }
+
+      if (!selectedSlot) {
+        throw new Error("Please select a time slot.");
+      }
+
+      // Format the appointment date as an ISO string
+      const formattedDate = appointmentDate.toISOString();
 
       // Prepare the data to be sent
       const appointmentData = {
         name, // Include the patient's name
         doctorId: doctor._id,
-        date: staticDate, // Use static date here
+        date: formattedDate, // Use the selected date here
         timeSlot: selectedSlot,
         reason,
       };

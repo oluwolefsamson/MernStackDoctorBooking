@@ -27,6 +27,7 @@ export const register = async (req, res) => {
     about,
     timeSlots,
     role,
+    address,
   } = req.body;
 
   try {
@@ -79,6 +80,7 @@ export const register = async (req, res) => {
         role,
         gender,
         phone,
+        address,
       });
 
       await user.save();

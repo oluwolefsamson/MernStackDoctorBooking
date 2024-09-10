@@ -3,6 +3,7 @@ import {
   bookAppointment,
   getDoctorWithAppointments,
   updateAppointmentStatus,
+  getAppointmentsByPatient,
 } from "../Controllers/appointmentController.js";
 import { authenticate, restrict } from "../auth/verifyToken.js";
 
@@ -13,6 +14,9 @@ router.post("/book", authenticate, bookAppointment);
 
 // // Route to change appointment status
 router.patch("/:appointmentId/status", updateAppointmentStatus);
+
+// Route to get appointments by patient
+router.get("/appointments/patient", getAppointmentsByPatient);
 
 // Route to get a doctor with their appointments
 router.get("/doctor/:id", async (req, res) => {
