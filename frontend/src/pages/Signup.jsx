@@ -66,8 +66,7 @@ const Signup = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    setLoading(true);
-    setError(""); // Clear any previous errors
+    console.log("Submitting form data:", formData); // Log form data
 
     if (!isValidPassword(formData.password)) {
       setLoading(false);
@@ -77,15 +76,13 @@ const Signup = () => {
       return;
     }
 
+    setLoading(true);
+    setError(""); // Clear previous errors
+
     try {
       const response = await axios.post(
         `https://mernstackdoctorbooking.onrender.com/api/v1/auth/register`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        formData // Automatically sets Content-Type to multipart/form-data
       );
 
       if (response.status === 201) {
@@ -157,7 +154,7 @@ const Signup = () => {
 
               <div className="mb-5">
                 <input
-                  type="text"
+                  type="tel"
                   placeholder="Enter Your Phone Number"
                   name="phone"
                   value={formData.phone}

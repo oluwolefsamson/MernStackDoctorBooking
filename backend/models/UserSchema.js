@@ -4,6 +4,7 @@ const UserSchema = new mongoose.Schema(
   {
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    phone: { type: String },
     name: { type: String, required: true },
     photo: { type: String, default: "" },
     role: {
@@ -12,7 +13,7 @@ const UserSchema = new mongoose.Schema(
       default: "patient",
     },
     address: { type: String },
-    phone: { type: String },
+
     gender: {
       type: String,
       enum: ["male", "female", "other"],

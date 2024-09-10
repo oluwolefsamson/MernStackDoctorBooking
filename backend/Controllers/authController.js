@@ -17,6 +17,7 @@ export const register = async (req, res) => {
     password,
     name,
     phone,
+    gender,
     photo,
     ticketPrice,
     specialization,
@@ -71,11 +72,13 @@ export const register = async (req, res) => {
         .json({ success: true, message: "Doctor successfully registered" });
     } else if (role === "patient") {
       const user = new User({
-        name, // Optional
+        name,
         email,
         password: hashPassword,
-        photo, // Optional
+        photo,
         role,
+        gender,
+        phone,
       });
 
       await user.save();
