@@ -3,7 +3,9 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode"; // Corrected import
 import { Link, useNavigate } from "react-router-dom";
 import profile from "../../assets/images/profile.png";
-import { RingLoader } from "react-spinners";
+import { SyncLoader } from "react-spinners";
+import userBg from "../../assets/images/userbg.jpg";
+import userBack from "../../assets/images/userback.jpg";
 
 const UserPage = () => {
   const [user, setUser] = useState(null);
@@ -49,44 +51,21 @@ const UserPage = () => {
   if (!user)
     return (
       <div className="flex justify-center items-center h-screen">
-        <RingLoader color="blue" />
+        <SyncLoader color="blue" />
       </div>
     );
 
   return (
-    <div className="relative py-9 lg:py-11 flex flex-col justify-center items-center">
-      {/* Logout Button */}
-      <button
-        onClick={() => setShowLogoutModal(true)}
-        className="absolute top-4 right-4 bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition"
-      >
-        Logout
-      </button>
-
-      {showLogoutModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h2 className="text-lg font-bold mb-4">Confirm Logout</h2>
-            <p className="mb-6">Are you sure you want to log out?</p>
-            <div className="flex justify-end">
-              <button
-                onClick={() => setShowLogoutModal(false)}
-                className="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg mr-2"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleLogout}
-                className="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="bg-white p-6 sm:p-10 mt-11 rounded-lg shadow-none sm:shadow-xl max-w-lg w-full">
+    <div
+      className="relative py-9 lg:py-11 flex flex-col justify-center items-center"
+      style={{
+        backgroundImage: `url(${userBack})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {/* Card */}
+      <div className="bg-transparent sm:bg-white p-6 sm:p-10 mt-11 rounded-lg shadow-none sm:shadow-xl w-full sm:max-w-md lg:max-w-2xl mx-4">
         <div className="flex justify-center">
           <img
             src={user.photo || profile}
