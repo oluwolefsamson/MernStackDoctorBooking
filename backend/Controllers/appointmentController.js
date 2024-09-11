@@ -33,6 +33,11 @@ const createAppointment = async (
       $push: { appointments: savedAppointment._id },
     });
 
+    // Add appointment reference to the patient appointments array
+    await User.findByIdAndUpdate(patientId, {
+      $push: { appointments: savedAppointment._id },
+    });
+
     return savedAppointment;
   } catch (error) {
     console.error("Error creating appointment:", error.message);
@@ -121,20 +126,5 @@ export const updateAppointmentStatus = async (req, res) => {
   } catch (error) {
     console.error("Error updating appointment status:", error.message);
     res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-// Controller to get all appointments for a patient
-export const getAppointmentsByPatient = async (req, res) => {
-  try {
-    const patientId = req.user.id; // Assuming you have user ID from JWT authentication
-
-    const appointments = await Appointment.find({
-      patient: patientId,
-    }).populate("doctor", "name specialization"); // Populate doctor details
-
-    res.status(200).json(appointments);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
 };

@@ -7,7 +7,7 @@ export const updateDoctor = async (req, res) => {
   try {
     const updatedDoctor = await Doctor.findByIdAndUpdate(id, req.body, {
       new: true,
-      runValidators: true, // Ensure that the update respects schema validations
+      runValidators: true,
     });
 
     if (!updatedDoctor) {
