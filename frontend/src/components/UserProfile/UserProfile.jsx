@@ -4,12 +4,11 @@ import { jwtDecode } from "jwt-decode"; // Corrected import
 import { Link, useNavigate } from "react-router-dom";
 import profile from "../../assets/images/profile.png";
 import { SyncLoader } from "react-spinners";
-import userBg from "../../assets/images/userbg.jpg";
 import userBack from "../../assets/images/userback.jpg";
 
 const UserPage = () => {
   const [user, setUser] = useState(null);
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false); // Modal state
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,8 +44,11 @@ const UserPage = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
-    navigate("/");
+    navigate("/login"); // Redirect to login page after logout
   };
+
+  const openLogoutModal = () => setShowLogoutModal(true);
+  const closeLogoutModal = () => setShowLogoutModal(false);
 
   if (!user)
     return (
@@ -137,8 +139,42 @@ const UserPage = () => {
           >
             Find a Doctor
           </Link>
+          <button
+            onClick={openLogoutModal}
+            className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition"
+          >
+            Logout
+          </button>
         </div>
       </div>
+
+      {/* Logout Modal */}
+      {showLogoutModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg p-6 shadow-lg max-w-md w-full">
+            <h2 className="text-xl font-bold text-center mb-4">
+              Confirm Logout
+            </h2>
+            <p className="text-gray-700 text-center mb-6">
+              Are you sure you want to log out?
+            </p>
+            <div className="flex justify-center space-x-4">
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition"
+              >
+                Yes, Logout
+              </button>
+              <button
+                onClick={closeLogoutModal}
+                className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
