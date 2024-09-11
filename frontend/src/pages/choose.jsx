@@ -16,7 +16,7 @@ const ChoosePage = () => {
         }}
       >
         {/* Title */}
-        <h2 className="text-3xl font-bold mb-8 text-blue-500">
+        <h2 className="text-3xl font-bold mb-8  fascinate-inline-regular">
           Select Your Login Type
         </h2>
 
@@ -26,8 +26,8 @@ const ChoosePage = () => {
           alt="Choose"
           className="mb-8 rounded-lg"
           style={{
-            height: "300px",
-            width: "300px",
+            height: "200px",
+            width: "200px",
             objectFit: "cover", // Ensure the image fits nicely
             alignItems: "center",
             justifyContent: "center",
