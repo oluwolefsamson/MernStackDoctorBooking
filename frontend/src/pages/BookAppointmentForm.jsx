@@ -64,7 +64,7 @@ const AppointmentForm = ({ doctor }) => {
       console.log("Sending request with data:", appointmentData); // Debugging line
 
       const response = await axios.post(
-        "https://mernstackdoctorbooking.onrender.com/api/v1/appointments/book",
+        `http://localhost:8000/api/v1/appointments/book`,
         appointmentData,
         {
           headers: {
@@ -80,12 +80,8 @@ const AppointmentForm = ({ doctor }) => {
       // Refresh the page
       window.location.reload();
     } catch (error) {
-      console.error(
-        "Booking failed:",
-        error.response ? error.response.data : error.message
-      ); // Detailed error logging
       setError("Booking failed. Please try again later.");
-      setSuccessMessage("");
+      window.location.reload();
     } finally {
       setLoading(false); // Set loading to false after the request is completed
     }

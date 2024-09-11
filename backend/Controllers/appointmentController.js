@@ -1,5 +1,6 @@
 import Appointment from "../models/AppointmentSchema.js";
 import Doctor from "../models/DoctorSchema.js";
+import User from "../models/UserSchema.js"; // Import User model
 
 // Function to create an appointment
 const createAppointment = async (
@@ -15,6 +16,12 @@ const createAppointment = async (
     const doctorExists = await Doctor.findById(doctorId);
     if (!doctorExists) {
       throw new Error("Doctor not found");
+    }
+
+    // Ensure the patient exists
+    const patientExists = await User.findById(patientId);
+    if (!patientExists) {
+      throw new Error("Patient not found");
     }
 
     const appointment = new Appointment({
@@ -33,7 +40,7 @@ const createAppointment = async (
       $push: { appointments: savedAppointment._id },
     });
 
-    // Add appointment reference to the patient appointments array
+    // Add appointment reference to the patient's appointments array
     await User.findByIdAndUpdate(patientId, {
       $push: { appointments: savedAppointment._id },
     });
@@ -116,7 +123,7 @@ export const updateAppointmentStatus = async (req, res) => {
     );
 
     if (!appointment) {
-      return res.status(404).json({ message: "Appointment status not found" });
+      return res.status(404).json({ message: "Appointment not found" });
     }
 
     res.status(200).json({
