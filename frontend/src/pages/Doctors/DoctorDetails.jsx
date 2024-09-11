@@ -60,7 +60,9 @@ const DoctorDetails = () => {
     <section>
       <div className="max-w-[1170px] px-5 mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">Doctor {doctor.name} Details</h2>
+          <h2 className="fascinate-inline-regular text-2xl font-bold text-irisBlueColor">
+            Doctor {doctor.name} Details
+          </h2>
           <button
             onClick={() => setIsModalOpen(true)} // Open modal on button click
             className="bg-red-500 text-white py-2 px-4 rounded"
@@ -81,23 +83,26 @@ const DoctorDetails = () => {
               <div>
                 <span className="bg-[#ccf0f3] text-irisBlueColor py-1 px-6 mt-11 lg:py-2 lg:px-6 text-[12px] leading-4 lg:text-[16px] lg:leading-7 font-semibold rounded">
                   {doctor.specialization || "Not Provided"}
-                </span>
-                <h3 className="text-headingColor text-[22px] leading-9 mt-3 font-bold">
-                  Dr. {doctor.name || "Not Provided"}
-                </h3>
-                <div className="flex items-center gap-[6px]">
-                  <span className="flex items-center gap-[6px] text-[14px] leading-5 lg:text-[16px] lg:leading-7 font-semibold text-headingColor">
-                    <img src={starIcon} alt="" /> {doctor.avgRating || 4.5}
-                  </span>
-                  <span className="text-[14px] leading-5 lg:text-[16px] lg:leading-7 font-[400] text-textColor">
-                    ({doctor.totalRating || 576})
-                  </span>
+                </span>{" "}
+                <div className="flex flex-col gap-3">
+                  {" "}
+                  <h3 className="text-headingColor text-[22px] leading-9 mt-3 font-bold">
+                    Dr. {doctor.name || "Not Provided"}
+                  </h3>
+                  <div className="flex items-center gap-[6px]">
+                    <span className="flex items-center gap-[6px] text-[14px] leading-5 lg:text-[16px] lg:leading-7 font-semibold text-headingColor">
+                      <img src={starIcon} alt="" /> {doctor.avgRating || 4.5}
+                    </span>
+                    <span className="text-[14px] leading-5 lg:text-[16px] lg:leading-7 font-[400] text-textColor">
+                      ({doctor.totalRating || 576})
+                    </span>
+                  </div>
+                  <p className="text-para text-[14px] leading-6 md:text-[15px] max-w-[390px]">
+                    Dr. {doctor.name} is a distinguished {doctor.specialization}{" "}
+                    celebrated for his precision and expertise in complex{" "}
+                    {doctor.specialization} procedures.
+                  </p>
                 </div>
-                <p className="text-para text-[14px] leading-6 md:text-[15px] max-w-[390px]">
-                  Dr. {doctor.name} is a distinguished {doctor.specialization}{" "}
-                  celebrated for his precision and expertise in complex{" "}
-                  {doctor.specialization} procedures.
-                </p>
               </div>
             </div>
 
