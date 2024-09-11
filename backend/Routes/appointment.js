@@ -3,16 +3,21 @@ import {
   bookAppointment,
   getDoctorWithAppointments,
   updateAppointmentStatus,
+  getUserProfile,
 } from "../Controllers/appointmentController.js";
-import { authenticate, restrict } from "../auth/verifyToken.js";
+import { authenticate } from "../auth/verifyToken.js";
 
 const router = express.Router();
 
 // Route to book an appointment
 router.post("/book", authenticate, bookAppointment);
 
-// // Route to change appointment status
+// Route to change appointment status
 router.patch("/:appointmentId/status", authenticate, updateAppointmentStatus);
+
+// Route to get user profile including appointments
+// router.get("/:id/appointments", getUserProfile);
+router.get("/users/:userId/appointments", getUserProfile);
 
 // Route to get a doctor with their appointments
 router.get("/doctor/:id", async (req, res) => {

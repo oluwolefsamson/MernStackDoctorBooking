@@ -135,3 +135,40 @@ export const updateAppointmentStatus = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const getUserProfile = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is missing" });
+    }
+
+    // Fetch user and populate appointments with doctor details
+    const user = await User.findById(userId)
+      .populate({
+        path: "appointments",
+        populate: {
+          path: "doctor",
+          select: "name specialization", // Adjust fields as needed
+        },
+      })
+      .select("appointments"); // Ensure appointments field is included
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Map appointments to include necessary details
+    const appointments = user.appointments.map((appointment) => ({
+      date: appointment.date,
+      doctor: appointment.doctor.name, // Assuming doctor is populated
+      reason: appointment.reason,
+      status: appointment.status,
+    }));
+
+    res.json(appointments);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

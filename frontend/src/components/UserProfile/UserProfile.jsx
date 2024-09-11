@@ -20,7 +20,7 @@ const UserPage = () => {
           const decodedToken = jwtDecode(token);
           const userId = decodedToken.id; // Ensure 'id' exists in the token
 
-          const response = await axios.get(
+          const userResponse = await axios.get(
             `https://mernstackdoctorbooking.onrender.com/api/v1/users/${userId}`,
             {
               headers: {
@@ -28,7 +28,17 @@ const UserPage = () => {
               },
             }
           );
-          setUser(response.data.data);
+
+          // Fetch user data
+          const userData = userResponse.data.data;
+
+          // Fetch appointments if user data is available
+          const appointmentsResponse = await axios.get(
+            `http://localhost:8000/api/v1/appointments/users/${userId}/appointments`
+          );
+
+          // Set user and appointments data
+          setUser({ ...userData, appointments: appointmentsResponse.data });
         } else {
           console.warn("No auth token found in localStorage.");
           navigate("/login");
@@ -116,9 +126,12 @@ const UserPage = () => {
             {user.appointments && user.appointments.length > 0 ? (
               user.appointments.map((appointment, index) => (
                 <li key={index} className="mt-2">
-                  <span className="font-medium">Date:</span> {appointment.date}{" "}
-                  - <span className="font-medium">Doctor:</span>{" "}
-                  {appointment.doctorName} -{" "}
+                  <span className="font-medium">Date:</span>{" "}
+                  {new Date(appointment.date).toLocaleDateString()} -{" "}
+                  <span className="font-medium">Doctor:</span>{" "}
+                  {appointment.doctor} -{" "}
+                  <span className="font-medium">Reason:</span>{" "}
+                  {appointment.reason} -{" "}
                   <span className="font-medium">Status:</span>{" "}
                   {appointment.status}
                 </li>
