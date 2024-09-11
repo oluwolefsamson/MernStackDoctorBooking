@@ -72,9 +72,11 @@ const AppointmentForm = ({ doctor }) => {
 
       setSuccessMessage("Booking successful!");
       setError(null);
+      alert("Booking successful!");
       window.location.reload();
     } catch (error) {
       setError("Booking failed. Please try again later.");
+      window.location.reload();
     } finally {
       setLoading(false);
     }

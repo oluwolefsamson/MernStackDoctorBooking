@@ -137,7 +137,9 @@ const UserPage = () => {
                 <li key={index} className="mt-2">
                   <span className="font-medium">Date:</span> {appointment.date}{" "}
                   - <span className="font-medium">Doctor:</span>{" "}
-                  {appointment.doctorName}
+                  {appointment.doctorName} -{" "}
+                  <span className="font-medium">Status:</span>{" "}
+                  {appointment.status}
                 </li>
               ))
             ) : (
