@@ -75,18 +75,18 @@ const UserPage = () => {
 
   return (
     <div
-      className="relative py-9 lg:py-11 flex flex-col justify-center items-center"
-      style={{
-        backgroundImage: `url(${doctorBg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+      className="bg-slate-200 relative py-9 lg:py-11 flex flex-col justify-center items-center"
+      // style={{
+      //   backgroundImage: `url(${doctorBg})`,
+      //   backgroundSize: "cover",
+      //   backgroundPosition: "center",
+      // }}
     >
       {/* Print text and icon aligned to the right */}
       <div className="w-full flex justify-end px-4 mb-4">
         <div
           onClick={handlePrint}
-          className="flex items-center cursor-pointer text-white hover:text-blue-800 transition"
+          className="flex items-center cursor-pointer text-black font-black hover:text-blue-800 transition"
         >
           <FaPrint className="mr-2" /> {/* Print Icon */}
           <span className="text-lg font-medium">Print</span>
@@ -94,7 +94,7 @@ const UserPage = () => {
       </div>
 
       {/* Card */}
-      <div className="bg-transparent sm:bg-white p-6 sm:p-10 mt-11 rounded-lg shadow-none sm:shadow-xl w-full sm:max-w-md lg:max-w-2xl mx-4">
+      <div className="bg-slate-200 sm:bg-white p-6 sm:p-10  mt-11 rounded-lg shadow-none sm:shadow-xl w-full sm:max-w-md lg:max-w-2xl mx-4">
         <div className="flex justify-center">
           <img
             src={user.photo || profile}
@@ -137,7 +137,7 @@ const UserPage = () => {
 
         <div className="mt-6 sm:mt-8">
           <h3 className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-yellow-500 to-blue-500 bg-clip-text text-transparent border-b-2 border-blue-500 pb-2">
-            Upcoming Appointments
+            Your Upcoming Appointments
           </h3>
           <ul className="text-gray-700 mt-4">
             {user.appointments && user.appointments.length > 0 ? (
@@ -161,18 +161,18 @@ const UserPage = () => {
         </div>
 
         <div className="flex justify-between mt-6 sm:mt-8">
-          <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition">
+          <button className="bg-blue-500 text-white py-2 px-4 sm:px-2 md:px-4 rounded-lg hover:bg-blue-600 transition text-sm sm:text-xs md:text-sm">
             Edit Profile
           </button>
           <Link
             to="/doctors"
-            className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition"
+            className="bg-green-500 text-white py-2 px-4 sm:px-2 md:px-4 rounded-lg hover:bg-green-600 transition text-sm sm:text-xs md:text-sm"
           >
             Find a Doctor
           </Link>
           <button
             onClick={openLogoutModal}
-            className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition"
+            className="bg-red-500 text-white py-2 px-4 sm:px-2 md:px-4 rounded-lg hover:bg-red-600 transition text-sm sm:text-xs md:text-sm"
           >
             Logout
           </button>
