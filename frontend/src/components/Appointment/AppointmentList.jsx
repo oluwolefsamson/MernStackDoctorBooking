@@ -18,7 +18,7 @@ const AppointmentsList = ({ appointments: initialAppointments }) => {
       // console.log("Token:", token); // Verify that the token is being retrieved correctly
 
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/appointments/${appointmentId}/status`,
+        `https://mernstackdoctorbooking.onrender.com/api/v1/appointments/${appointmentId}/status`,
         { status } // Pass the status in the body
       );
 
