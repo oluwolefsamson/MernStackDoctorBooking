@@ -34,6 +34,7 @@ const DoctorLogin = () => {
         formData
       );
 
+      // Log the response to see if token and other data are being returned
       console.log("Login Response:", response.data);
 
       if (response.data.token) {
@@ -61,6 +62,9 @@ const DoctorLogin = () => {
         localStorage.setItem("doctorExperiences", JSON.stringify(experiences));
         localStorage.setItem("doctorBio", bio || "");
         localStorage.setItem("doctorAbout", about || "");
+
+        // Log to check if the token is stored correctly
+        console.log("Stored Token:", localStorage.getItem("authToken"));
 
         // Ensure doctorId is not undefined
         if (doctorId) {

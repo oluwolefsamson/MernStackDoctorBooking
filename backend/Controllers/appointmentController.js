@@ -1,6 +1,7 @@
 import Appointment from "../models/AppointmentSchema.js";
 import Doctor from "../models/DoctorSchema.js";
 import User from "../models/UserSchema.js"; // Import User model
+import mongoose from "mongoose";
 
 // Function to create an appointment
 const createAppointment = async (
@@ -104,10 +105,16 @@ export const getDoctorWithAppointments = async (doctorId) => {
 };
 
 // Function to update appointment status
+
 export const updateAppointmentStatus = async (req, res) => {
   try {
     const { appointmentId } = req.params;
     const { status } = req.body;
+
+    // Check if appointmentId is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(appointmentId)) {
+      return res.status(400).json({ message: "Invalid appointment ID" });
+    }
 
     // Validate status
     const validStatuses = ["pending", "confirmed", "cancelled"];

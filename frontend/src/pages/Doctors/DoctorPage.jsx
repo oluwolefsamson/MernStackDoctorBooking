@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import starIcon from "../../assets/images/Star.png";
 import Profile from "../../assets/images/profile.png";
-import { RingLoader } from "react-spinners";
+import { SyncLoader } from "react-spinners";
 import EditDoctorProfile from "../../components/EditDoctorProfile/EditDoctorProfile";
 import Modal from "../../components/LogoutModal/LogoutModal";
 import AppointmentsList from "../../components/Appointment/AppointmentList"; // Import the AppointmentsList component
@@ -76,7 +76,7 @@ const DoctorPage = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <RingLoader color="#3498db" />
+        <SyncLoader color="#3498db" />
       </div>
     );
   }

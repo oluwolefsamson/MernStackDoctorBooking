@@ -13,7 +13,7 @@ const router = express.Router();
 router.post("/book", authenticate, bookAppointment);
 
 // Route to change appointment status
-router.patch("/:appointmentId/status", authenticate, updateAppointmentStatus);
+router.patch("/:appointmentId/status", updateAppointmentStatus);
 
 // Route to get user profile including appointments
 // router.get("/:id/appointments", getUserProfile);

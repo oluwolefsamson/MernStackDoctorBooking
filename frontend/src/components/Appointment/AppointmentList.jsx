@@ -13,10 +13,13 @@ const AppointmentsList = ({ appointments: initialAppointments }) => {
     try {
       setLoading(true); // Show loading while request is being processed
 
+      // // Get the token from localStorage (assuming you're storing it there)
+      // const token = localStorage.getItem("token");
+      // console.log("Token:", token); // Verify that the token is being retrieved correctly
+
       const response = await axios.patch(
-        `https://mernstackdoctorbooking.onrender.com/api/v1/appointments/${appointmentId}/status`,
-        { status },
-        { headers: { "Content-Type": "application/json" } }
+        `http://localhost:8000/api/v1/appointments/${appointmentId}/status`,
+        { status } // Pass the status in the body
       );
 
       alert(response.data.message); // Notify user of status change
@@ -82,7 +85,6 @@ const AppointmentsList = ({ appointments: initialAppointments }) => {
                 onClick={() => handleOpenModal(appointment)} // Open the modal when clicked
                 className="w-full text-left"
               >
-                {" "}
                 <p>
                   <strong className="text-blue-500 font-black">Name: </strong>{" "}
                   {appointment.name || "Not Provided"}
