@@ -34,7 +34,7 @@ const UserPage = () => {
 
           // Fetch appointments if user data is available
           const appointmentsResponse = await axios.get(
-            `http://localhost:8000/api/v1/appointments/users/${userId}/appointments`
+            `https://mernstackdoctorbooking.onrender.com/api/v1/appointments/users/${userId}/appointments`
           );
 
           // Set user and appointments data
