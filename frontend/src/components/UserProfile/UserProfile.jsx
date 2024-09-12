@@ -4,7 +4,9 @@ import { jwtDecode } from "jwt-decode"; // Corrected import
 import { Link, useNavigate } from "react-router-dom";
 import profile from "../../assets/images/profile.png";
 import { SyncLoader } from "react-spinners";
-import userBack from "../../assets/images/userback.jpg";
+
+import doctorBg from "../../assets/images/doctorbg.jpg";
+import { FaPrint } from "react-icons/fa"; // Importing a print icon from react-icons
 
 const UserPage = () => {
   const [user, setUser] = useState(null);
@@ -60,6 +62,10 @@ const UserPage = () => {
   const openLogoutModal = () => setShowLogoutModal(true);
   const closeLogoutModal = () => setShowLogoutModal(false);
 
+  const handlePrint = () => {
+    window.print(); // Native browser print function
+  };
+
   if (!user)
     return (
       <div className="flex justify-center items-center h-screen">
@@ -71,11 +77,22 @@ const UserPage = () => {
     <div
       className="relative py-9 lg:py-11 flex flex-col justify-center items-center"
       style={{
-        backgroundImage: `url(${userBack})`,
+        backgroundImage: `url(${doctorBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
+      {/* Print text and icon aligned to the right */}
+      <div className="w-full flex justify-end px-4 mb-4">
+        <div
+          onClick={handlePrint}
+          className="flex items-center cursor-pointer text-white hover:text-blue-800 transition"
+        >
+          <FaPrint className="mr-2" /> {/* Print Icon */}
+          <span className="text-lg font-medium">Print</span>
+        </div>
+      </div>
+
       {/* Card */}
       <div className="bg-transparent sm:bg-white p-6 sm:p-10 mt-11 rounded-lg shadow-none sm:shadow-xl w-full sm:max-w-md lg:max-w-2xl mx-4">
         <div className="flex justify-center">
@@ -126,13 +143,14 @@ const UserPage = () => {
             {user.appointments && user.appointments.length > 0 ? (
               user.appointments.map((appointment, index) => (
                 <li key={index} className="mt-2">
-                  <span className="font-medium">Date:</span>{" "}
-                  {new Date(appointment.date).toLocaleDateString()} -{" "}
-                  <span className="font-medium">Doctor:</span>{" "}
-                  {appointment.doctor} -{" "}
-                  <span className="font-medium">Reason:</span>{" "}
-                  {appointment.reason} -{" "}
-                  <span className="font-medium">Status:</span>{" "}
+                  <span className="font-black">Date:</span>{" "}
+                  {new Date(appointment.date).toLocaleDateString()}{" "}
+                  <span className="text-white">|</span>{" "}
+                  <span className="font-black">Doctor:</span> Dr. {""}
+                  {appointment.doctor} <span className="text-white">|</span>{" "}
+                  <span className="font-black">Reason:</span>{" "}
+                  {appointment.reason} <span className="text-white">|</span>{" "}
+                  <span className="font-black">Status:</span>{" "}
                   {appointment.status}
                 </li>
               ))

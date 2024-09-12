@@ -7,6 +7,7 @@ import { SyncLoader } from "react-spinners";
 import EditDoctorProfile from "../../components/EditDoctorProfile/EditDoctorProfile";
 import Modal from "../../components/LogoutModal/LogoutModal";
 import AppointmentsList from "../../components/Appointment/AppointmentList"; // Import the AppointmentsList component
+import doctorBg from "../../assets/images/doctorbg.jpg";
 
 const DoctorPage = () => {
   const { doctorId } = useParams();
@@ -90,8 +91,15 @@ const DoctorPage = () => {
   }
 
   return (
-    <section className="bg-gray-100 min-h-screen flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-full sm:max-w-3xl lg:max-w-4xl w-full">
+    <section
+      className="bg-gray-100 min-h-screen flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8"
+      style={{
+        backgroundImage: `url(${doctorBg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="bg-slate-200 p-6 rounded-lg shadow-lg max-w-full sm:max-w-3xl lg:max-w-4xl w-full ">
         <button
           onClick={() => setIsModalOpen(true)}
           className="bg-red-500 text-white py-2 px-4 rounded"
@@ -102,7 +110,7 @@ const DoctorPage = () => {
           <EditDoctorProfile doctor={doctor} />
         ) : (
           <div className="flex flex-col items-center text-center gap-6">
-            <figure className="">
+            <figure>
               <img
                 src={doctor.photo || Profile}
                 alt={doctor.name || "Not Provided"}
@@ -128,7 +136,8 @@ const DoctorPage = () => {
               <p className="text-gray-600 mt-3 mb-3">
                 Dr. {doctor.name} is a distinguished {doctor.specialization},
                 celebrated for their precision and expertise in performing
-                complex {doctor.specialization} procedures. Their commitment to
+                complex
+                {doctor.specialization} procedures. Their commitment to
                 delivering exceptional patient care, combined with their deep
                 knowledge and experience, has earned them widespread recognition
                 in the medical community.
@@ -150,8 +159,7 @@ const DoctorPage = () => {
                   Delete Profile
                 </button>
               </div>
-              <AppointmentsList appointments={appointments} />{" "}
-              {/* Use AppointmentsList component */}
+              <AppointmentsList appointments={appointments} />
             </div>
           </div>
         )}
