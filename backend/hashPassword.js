@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 
-const password = "Oluwole7710"; // Replace with your actual password
+const password = ""; // Replace with your actual password
 
 const hashPassword = async (password) => {
   const salt = await bcrypt.genSalt(10);
