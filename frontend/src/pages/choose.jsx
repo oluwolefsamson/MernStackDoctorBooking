@@ -35,21 +35,28 @@ const ChoosePage = () => {
         />
 
         {/* Login buttons */}
-        <div className="w-full flex flex-col gap-6">
-          {/* Patient Login */}
-          <Link
-            to="/login"
-            className="block py-4 px-8 bg-blue-500 text-white rounded-lg text-lg font-semibold hover:bg-blue-600 transition duration-300"
-          >
-            Patient Login
-          </Link>
 
+        <div className="w-full flex flex-col gap-6">
+          {/* Admin Login */}
+          <Link
+            to="/adminlogin"
+            className="block py-4 px-8 bg-green-500 text-white rounded-lg text-lg font-semibold hover:bg-green-600 transition duration-300"
+          >
+            Admin Login
+          </Link>
           {/* Doctor Login */}
           <Link
             to="/doctorlogin"
-            className="block py-4 px-8 bg-green-500 text-white rounded-lg text-lg font-semibold hover:bg-green-600 transition duration-300"
+            className="block py-4 px-8 bg-blue-500 text-white rounded-lg text-lg font-semibold hover:bg-blue-600 transition duration-300"
           >
             Doctor Login
+          </Link>
+          {/* Patient Login */}
+          <Link
+            to="/login"
+            className="block py-4 px-8 bg-green-500 text-white rounded-lg text-lg font-semibold hover:bg-green-600 transition duration-300"
+          >
+            Patient Login
           </Link>
         </div>
       </div>

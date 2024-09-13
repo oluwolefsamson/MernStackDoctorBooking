@@ -13,10 +13,6 @@ const AppointmentsList = ({ appointments: initialAppointments }) => {
     try {
       setLoading(true); // Show loading while request is being processed
 
-      // // Get the token from localStorage (assuming you're storing it there)
-      // const token = localStorage.getItem("token");
-      // console.log("Token:", token); // Verify that the token is being retrieved correctly
-
       const response = await axios.patch(
         `https://mernstackdoctorbooking.onrender.com/api/v1/appointments/${appointmentId}/status`,
         { status } // Pass the status in the body

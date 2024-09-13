@@ -15,6 +15,8 @@ import EditDoctorProfile from "../components/EditDoctorProfile/EditDoctorProfile
 import DoctorPage from "../pages/Doctors/DoctorPage";
 import EditDoctorPage from "../pages/Doctors/EditDoctorPage";
 import AppointmentForm from "../pages/BookAppointmentForm";
+import AdminDashboardPage from "../pages/Admin/AdminDashboardPage";
+import AdminLogin from "../pages/Admin/AdminLogin";
 
 const Routers = () => {
   return (
@@ -34,6 +36,8 @@ const Routers = () => {
       <Route path="/doctor/:doctorId" element={<DoctorDetails />} />
       <Route path="/doctorpage/:doctorId" element={<DoctorPage />} />
       <Route path="/bookingform/:doctorId" element={<AppointmentForm />} />
+      <Route path="/admin" element={<AdminDashboardPage />} />
+      <Route path="/adminlogin" element={<AdminLogin />} />
       {/* Ensure this is the exact path */}
     </Routes>
   );
