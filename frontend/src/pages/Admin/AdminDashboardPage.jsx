@@ -15,7 +15,6 @@ import Icon from "../../assets/images/icon01.png";
 import DoctorManagement from "../../components/Admin/DoctorManagement";
 import AppointmentManagement from "../../components/Admin/AppointmentManagement";
 import PatientManagement from "../../components/Admin/PatientManagement";
-import StatisticsAndReportsManagement from "../../components/Admin/StatisticsAndReportsManagement";
 import DashboardHome from "../../components/Admin/DashboardHome";
 
 // User information for profile
@@ -31,18 +30,13 @@ const navigation = [
   { name: "Doctor Management", href: "#", component: <DoctorManagement /> },
   { name: "Patient Management", href: "#", component: <PatientManagement /> },
   { name: "Appointments", href: "#", component: <AppointmentManagement /> },
-  {
-    name: "Statistics and Reports",
-    href: "#",
-    component: <StatisticsAndReportsManagement />,
-  },
 ];
 
 // User navigation items
 const userNavigation = [
   { name: "Your Profile", href: "#" },
   { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
+  { name: "Sign out", href: "/adminlogin" },
 ];
 
 // Utility function to combine class names

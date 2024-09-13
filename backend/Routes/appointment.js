@@ -16,7 +16,7 @@ router.post("/book", authenticate, bookAppointment);
 router.patch("/:appointmentId/status", updateAppointmentStatus);
 
 // Route to get user profile including appointments
-// router.get("/:id/appointments", getUserProfile);
+
 router.get("/users/:userId/appointments", getUserProfile);
 
 // Route to get a doctor with their appointments

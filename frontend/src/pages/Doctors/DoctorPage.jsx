@@ -136,11 +136,10 @@ const DoctorPage = () => {
               <p className="text-gray-600 mt-3 mb-3">
                 Dr. {doctor.name} is a distinguished {doctor.specialization},
                 celebrated for their precision and expertise in performing
-                complex
-                {doctor.specialization} procedures. Their commitment to
-                delivering exceptional patient care, combined with their deep
-                knowledge and experience, has earned them widespread recognition
-                in the medical community.
+                complex medical procedures. Their commitment to delivering
+                exceptional patient care, combined with their deep knowledge and
+                experience, has earned them widespread recognition in the
+                medical community.
               </p>
               <span className="text-[16px]  leading-7 lg:text-[22px] lg:leading-8 text-headingColor font-bold">
                 Ticket Price: ₦{doctor?.ticketPrice}

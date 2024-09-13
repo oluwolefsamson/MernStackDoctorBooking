@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import Doctor from "../models/DoctorSchema.js";
 import User from "../models/UserSchema.js";
+import Admin from "../models/AdminSchema.js";
 
 // Middleware to authenticate user based on JWT
 export const authenticate = async (req, res, next) => {

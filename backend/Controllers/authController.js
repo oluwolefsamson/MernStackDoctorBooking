@@ -1,5 +1,6 @@
 import User from "../models/UserSchema.js";
 import Doctor from "../models/DoctorSchema.js";
+import Admin from "../models/AdminSchema.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
@@ -40,8 +41,9 @@ export const register = async (req, res) => {
 
     let existingUser = await User.findOne({ email });
     let existingDoctor = await Doctor.findOne({ email });
+    let existingAdmin = await Admin.findOne({ email });
 
-    if (existingUser || existingDoctor) {
+    if (existingUser || existingDoctor || existingAdmin) {
       return res
         .status(400)
         .json({ success: false, message: "User already exists" });
@@ -54,16 +56,16 @@ export const register = async (req, res) => {
       const doctor = new Doctor({
         email,
         password: hashPassword,
-        name, // Optional
-        phone, // Optional
-        photo, // Optional
-        ticketPrice, // Optional
-        specialization, // Optional
-        qualifications, // Optional
-        experiences, // Optional
-        bio, // Optional
-        about, // Optional
-        timeSlots, // Optional
+        name,
+        phone,
+        photo,
+        ticketPrice,
+        specialization,
+        qualifications,
+        experiences,
+        bio,
+        about,
+        timeSlots,
         role,
       });
 
@@ -87,6 +89,17 @@ export const register = async (req, res) => {
       return res
         .status(201)
         .json({ success: true, message: "User successfully registered" });
+    } else if (role === "admin") {
+      const admin = new Admin({
+        email,
+        password: hashPassword,
+        // You can add additional fields if required
+      });
+
+      await admin.save();
+      return res
+        .status(201)
+        .json({ success: true, message: "Admin successfully registered" });
     } else {
       return res.status(400).json({ success: false, message: "Invalid role" });
     }
@@ -120,6 +133,8 @@ export const login = async (req, res) => {
       user = await Doctor.findOne({ email });
     } else if (role === "patient") {
       user = await User.findOne({ email });
+    } else if (role === "admin") {
+      user = await Admin.findOne({ email });
     } else {
       return res.status(400).json({ success: false, message: "Invalid role" });
     }

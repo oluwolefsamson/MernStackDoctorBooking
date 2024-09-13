@@ -9,23 +9,52 @@ const AdminLogin = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    role: "patient", // Default role
+    role: "admin", // Default role
   });
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  //   const handleInputChange = (e) => {
-  //     setFormData({ ...formData, [e.target.name]: e.target.value });
-  //   };
-
-  const submitHandler = (e) => {
-    alert("This Page is Coming Soon");
-    window.location.reload();
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleShowPasswordChange = (e) => {
     setShowPassword(e.target.checked);
+  };
+
+  const submitHandler = async (event) => {
+    event.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const response = await axios.post(
+        `http://localhost:8000/api/v1/auth/login`,
+        formData
+      );
+
+      if (response.data.token) {
+        const userRole = response.data.role;
+
+        if (userRole === "admin") {
+          localStorage.setItem("authToken", response.data.token);
+          navigate("/admin", { replace: true });
+        } else {
+          setError("Only admin is allowed to log in.");
+        }
+      } else {
+        setError("Login failed. Please check your credentials and try again.");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setError(
+        error.response?.data?.message ||
+          "Something went wrong. Please try again later."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -52,8 +81,8 @@ const AdminLogin = () => {
               type="email"
               placeholder="Enter Your Email"
               name="email"
-              //   value={formData.email}
-              //   onChange={handleInputChange}
+              value={formData.email}
+              onChange={handleInputChange}
               className="w-full px-2 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
               required
               autoComplete="email"
@@ -65,8 +94,8 @@ const AdminLogin = () => {
               type={showPassword ? "text" : "password"}
               placeholder="Enter Your Password"
               name="password"
-              //   value={formData.password}
-              //   onChange={handleInputChange}
+              value={formData.password}
+              onChange={handleInputChange}
               className="w-full px-2 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor cursor-pointer"
               required
               autoComplete="current-password"
