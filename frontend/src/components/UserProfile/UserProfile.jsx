@@ -4,12 +4,14 @@ import { jwtDecode } from "jwt-decode"; // Corrected import
 import { Link, useNavigate } from "react-router-dom";
 import profile from "../../assets/images/profile.png";
 import { SyncLoader } from "react-spinners";
-
 import doctorBg from "../../assets/images/doctorbg.jpg";
 import { FaPrint } from "react-icons/fa"; // Importing a print icon from react-icons
 
 const UserPage = () => {
   const [user, setUser] = useState(null);
+  const [appointments, setAppointments] = useState([]); // Separate state for appointments
+  const [currentPage, setCurrentPage] = useState(1); // State for pagination
+  const [appointmentsPerPage] = useState(3); // Number of appointments per page
   const [showLogoutModal, setShowLogoutModal] = useState(false); // Modal state
   const navigate = useNavigate();
 
@@ -40,7 +42,12 @@ const UserPage = () => {
           );
 
           // Set user and appointments data
-          setUser({ ...userData, appointments: appointmentsResponse.data });
+          const sortedAppointments = appointmentsResponse.data.sort(
+            (a, b) => new Date(b.date) - new Date(a.date)
+          ); // Sort appointments by most recent first
+
+          setUser(userData);
+          setAppointments(sortedAppointments); // Set sorted appointments
         } else {
           console.warn("No auth token found in localStorage.");
           navigate("/login");
@@ -66,6 +73,26 @@ const UserPage = () => {
     window.print(); // Native browser print function
   };
 
+  // Pagination logic
+  const indexOfLastAppointment = currentPage * appointmentsPerPage;
+  const indexOfFirstAppointment = indexOfLastAppointment - appointmentsPerPage;
+  const currentAppointments = appointments.slice(
+    indexOfFirstAppointment,
+    indexOfLastAppointment
+  );
+
+  const nextPage = () => {
+    if (indexOfLastAppointment < appointments.length) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const previousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
   if (!user)
     return (
       <div className="flex justify-center items-center h-screen">
@@ -74,27 +101,19 @@ const UserPage = () => {
     );
 
   return (
-    <div
-      className="bg-slate-200 relative py-9 lg:py-11 flex flex-col justify-center items-center"
-      // style={{
-      //   backgroundImage: `url(${doctorBg})`,
-      //   backgroundSize: "cover",
-      //   backgroundPosition: "center",
-      // }}
-    >
-      {/* Print text and icon aligned to the right */}
-      <div className="w-full flex justify-end px-4 mb-4">
-        <div
-          onClick={handlePrint}
-          className="flex items-center cursor-pointer text-black font-black hover:text-blue-800 transition"
-        >
-          <FaPrint className="mr-2" /> {/* Print Icon */}
-          <span className="text-lg font-medium">Print</span>
-        </div>
-      </div>
-
+    <div className="bg-slate-200 relative py-9 lg:py-11 flex flex-col justify-center items-center">
       {/* Card */}
-      <div className="bg-slate-200 sm:bg-white p-6 sm:p-10  mt-11 rounded-lg shadow-none sm:shadow-xl w-full sm:max-w-md lg:max-w-2xl mx-4">
+      <div className="bg-slate-200 sm:bg-white p-6 sm:p-10  lg:mt-11 sm:mt-0 rounded-lg shadow-none sm:shadow-xl w-full sm:max-w-md lg:max-w-2xl mx-4">
+        {/* Print text and icon aligned to the right */}
+        <div className="w-full flex justify-end px-4 mb-4">
+          <div
+            onClick={handlePrint}
+            className="flex items-center cursor-pointer text-black font-black hover:text-blue-800 transition"
+          >
+            <FaPrint className="mr-2" /> {/* Print Icon */}
+            <span className="text-lg font-medium">Print</span>
+          </div>
+        </div>
         <div className="flex justify-center">
           <img
             src={user.photo || profile}
@@ -107,6 +126,22 @@ const UserPage = () => {
         </h2>
         <p className="text-gray-600 text-center text-lg">{user.email}</p>
         <p className="text-gray-600 text-center text-lg">Role: {user.role}</p>
+
+        {/* Buttons below the role */}
+        <div className="flex justify-between mt-6 sm:mt-8">
+          <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition text-sm">
+            Edit Profile
+          </button>
+          <button className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition text-sm">
+            Delete Profile
+          </button>
+          <Link
+            to="/doctors"
+            className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition text-sm"
+          >
+            Find a Doctor
+          </Link>
+        </div>
 
         <div className="mt-6 sm:mt-8">
           <h3 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-yellow-500 to-blue-500 bg-clip-text text-transparent border-b-2 border-blue-500 pb-2">
@@ -140,9 +175,11 @@ const UserPage = () => {
             Your Upcoming Appointments
           </h3>
           <ul className="text-gray-700 mt-4">
-            {user.appointments && user.appointments.length > 0 ? (
-              user.appointments.map((appointment, index) => (
+            {currentAppointments && currentAppointments.length > 0 ? (
+              currentAppointments.map((appointment, index) => (
                 <li key={index} className="mt-2">
+                  <span className="font-bold">{index + 1}. </span>{" "}
+                  {/* Appointment Number */}
                   <span className="font-black">Date:</span>{" "}
                   {new Date(appointment.date).toLocaleDateString()}{" "}
                   <span className="text-white">|</span>{" "}
@@ -160,52 +197,31 @@ const UserPage = () => {
           </ul>
         </div>
 
+        {/* Pagination Controls */}
         <div className="flex justify-between mt-6 sm:mt-8">
-          <button className="bg-blue-500 text-white py-2 px-4 sm:px-2 md:px-4 rounded-lg hover:bg-blue-600 transition text-sm sm:text-xs md:text-sm">
-            Edit Profile
-          </button>
-          <Link
-            to="/doctors"
-            className="bg-green-500 text-white py-2 px-4 sm:px-2 md:px-4 rounded-lg hover:bg-green-600 transition text-sm sm:text-xs md:text-sm"
-          >
-            Find a Doctor
-          </Link>
           <button
-            onClick={openLogoutModal}
-            className="bg-red-500 text-white py-2 px-4 sm:px-2 md:px-4 rounded-lg hover:bg-red-600 transition text-sm sm:text-xs md:text-sm"
+            onClick={previousPage}
+            disabled={currentPage === 1}
+            className={`${
+              currentPage === 1 ? "bg-gray-400" : "bg-blue-500"
+            } text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition text-sm`}
           >
-            Logout
+            Previous
+          </button>
+
+          <button
+            onClick={nextPage}
+            disabled={indexOfLastAppointment >= appointments.length}
+            className={`${
+              indexOfLastAppointment >= appointments.length
+                ? "bg-gray-400"
+                : "bg-blue-500"
+            } text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition text-sm`}
+          >
+            Next
           </button>
         </div>
       </div>
-
-      {/* Logout Modal */}
-      {showLogoutModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg p-6 shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-bold text-center mb-4">
-              Confirm Logout
-            </h2>
-            <p className="text-gray-700 text-center mb-6">
-              Are you sure you want to log out?
-            </p>
-            <div className="flex justify-center space-x-4">
-              <button
-                onClick={handleLogout}
-                className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition"
-              >
-                Yes, Logout
-              </button>
-              <button
-                onClick={closeLogoutModal}
-                className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
