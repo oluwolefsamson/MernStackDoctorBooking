@@ -7,6 +7,8 @@ const AppointmentsList = ({ appointments: initialAppointments }) => {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false); // For showing loading state
+  const [currentPage, setCurrentPage] = useState(1); // For pagination
+  const appointmentsPerPage = 3; // Show 3 appointments per page
 
   // Function to handle status updates (confirm/cancel)
   const handleStatusUpdate = async (appointmentId, status) => {
@@ -67,12 +69,38 @@ const AppointmentsList = ({ appointments: initialAppointments }) => {
     handleStatusUpdate(appointmentId, "cancelled");
   };
 
+  // Sort appointments by the most recently booked (based on 'createdAt' field)
+  const sortedAppointments = [...appointments].sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+
+  // Pagination logic
+  const startIndex = (currentPage - 1) * appointmentsPerPage;
+  const paginatedAppointments = sortedAppointments.slice(
+    startIndex,
+    startIndex + appointmentsPerPage
+  );
+
+  // Handle going to the next page
+  const handleNextPage = () => {
+    if (startIndex + appointmentsPerPage < sortedAppointments.length) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  // Handle going to the previous page
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
   return (
     <div className="mt-8">
       <h4 className="text-xl font-semibold mb-4">Appointments</h4>
       <ul className="space-y-4">
-        {appointments.length > 0 ? (
-          appointments.map((appointment) => (
+        {paginatedAppointments.length > 0 ? (
+          paginatedAppointments.map((appointment) => (
             <li
               key={appointment._id}
               className="p-4 border border-gray-200 rounded-lg shadow-sm"
@@ -112,6 +140,26 @@ const AppointmentsList = ({ appointments: initialAppointments }) => {
           <p>No appointments found.</p>
         )}
       </ul>
+
+      {/* Pagination controls */}
+      <div className="flex justify-between mt-4">
+        <button
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+          className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md disabled:opacity-50"
+        >
+          Previous
+        </button>
+        <button
+          onClick={handleNextPage}
+          disabled={
+            startIndex + appointmentsPerPage >= sortedAppointments.length
+          }
+          className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md disabled:opacity-50"
+        >
+          Next
+        </button>
+      </div>
 
       {/* Modal for showing appointment details and handling confirmation/cancellation */}
       {selectedAppointment && (
