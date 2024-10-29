@@ -11,11 +11,8 @@ import UserPage from "../components/UserProfile/UserProfile";
 import DoctorLogin from "../pages/DoctorLogin";
 import DoctorSignup from "../pages/DoctorSignup";
 import ChoosePage from "../pages/choose";
-
 import DoctorPage from "../pages/Doctors/DoctorPage";
-
 import AppointmentForm from "../pages/BookAppointmentForm";
-
 import AdminLogin from "../pages/Admin/AdminLogin";
 import Dashboard from "../pages/Admin/Dashboard";
 

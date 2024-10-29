@@ -1,11 +1,15 @@
+// src/components/Signup.js
 import React, { useState } from "react";
 import SignupImg from "../../src/assets/images/signup.gif";
 import profile from "../../src/assets/images/profile.png";
 import { Link, useNavigate } from "react-router-dom";
 import { DotLoader, HashLoader } from "react-spinners";
+import { useDispatch } from "react-redux"; // Import useDispatch
+import { signup } from "../redux/authRelated/userAuthSlice"; // Import signup action
 import axios from "axios";
 
 const Signup = () => {
+  const dispatch = useDispatch(); // Initialize dispatch
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -14,7 +18,7 @@ const Signup = () => {
     photo: "", // This will store the Cloudinary image URL
     gender: "",
     role: "patient", // Default role set to 'patient'
-    address: "", // Add this line
+    address: "",
     phone: "",
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -79,33 +83,20 @@ const Signup = () => {
       return;
     }
 
+    // Dispatch the signup action
     try {
-      const response = await axios.post(
-        `https://mernstackdoctorbooking.onrender.com/api/v1/auth/register`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const actionResult = await dispatch(signup(formData)); // Dispatch the signup action
+      const { error } = actionResult;
 
-      if (response.status === 201) {
+      if (error) {
+        setError(error.message); // If there's an error, set the error message
+        alert("User already exist. Please try again");
+      } else {
         alert("User created successfully.");
         navigate("/login");
       }
     } catch (error) {
-      if (error.response) {
-        if (error.response.status === 409) {
-          navigate("/login");
-        } else if (error.response.status === 400) {
-          setError("User already exists. Please log in.");
-        } else {
-          setError("An error occurred. Please try again later.");
-        }
-      } else {
-        setError("An error occurred. Please try again later.");
-      }
+      setError("An error occurred. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -131,6 +122,7 @@ const Signup = () => {
             </h3>
 
             <form onSubmit={submitHandler}>
+              {/* Input Fields */}
               <div className="mb-5">
                 <input
                   type="text"
@@ -206,6 +198,8 @@ const Signup = () => {
                   </label>
                 </div>
               </div>
+
+              {/* File Upload for Profile Picture */}
               <div className="mb-5 flex items-center gap-3">
                 <figure className="w-[60px] h-[60px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center">
                   <img
@@ -223,6 +217,7 @@ const Signup = () => {
                     accept=".jpg, .png"
                     onChange={handleImageUpload}
                     className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                    required
                   />
 
                   <label
@@ -240,7 +235,7 @@ const Signup = () => {
                     )}
                   </label>
                 </div>
-              </div>{" "}
+              </div>
               <div className="mb-5 flex items-center justify-between">
                 <label className="text-headingColor font-bold text-[16px] leading-7">
                   Gender:
@@ -258,17 +253,18 @@ const Signup = () => {
                   </select>
                 </label>
               </div>
-              {error && (
-                <div className="mb-5 text-red-600 text-[16px]">{error}</div>
-              )}
+
+              {/* Error Messages */}
+              {error && <p className="text-red-500 text-sm">{error}</p>}
+
               <div className="mb-5">
                 <button
                   type="submit"
-                  className="w-full py-3 bg-primaryColor text-white text-[16px] leading-7 rounded-lg"
+                  className="bg-primaryColor text-white w-full rounded py-2 hover:bg-blue-700 transition duration-200 ease-in-out"
                   disabled={loading}
                 >
                   {loading ? (
-                    <HashLoader size={20} color="#ffffff" />
+                    <HashLoader color="#ffffff" size={25} />
                   ) : (
                     "Create Account"
                   )}
@@ -276,14 +272,12 @@ const Signup = () => {
               </div>
             </form>
 
-            <div className="mt-8">
-              <p className="text-[15px] leading-7 text-headingColor">
-                Already have an account?{" "}
-                <Link to="/login" className="text-primaryColor">
-                  Login here
-                </Link>
-              </p>
-            </div>
+            <p className="text-[15px] leading-6 text-headingColor">
+              Already have an account?{" "}
+              <Link to="/login" className="text-primaryColor font-semibold">
+                Log in
+              </Link>
+            </p>
           </div>
         </div>
       </div>

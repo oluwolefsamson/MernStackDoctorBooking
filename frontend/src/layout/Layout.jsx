@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Routers from "../routes/Routers";
-import Footer from "../Footer/Footer";
+import Footer from "../components/Footer/Footer";
 
 const Layout = () => {
   const location = useLocation();

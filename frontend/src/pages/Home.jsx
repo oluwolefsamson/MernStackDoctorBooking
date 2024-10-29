@@ -14,12 +14,9 @@ import avatarIcon from "../assets/images/avatar-icon.png";
 import faqImg from "../../src/assets/images/faq-img.png";
 import { Link } from "react-router-dom";
 import { BsArrowRight } from "react-icons/bs";
-
 import ServiceList from "../components/Services/ServiceList";
-import DoctorList from "../components/Doctors/DoctorList";
 import FaqList from "../components/Faq/FaqList";
 import Testimonial from "../components/Testimonial/Testimonial";
-import Footer from "../Footer/Footer";
 import HomeDoctorList from "../components/Doctors/HomeDoctorList";
 
 const Home = () => {
