@@ -14,7 +14,7 @@ import ChoosePage from "../pages/choose";
 import DoctorPage from "../pages/Doctors/DoctorPage";
 import AppointmentForm from "../pages/BookAppointmentForm";
 import AdminLogin from "../pages/Admin/AdminLogin";
-import Dashboard from "../pages/Admin/Dashboard";
+import DashboardPage from "../pages/Admin/DashboardPage";
 
 const Routers = () => {
   return (
@@ -35,7 +35,8 @@ const Routers = () => {
       <Route path="/doctorpage/:doctorId" element={<DoctorPage />} />
       <Route path="/bookingform/:doctorId" element={<AppointmentForm />} />
       <Route path="/adminlogin" element={<AdminLogin />} />
-      <Route path="/admin" element={<Dashboard />} />
+      <Route path="/admin" element={<DashboardPage />} />
+
       {/* Ensure this is the exact path */}
     </Routes>
   );
