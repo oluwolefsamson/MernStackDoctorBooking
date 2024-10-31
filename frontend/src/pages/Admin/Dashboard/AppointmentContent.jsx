@@ -1,7 +1,11 @@
 import React from "react";
 
 const AppointmentContent = () => {
-  return <div>AppointmentContent</div>;
+  return (
+    <div>
+      <i>Coming soon ......</i>
+    </div>
+  );
 };
 
 export default AppointmentContent;

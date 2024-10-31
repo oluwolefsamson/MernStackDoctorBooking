@@ -1,7 +1,11 @@
 import React from "react";
 
 const UserContent = () => {
-  return <div>UserContent</div>;
+  return (
+    <div>
+      <i>Coming soon ......</i>
+    </div>
+  );
 };
 
 export default UserContent;

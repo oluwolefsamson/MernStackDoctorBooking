@@ -38,6 +38,7 @@
     "react-router-dom": "^6.24.0",
     "react-spinners": "^0.14.1",
     "react-toastify": "^10.0.5",
+    "styled-components": "^6.1.13",
     "swipe": "^1.7.7",
     "swiper": "^11.1.4",
     "tailwind-merge": "^2.5.2",

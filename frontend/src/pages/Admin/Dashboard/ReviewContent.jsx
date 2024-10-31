@@ -1,7 +1,11 @@
 import React from "react";
 
 const ReviewContent = () => {
-  return <div>ReviewContent</div>;
+  return (
+    <div>
+      <i>Coming soon ......</i>
+    </div>
+  );
 };
 
 export default ReviewContent;

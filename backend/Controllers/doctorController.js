@@ -89,12 +89,14 @@ export const getSingleDoctor = async (req, res) => {
   }
 };
 
-// Get all approved doctors with optional search query
+// Get all doctors with optional search query and status filter
 export const getAllDoctor = async (req, res) => {
   try {
-    const doctors = await Doctor.find({ isApproved: "approved" }).select(
-      "-password"
-    );
+    // Check for an optional status filter (approved or pending)
+    const { status } = req.query;
+    const query = status ? { isApproved: status } : {}; // Use status if provided, otherwise fetch all
+
+    const doctors = await Doctor.find(query).select("-password");
 
     res.status(200).json({
       success: true,

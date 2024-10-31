@@ -17,11 +17,11 @@ import ReviewContent from "./Dashboard/ReviewContent";
 import UserContent from "./Dashboard/UserContent";
 
 const NAVIGATION = [
-  { segment: "Dashboard", title: "Dashboard", icon: <DashboardIcon /> },
+  { segment: "Dashboard", title: "Home", icon: <DashboardIcon /> },
   { segment: "Doctors", title: "Doctors", icon: <ShoppingCartIcon /> },
+  { segment: "Users", title: "Users", icon: <BarChartIcon /> },
   { segment: "Appointments", title: "Appointments", icon: <BarChartIcon /> },
   { segment: "Reviews", title: "Reviews", icon: <BarChartIcon /> },
-  { segment: "Users", title: "Users", icon: <BarChartIcon /> },
 ];
 
 const demoTheme = createTheme({
