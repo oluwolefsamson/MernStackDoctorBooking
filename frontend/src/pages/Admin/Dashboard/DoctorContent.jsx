@@ -35,7 +35,9 @@ const DoctorContent = () => {
   // Fetch doctors data from the backend
   const fetchDoctors = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/v1/doctors");
+      const response = await axios.get(
+        `https://mernstackdoctorbooking.onrender.com/api/v1/doctors`
+      );
       setDoctors(response.data.data); // Assuming your API response structure
     } catch (error) {
       console.error("Error fetching doctors:", error);
