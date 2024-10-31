@@ -71,8 +71,7 @@ const DoctorContent = () => {
               <StyledTableCell>Specialization</StyledTableCell>
               <StyledTableCell>Rating</StyledTableCell>
               <StyledTableCell>Patients</StyledTableCell>
-              <StyledTableCell>Approval Status</StyledTableCell>{" "}
-              {/* New column for Approval Status */}
+              <StyledTableCell>Approval Status</StyledTableCell>
               <StyledTableCell align="center">Actions</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -97,14 +96,26 @@ const DoctorContent = () => {
                   <Button
                     variant="outlined"
                     color="primary"
+                    size="small" // Set button size to small
                     onClick={() => handleOpen(doctor)}
+                    sx={{ mr: 1, padding: "4px 8px" }} // Adjust padding
                   >
                     Details
                   </Button>
-                  <Button variant="contained" color="success" sx={{ mx: 1 }}>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    size="small" // Set button size to small
+                    sx={{ mx: 0.5, padding: "4px 8px" }} // Adjust padding
+                  >
                     Accept
                   </Button>
-                  <Button variant="contained" color="error">
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small" // Set button size to small
+                    sx={{ mx: 0.5, padding: "4px 8px" }} // Adjust padding
+                  >
                     Decline
                   </Button>
                 </TableCell>
@@ -115,7 +126,7 @@ const DoctorContent = () => {
       </TableContainer>
 
       {/* Doctor Details Modal */}
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
         <DialogTitle>Doctor Details</DialogTitle>
         <DialogContent>
           {selectedDoctor && (
