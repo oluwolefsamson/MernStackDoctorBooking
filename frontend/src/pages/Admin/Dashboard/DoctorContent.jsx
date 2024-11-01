@@ -80,7 +80,7 @@ const DoctorContent = () => {
 
   const handleAction = async () => {
     try {
-      const url = `http://localhost:8000/api/v1/doctors/${selectedDoctor._id}/approval`; // Updated URL to your production API
+      const url = `https://mernstackdoctorbooking.onrender.com/api/v1/doctors/${selectedDoctor._id}/approval`; // Updated URL to your production API
       const response = await axios.patch(url, {
         status: actionType === "approve" ? "approved" : "declined",
       });
