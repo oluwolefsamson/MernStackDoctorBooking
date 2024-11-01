@@ -98,3 +98,12 @@ export const getAllUser = async (req, res) => {
     });
   }
 };
+
+export const getUserCount = async (req, res) => {
+  try {
+    const count = await User.countDocuments();
+    res.json({ count });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching user count" });
+  }
+};

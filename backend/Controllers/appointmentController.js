@@ -179,3 +179,12 @@ export const getUserProfile = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const getAppointmentCount = async (req, res) => {
+  try {
+    const count = await Appointment.countDocuments();
+    res.json({ count });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching appointment count" });
+  }
+};

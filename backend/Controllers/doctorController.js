@@ -132,3 +132,12 @@ export const updateTimeSlots = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+export const getDoctorCount = async (req, res) => {
+  try {
+    const count = await Doctor.countDocuments();
+    res.json({ count });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching doctor count" });
+  }
+};

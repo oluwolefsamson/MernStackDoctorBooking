@@ -16,9 +16,11 @@ import {
   DialogActions,
   Grid,
   Avatar,
+  Stack,
 } from "@mui/material";
 import { styled } from "@mui/material/styles"; // Import styled
 import axios from "axios"; // Import axios
+import { useMediaQuery } from "@mui/material"; // Import useMediaQuery
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${theme.palette.text.primary}`]: {
@@ -31,6 +33,9 @@ const DoctorContent = () => {
   const [doctors, setDoctors] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+
+  // Determine if the screen is small or medium
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
   // Fetch doctors data from the backend
   const fetchDoctors = async () => {
@@ -65,14 +70,16 @@ const DoctorContent = () => {
       </Typography>
 
       <TableContainer component={Paper} elevation={3}>
-        <Table aria-label="doctors table">
+        <Table aria-label="doctors table" sx={{ tableLayout: "auto" }}>
           <TableHead>
             <TableRow>
               <StyledTableCell align="center">Photo</StyledTableCell>
               <StyledTableCell>Doctor Name</StyledTableCell>
               <StyledTableCell>Specialization</StyledTableCell>
-              <StyledTableCell>Rating</StyledTableCell>
-              <StyledTableCell>Patients</StyledTableCell>
+              {/* Conditionally render the Rating column */}
+              {!isSmallScreen && <StyledTableCell>Rating</StyledTableCell>}
+              {/* Conditionally render the Patients column */}
+              {!isSmallScreen && <StyledTableCell>Patients</StyledTableCell>}
               <StyledTableCell>Approval Status</StyledTableCell>
               <StyledTableCell align="center">Actions</StyledTableCell>
             </TableRow>
@@ -85,8 +92,14 @@ const DoctorContent = () => {
                 </TableCell>
                 <TableCell>{doctor.name}</TableCell>
                 <TableCell>{doctor.specialization}</TableCell>
-                <TableCell>{doctor.averageRating}</TableCell>
-                <TableCell>{doctor.appointments.length}</TableCell>
+                {/* Conditionally render the Rating value */}
+                {!isSmallScreen && (
+                  <TableCell>{doctor.averageRating}</TableCell>
+                )}
+                {/* Conditionally render the Patients value */}
+                {!isSmallScreen && (
+                  <TableCell>{doctor.appointments.length}</TableCell>
+                )}
                 <TableCell>
                   {doctor.isApproved === "approved" ? (
                     <Typography color="green">Approved</Typography>
@@ -95,31 +108,33 @@ const DoctorContent = () => {
                   )}
                 </TableCell>
                 <TableCell align="center">
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="small" // Set button size to small
-                    onClick={() => handleOpen(doctor)}
-                    sx={{ mr: 1, padding: "4px 8px" }} // Adjust padding
-                  >
-                    Details
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="success"
-                    size="small" // Set button size to small
-                    sx={{ mx: 0.5, padding: "4px 8px" }} // Adjust padding
-                  >
-                    Accept
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    size="small" // Set button size to small
-                    sx={{ mx: 0.5, padding: "4px 8px" }} // Adjust padding
-                  >
-                    Decline
-                  </Button>
+                  <Stack direction={{ xs: "column", sm: "row" }} spacing={1}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      onClick={() => handleOpen(doctor)}
+                      sx={{ padding: "4px 8px" }}
+                    >
+                      Details
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="success"
+                      size="small"
+                      sx={{ padding: "4px 8px" }}
+                    >
+                      Accept
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      size="small"
+                      sx={{ padding: "4px 8px" }}
+                    >
+                      Decline
+                    </Button>
+                  </Stack>
                 </TableCell>
               </TableRow>
             ))}
@@ -146,12 +161,18 @@ const DoctorContent = () => {
                   <Typography color="textSecondary">
                     {selectedDoctor.specialization}
                   </Typography>
-                  <Typography color="textSecondary">
-                    Rating: {selectedDoctor.averageRating}
-                  </Typography>
-                  <Typography color="textSecondary">
-                    Patients: {selectedDoctor.appointments.length}
-                  </Typography>
+                  {/* Conditionally render the Rating value */}
+                  {!isSmallScreen && (
+                    <Typography color="textSecondary">
+                      Rating: {selectedDoctor.averageRating}
+                    </Typography>
+                  )}
+                  {/* Conditionally render the Patients value */}
+                  {!isSmallScreen && (
+                    <Typography color="textSecondary">
+                      Patients: {selectedDoctor.appointments.length}
+                    </Typography>
+                  )}
                   <Typography color="textSecondary">
                     Status:{" "}
                     {selectedDoctor.isApproved === "approved"

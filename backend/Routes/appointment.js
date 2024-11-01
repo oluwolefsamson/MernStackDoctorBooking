@@ -4,6 +4,7 @@ import {
   getDoctorWithAppointments,
   updateAppointmentStatus,
   getUserProfile,
+  getAppointmentCount,
 } from "../Controllers/appointmentController.js";
 import { authenticate } from "../auth/verifyToken.js";
 
@@ -18,6 +19,8 @@ router.patch("/:appointmentId/status", updateAppointmentStatus);
 // Route to get user profile including appointments
 
 router.get("/users/:userId/appointments", getUserProfile);
+
+router.get("/count", getAppointmentCount);
 
 // Route to get a doctor with their appointments
 router.get("/doctor/:id", async (req, res) => {

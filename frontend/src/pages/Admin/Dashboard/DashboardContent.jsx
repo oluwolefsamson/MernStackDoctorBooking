@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Grid,
@@ -46,128 +46,166 @@ const StatBox = styled(Box)(({ theme, bgcolor }) => ({
   marginRight: theme.spacing(2),
 }));
 
-const DashboardContent = () => (
-  <ThemeProvider theme={theme}>
-    <Box p={4} bgcolor="background.default">
-      <Typography variant="h4" mb={2} fontWeight="bold" color="primary.main">
-        Admin Dashboard
-      </Typography>
-      <Typography variant="subtitle1" mb={4} color="textSecondary">
-        Welcome back, [Admin Name]
-      </Typography>
+const DashboardContent = () => {
+  // State variables for dynamic counts
+  const [totalDoctors, setTotalDoctors] = useState(0);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [appointments, setAppointments] = useState(0);
 
-      {/* Statistics Cards */}
-      <Grid container spacing={3} mb={4}>
-        {[
-          {
-            title: "Total Doctors",
-            count: 123,
-            icon: <MedicalServicesIcon fontSize="large" />,
-            color: theme.palette.primary.main,
-          },
-          {
-            title: "Total Users",
-            count: 456,
-            icon: <GroupIcon fontSize="large" />,
-            color: theme.palette.secondary.main,
-          },
-          {
-            title: "Appointments",
-            count: 789,
-            icon: <EventNoteIcon fontSize="large" />,
-            color: theme.palette.primary.light,
-          },
-        ].map((stat, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <StatCard>
-              <CardContent>
-                <Box display="flex" alignItems="center">
-                  <StatBox bgcolor={stat.color}>{stat.icon}</StatBox>
-                  <Box>
-                    <Typography variant="h5" fontWeight="bold" gutterBottom>
-                      {stat.count}
-                    </Typography>
-                    <Typography variant="body1" color="textSecondary">
-                      {stat.title}
-                    </Typography>
+  // Fetch data from your API or database
+  useEffect(() => {
+    // Example fetch functions (replace with your actual API calls)
+    const fetchCounts = async () => {
+      try {
+        const doctorsResponse = await fetch(
+          "http://localhost:8000/api/v1/doctors/count"
+        ); // Update with your endpoint
+        const usersResponse = await fetch(
+          "http://localhost:8000/api/v1/users/count"
+        ); // Update with your endpoint
+        const appointmentsResponse = await fetch(
+          "http://localhost:8000/api/v1/appointments/count"
+        ); // Update with your endpoint
+
+        const doctorsData = await doctorsResponse.json();
+        const usersData = await usersResponse.json();
+        const appointmentsData = await appointmentsResponse.json();
+
+        // Update state with fetched data
+        setTotalDoctors(doctorsData.count);
+        setTotalUsers(usersData.count);
+        setAppointments(appointmentsData.count);
+      } catch (error) {
+        console.error("Error fetching counts:", error);
+      }
+    };
+
+    fetchCounts();
+  }, []);
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Box p={4} bgcolor="background.default">
+        <Typography variant="h4" mb={2} fontWeight="bold" color="primary.main">
+          Admin Dashboard
+        </Typography>
+        <Typography variant="subtitle1" mb={4} color="textSecondary">
+          Welcome back, Admin
+        </Typography>
+
+        {/* Statistics Cards */}
+        <Grid container spacing={3} mb={4}>
+          {[
+            {
+              title: "Total Doctors",
+              count: totalDoctors,
+              icon: <MedicalServicesIcon fontSize="large" />,
+              color: theme.palette.primary.main,
+            },
+            {
+              title: "Total Users",
+              count: totalUsers,
+              icon: <GroupIcon fontSize="large" />,
+              color: theme.palette.secondary.main,
+            },
+            {
+              title: "Appointments",
+              count: appointments,
+              icon: <EventNoteIcon fontSize="large" />,
+              color: theme.palette.primary.light,
+            },
+          ].map((stat, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <StatCard>
+                <CardContent>
+                  <Box display="flex" alignItems="center">
+                    <StatBox bgcolor={stat.color}>{stat.icon}</StatBox>
+                    <Box>
+                      <Typography variant="h5" fontWeight="bold" gutterBottom>
+                        {stat.count}
+                      </Typography>
+                      <Typography variant="body1" color="textSecondary">
+                        {stat.title}
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
-              </CardContent>
-            </StatCard>
-          </Grid>
-        ))}
-      </Grid>
+                </CardContent>
+              </StatCard>
+            </Grid>
+          ))}
+        </Grid>
 
-      {/* Quick Actions */}
-      <Box mb={4}>
-        <Typography variant="h6" mb={2} fontWeight="bold">
-          Quick Actions
-        </Typography>
-        <Divider />
-        <Box display="flex" gap={2} mt={2} flexWrap="wrap">
-          <IconButton
-            variant="contained"
-            color="primary"
-            sx={{ fontWeight: "bold" }}
+        {/* Quick Actions */}
+        <Box mb={4}>
+          <Typography variant="h6" mb={2} fontWeight="bold">
+            Quick Actions
+          </Typography>
+          <Divider />
+          <Box display="flex" gap={2} mt={2} flexWrap="wrap">
+            <IconButton
+              variant="contained"
+              color="primary"
+              sx={{ fontWeight: "bold" }}
+            >
+              <AddCircleOutlineIcon /> Add New Doctor
+            </IconButton>
+            <IconButton
+              variant="contained"
+              color="secondary"
+              sx={{ fontWeight: "bold" }}
+            >
+              <EventNoteIcon /> Approve Appointment
+            </IconButton>
+            <IconButton
+              variant="contained"
+              color="primary"
+              sx={{ fontWeight: "bold" }}
+            >
+              <GroupIcon /> View All Users
+            </IconButton>
+          </Box>
+        </Box>
+
+        {/* Recent Activity / Notifications */}
+        <Box mb={4}>
+          <Typography variant="h6" mb={2} fontWeight="bold">
+            Recent Activity
+          </Typography>
+          <Divider />
+          <Box mt={2} p={2} bgcolor="background.paper" borderRadius="8px">
+            <Typography variant="body1" mb={1}>
+              - New user registered: Jane Doe
+            </Typography>
+            <Typography variant="body1" mb={1}>
+              - Appointment approved for Dr. Smith
+            </Typography>
+            <Typography variant="body1" mb={1}>
+              - New review posted for Dr. Allen
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* Graph / Chart Section Placeholder */}
+        <Box>
+          <Typography variant="h6" mb={2} fontWeight="bold">
+            Statistics Overview
+          </Typography>
+          <Divider />
+          <Box
+            p={4}
+            mt={2}
+            bgcolor="background.paper"
+            borderRadius="8px"
+            textAlign="center"
           >
-            <AddCircleOutlineIcon /> Add New Doctor
-          </IconButton>
-          <IconButton
-            variant="contained"
-            color="secondary"
-            sx={{ fontWeight: "bold" }}
-          >
-            <EventNoteIcon /> Approve Appointment
-          </IconButton>
-          <IconButton
-            variant="contained"
-            color="primary"
-            sx={{ fontWeight: "bold" }}
-          >
-            <GroupIcon /> View All Users
-          </IconButton>
+            <Typography color="textSecondary" fontStyle="italic">
+              Graph showing appointments trend over time...
+            </Typography>
+          </Box>
         </Box>
       </Box>
-
-      {/* Recent Activity / Notifications */}
-      <Box mb={4}>
-        <Typography variant="h6" mb={2} fontWeight="bold">
-          Recent Activity
-        </Typography>
-        <Divider />
-        <Box mt={2} p={2} bgcolor="background.paper" borderRadius="8px">
-          <Typography variant="body1" mb={1}>
-            - New user registered: Jane Doe
-          </Typography>
-          <Typography variant="body1" mb={1}>
-            - Appointment approved for Dr. Smith
-          </Typography>
-          <Typography variant="body1" mb={1}>
-            - New review posted for Dr. Allen
-          </Typography>
-        </Box>
-      </Box>
-
-      {/* Graph / Chart Section Placeholder */}
-      <Box>
-        <Typography variant="h6" mb={2} fontWeight="bold">
-          Statistics Overview
-        </Typography>
-        <Divider />
-        <Box
-          p={4}
-          mt={2}
-          bgcolor="background.paper"
-          borderRadius="8px"
-          textAlign="center"
-        >
-          <Typography color="textSecondary" fontStyle="italic">
-            Graph showing appointments trend over time...
-          </Typography>
-        </Box>
-      </Box>
-    </Box>
-  </ThemeProvider>
-);
+    </ThemeProvider>
+  );
+};
 
 export default DashboardContent;

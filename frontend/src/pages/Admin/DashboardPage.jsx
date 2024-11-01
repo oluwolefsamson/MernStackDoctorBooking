@@ -3,11 +3,13 @@ import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { createTheme } from "@mui/material/styles";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import BarChartIcon from "@mui/icons-material/BarChart";
 import { AppProvider } from "@toolpad/core/AppProvider";
 import { DashboardLayout } from "@toolpad/core/DashboardLayout";
+import DashboardIcon from "@mui/icons-material/Dashboard"; // Home
+import MedicalServicesIcon from "@mui/icons-material/MedicalServices"; // Doctors
+import PeopleIcon from "@mui/icons-material/People"; // Users
+import EventNoteIcon from "@mui/icons-material/EventNote"; // Appointments
+import RateReviewIcon from "@mui/icons-material/RateReview"; // Reviews
 
 // Import section components
 import DashboardContent from "./Dashboard/DashboardContent";
@@ -18,10 +20,10 @@ import UserContent from "./Dashboard/UserContent";
 
 const NAVIGATION = [
   { segment: "Dashboard", title: "Home", icon: <DashboardIcon /> },
-  { segment: "Doctors", title: "Doctors", icon: <ShoppingCartIcon /> },
-  { segment: "Users", title: "Users", icon: <BarChartIcon /> },
-  { segment: "Appointments", title: "Appointments", icon: <BarChartIcon /> },
-  { segment: "Reviews", title: "Reviews", icon: <BarChartIcon /> },
+  { segment: "Doctors", title: "Doctors", icon: <MedicalServicesIcon /> },
+  { segment: "Users", title: "Users", icon: <PeopleIcon /> },
+  { segment: "Appointments", title: "Appointments", icon: <EventNoteIcon /> },
+  { segment: "Reviews", title: "Reviews", icon: <RateReviewIcon /> },
 ];
 
 const demoTheme = createTheme({
