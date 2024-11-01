@@ -13,6 +13,7 @@ import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import axios from "axios"; // Import Axios
 
 // Custom theme
 const theme = createTheme({
@@ -54,23 +55,22 @@ const DashboardContent = () => {
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        const doctorsResponse = await fetch(
-          `https://mernstackdoctorbooking.onrender.com/api/v1/doctors/count`
-        );
-        const usersResponse = await fetch(
-          `https://mernstackdoctorbooking.onrender.com/api/v1/users/count`
-        );
-        const appointmentsResponse = await fetch(
-          `https://mernstackdoctorbooking.onrender.com/api/v1/appointments/count`
-        );
+        const [doctorsResponse, usersResponse, appointmentsResponse] =
+          await Promise.all([
+            axios.get(
+              `https://mernstackdoctorbooking.onrender.com/api/v1/doctors/count`
+            ),
+            axios.get(
+              `https://mernstackdoctorbooking.onrender.com/api/v1/users/count`
+            ),
+            axios.get(
+              `https://mernstackdoctorbooking.onrender.com/api/v1/appointments/count`
+            ),
+          ]);
 
-        const doctorsData = await doctorsResponse.json();
-        const usersData = await usersResponse.json();
-        const appointmentsData = await appointmentsResponse.json();
-
-        setTotalDoctors(doctorsData.count);
-        setTotalUsers(usersData.count);
-        setAppointments(appointmentsData.count);
+        setTotalDoctors(doctorsResponse.data.count);
+        setTotalUsers(usersResponse.data.count);
+        setAppointments(appointmentsResponse.data.count);
       } catch (error) {
         console.error("Error fetching counts:", error);
       }
@@ -173,13 +173,13 @@ const DashboardContent = () => {
           <Divider />
           <Box mt={2} p={2} bgcolor="background.paper" borderRadius="8px">
             <Typography variant="body1" mb={1}>
-              - New user registered: Jane Doe
+              - New user registered: <i>coming soon ...</i>
             </Typography>
             <Typography variant="body1" mb={1}>
-              - Appointment approved for Dr. Smith
+              - Appointment approved for <i>coming soon ...</i>
             </Typography>
             <Typography variant="body1" mb={1}>
-              - New review posted for Dr. Allen
+              - New review posted for <i>coming soon ...</i>
             </Typography>
           </Box>
         </Box>
