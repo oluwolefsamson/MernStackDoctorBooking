@@ -43,7 +43,10 @@ const DoctorContent = () => {
       const response = await axios.get(
         `https://mernstackdoctorbooking.onrender.com/api/v1/doctors`
       );
-      setDoctors(response.data.data); // Assuming your API response structure
+      const sortedDoctors = response.data.data.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      setDoctors(sortedDoctors); // Set sorted doctors to display the latest at the top
     } catch (error) {
       console.error("Error fetching doctors:", error);
     }

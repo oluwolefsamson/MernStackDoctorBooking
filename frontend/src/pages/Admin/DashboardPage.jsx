@@ -21,7 +21,7 @@ import UserContent from "./Dashboard/UserContent";
 const NAVIGATION = [
   { segment: "Dashboard", title: "Home", icon: <DashboardIcon /> },
   { segment: "Doctors", title: "Doctors", icon: <MedicalServicesIcon /> },
-  { segment: "Users", title: "Users", icon: <PeopleIcon /> },
+  { segment: "Users", title: "Patients", icon: <PeopleIcon /> },
   { segment: "Appointments", title: "Appointments", icon: <EventNoteIcon /> },
   { segment: "Reviews", title: "Reviews", icon: <RateReviewIcon /> },
 ];

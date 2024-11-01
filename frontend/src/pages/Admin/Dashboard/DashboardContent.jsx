@@ -104,7 +104,7 @@ const DashboardContent = () => {
               color: theme.palette.primary.main,
             },
             {
-              title: "Total Users",
+              title: "Total Patients",
               count: totalUsers,
               icon: <GroupIcon fontSize="large" />,
               color: theme.palette.secondary.main,

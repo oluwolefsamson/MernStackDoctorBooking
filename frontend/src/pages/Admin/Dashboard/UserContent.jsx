@@ -15,7 +15,11 @@ const UserContent = () => {
         const response = await axios.get(
           `https://mernstackdoctorbooking.onrender.com/api/v1/users`
         );
-        setUsers(response.data.data);
+        // Sort users by registration date, assuming `createdAt` field exists
+        const sortedUsers = response.data.data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setUsers(sortedUsers); // Set sorted users to display the latest at the top
         setLoading(false);
       } catch (err) {
         setError("Failed to load users");

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import doctorSignup from "../../src/assets/images/doctorSignup.png";
+import SignupImg from "../../src/assets/images/signup.gif";
 import profile from "../../src/assets/images/profile.png";
 import { Link, useNavigate } from "react-router-dom";
 import { DotLoader, HashLoader } from "react-spinners";
@@ -37,34 +37,6 @@ const DoctorSignup = () => {
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleEducationChange = (index, e) => {
-    const updatedEducation = formData.education.map((edu, eduIndex) => {
-      if (index === eduIndex) {
-        return { ...edu, [e.target.name]: e.target.value };
-      }
-      return edu;
-    });
-
-    setFormData({ ...formData, education: updatedEducation });
-  };
-
-  const addEducationField = () => {
-    setFormData({
-      ...formData,
-      education: [
-        ...formData.education,
-        { institution: "", course: "", year: "" },
-      ],
-    });
-  };
-
-  const removeEducationField = (index) => {
-    const updatedEducation = formData.education.filter(
-      (_, eduIndex) => index !== eduIndex
-    );
-    setFormData({ ...formData, education: updatedEducation });
   };
 
   const handleImageUpload = async (e) => {
@@ -159,7 +131,7 @@ const DoctorSignup = () => {
           <div className="hidden lg:flex bg-primaryColor rounded-l-lg justify-center items-center">
             <figure className="rounded-l-lg">
               <img
-                src={doctorSignup}
+                src={SignupImg}
                 alt="Signup"
                 className="w-full rounded-l-lg"
               />
