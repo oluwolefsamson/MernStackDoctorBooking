@@ -82,7 +82,7 @@ const DoctorContent = () => {
     try {
       const url = `https://mernstackdoctorbooking.onrender.com/api/v1/doctors/${selectedDoctor._id}/approval`; // Updated URL to your production API
       const response = await axios.patch(url, {
-        status: actionType === "approve" ? "approved" : "declined",
+        status: actionType === "approve" ? "approved" : "cancelled",
       });
       console.log(response.data); // Handle success response
       fetchDoctors(); // Refresh the doctors list
