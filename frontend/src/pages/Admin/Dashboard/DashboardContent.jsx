@@ -58,13 +58,13 @@ const DashboardContent = () => {
     const fetchCounts = async () => {
       try {
         const doctorsResponse = await fetch(
-          "http://localhost:8000/api/v1/doctors/count"
+          `https://mernstackdoctorbooking.onrender.com/api/v1/doctors/count`
         ); // Update with your endpoint
         const usersResponse = await fetch(
-          "http://localhost:8000/api/v1/users/count"
+          `https://mernstackdoctorbooking.onrender.com/api/v1/users/count`
         ); // Update with your endpoint
         const appointmentsResponse = await fetch(
-          "http://localhost:8000/api/v1/appointments/count"
+          `https://mernstackdoctorbooking.onrender.com/api/v1/appointments/count`
         ); // Update with your endpoint
 
         const doctorsData = await doctorsResponse.json();
