@@ -47,31 +47,27 @@ const StatBox = styled(Box)(({ theme, bgcolor }) => ({
 }));
 
 const DashboardContent = () => {
-  // State variables for dynamic counts
   const [totalDoctors, setTotalDoctors] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
   const [appointments, setAppointments] = useState(0);
 
-  // Fetch data from your API or database
   useEffect(() => {
-    // Example fetch functions (replace with your actual API calls)
     const fetchCounts = async () => {
       try {
         const doctorsResponse = await fetch(
           `https://mernstackdoctorbooking.onrender.com/api/v1/doctors/count`
-        ); // Update with your endpoint
+        );
         const usersResponse = await fetch(
           `https://mernstackdoctorbooking.onrender.com/api/v1/users/count`
-        ); // Update with your endpoint
+        );
         const appointmentsResponse = await fetch(
           `https://mernstackdoctorbooking.onrender.com/api/v1/appointments/count`
-        ); // Update with your endpoint
+        );
 
         const doctorsData = await doctorsResponse.json();
         const usersData = await usersResponse.json();
         const appointmentsData = await appointmentsResponse.json();
 
-        // Update state with fetched data
         setTotalDoctors(doctorsData.count);
         setTotalUsers(usersData.count);
         setAppointments(appointmentsData.count);
@@ -85,7 +81,13 @@ const DashboardContent = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box p={4} bgcolor="background.default">
+      <Box
+        sx={{
+          p: 4,
+          bgcolor: "background.default",
+          width: { xs: "100%", md: "auto" }, // Full width on small screens
+        }}
+      >
         <Typography variant="h4" mb={2} fontWeight="bold" color="primary.main">
           Admin Dashboard
         </Typography>
@@ -93,7 +95,6 @@ const DashboardContent = () => {
           Welcome back, Admin
         </Typography>
 
-        {/* Statistics Cards */}
         <Grid container spacing={3} mb={4}>
           {[
             {
@@ -135,7 +136,6 @@ const DashboardContent = () => {
           ))}
         </Grid>
 
-        {/* Quick Actions */}
         <Box mb={4}>
           <Typography variant="h6" mb={2} fontWeight="bold">
             Quick Actions
@@ -166,7 +166,6 @@ const DashboardContent = () => {
           </Box>
         </Box>
 
-        {/* Recent Activity / Notifications */}
         <Box mb={4}>
           <Typography variant="h6" mb={2} fontWeight="bold">
             Recent Activity
@@ -185,7 +184,6 @@ const DashboardContent = () => {
           </Box>
         </Box>
 
-        {/* Graph / Chart Section Placeholder */}
         <Box>
           <Typography variant="h6" mb={2} fontWeight="bold">
             Statistics Overview
