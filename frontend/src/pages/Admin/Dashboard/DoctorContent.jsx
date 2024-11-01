@@ -18,9 +18,9 @@ import {
   Avatar,
   Stack,
 } from "@mui/material";
-import { styled } from "@mui/material/styles"; // Import styled
-import axios from "axios"; // Import axios
-import { useMediaQuery } from "@mui/material"; // Import useMediaQuery
+import { styled } from "@mui/material/styles";
+import axios from "axios";
+import { useMediaQuery } from "@mui/material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${theme.palette.text.primary}`]: {
@@ -32,12 +32,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const DoctorContent = () => {
   const [doctors, setDoctors] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openConfirmation, setOpenConfirmation] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [actionType, setActionType] = useState(null);
 
-  // Determine if the screen is small or medium
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
-  // Fetch doctors data from the backend
   const fetchDoctors = async () => {
     try {
       const response = await axios.get(
@@ -46,14 +46,14 @@ const DoctorContent = () => {
       const sortedDoctors = response.data.data.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
-      setDoctors(sortedDoctors); // Set sorted doctors to display the latest at the top
+      setDoctors(sortedDoctors);
     } catch (error) {
       console.error("Error fetching doctors:", error);
     }
   };
 
   useEffect(() => {
-    fetchDoctors(); // Call fetchDoctors when the component mounts
+    fetchDoctors();
   }, []);
 
   const handleOpen = (doctor) => {
@@ -64,6 +64,32 @@ const DoctorContent = () => {
   const handleClose = () => {
     setOpen(false);
     setSelectedDoctor(null);
+  };
+
+  const handleActionOpen = (doctor, type) => {
+    setSelectedDoctor(doctor);
+    setActionType(type);
+    setOpenConfirmation(true);
+  };
+
+  const handleConfirmationClose = () => {
+    setOpenConfirmation(false);
+    setSelectedDoctor(null);
+    setActionType(null);
+  };
+
+  const handleAction = async () => {
+    try {
+      const url = `http://localhost:8000/api/v1/doctors/${selectedDoctor._id}/approval`; // Updated URL to your production API
+      const response = await axios.patch(url, {
+        status: actionType === "approve" ? "approved" : "declined",
+      });
+      console.log(response.data); // Handle success response
+      fetchDoctors(); // Refresh the doctors list
+      handleConfirmationClose(); // Close the confirmation dialog
+    } catch (error) {
+      console.error(`Error updating doctor status:`, error);
+    }
   };
 
   return (
@@ -79,9 +105,7 @@ const DoctorContent = () => {
               <StyledTableCell align="center">Photo</StyledTableCell>
               <StyledTableCell>Doctor Name</StyledTableCell>
               <StyledTableCell>Specialization</StyledTableCell>
-              {/* Conditionally render the Rating column */}
               {!isSmallScreen && <StyledTableCell>Rating</StyledTableCell>}
-              {/* Conditionally render the Patients column */}
               {!isSmallScreen && <StyledTableCell>Patients</StyledTableCell>}
               <StyledTableCell>Approval Status</StyledTableCell>
               <StyledTableCell align="center">Actions</StyledTableCell>
@@ -95,11 +119,9 @@ const DoctorContent = () => {
                 </TableCell>
                 <TableCell>{doctor.name}</TableCell>
                 <TableCell>{doctor.specialization}</TableCell>
-                {/* Conditionally render the Rating value */}
                 {!isSmallScreen && (
                   <TableCell>{doctor.averageRating}</TableCell>
                 )}
-                {/* Conditionally render the Patients value */}
                 {!isSmallScreen && (
                   <TableCell>{doctor.appointments.length}</TableCell>
                 )}
@@ -126,6 +148,7 @@ const DoctorContent = () => {
                       color="success"
                       size="small"
                       sx={{ padding: "4px 8px" }}
+                      onClick={() => handleActionOpen(doctor, "approve")}
                     >
                       Accept
                     </Button>
@@ -134,6 +157,7 @@ const DoctorContent = () => {
                       color="error"
                       size="small"
                       sx={{ padding: "4px 8px" }}
+                      onClick={() => handleActionOpen(doctor, "decline")}
                     >
                       Decline
                     </Button>
@@ -164,13 +188,11 @@ const DoctorContent = () => {
                   <Typography color="textSecondary">
                     {selectedDoctor.specialization}
                   </Typography>
-                  {/* Conditionally render the Rating value */}
                   {!isSmallScreen && (
                     <Typography color="textSecondary">
                       Rating: {selectedDoctor.averageRating}
                     </Typography>
                   )}
-                  {/* Conditionally render the Patients value */}
                   {!isSmallScreen && (
                     <Typography color="textSecondary">
                       Patients: {selectedDoctor.appointments.length}
@@ -205,6 +227,31 @@ const DoctorContent = () => {
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Confirmation Dialog */}
+      <Dialog open={openConfirmation} onClose={handleConfirmationClose}>
+        <DialogTitle>
+          {actionType === "approve" ? "Approve Doctor" : "Decline Doctor"}
+        </DialogTitle>
+        <DialogContent>
+          <Typography>
+            Are you sure you want to{" "}
+            {actionType === "approve" ? "approve" : "decline"} Dr.{" "}
+            {selectedDoctor?.name}?
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleConfirmationClose} color="primary">
+            Cancel
+          </Button>
+          <Button
+            onClick={handleAction}
+            color={actionType === "approve" ? "success" : "error"}
+          >
+            {actionType === "approve" ? "Approve" : "Decline"}
           </Button>
         </DialogActions>
       </Dialog>

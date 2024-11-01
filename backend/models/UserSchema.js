@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema(
 
     appointments: [{ type: mongoose.Types.ObjectId, ref: "Appointment" }],
   },
-  { timestamps: true } // Automatically manages createdAt and updatedAt fields
+  { timestamps: true }
 );
 
 export default mongoose.model("User", UserSchema);

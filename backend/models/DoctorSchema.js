@@ -35,6 +35,6 @@ const DoctorSchema = new mongoose.Schema(
     appointments: [{ type: mongoose.Types.ObjectId, ref: "Appointment" }],
   },
   { timestamps: true }
-); // Automatically manages createdAt and updatedAt fields
+);
 
 export default mongoose.model("Doctor", DoctorSchema);
